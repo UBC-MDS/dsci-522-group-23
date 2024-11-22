@@ -1,4 +1,4 @@
-name: ds-project-env
+name: 522-project-env
 channels:
   - conda-forge
 dependencies:
