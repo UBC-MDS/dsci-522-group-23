@@ -14,8 +14,8 @@ version: 1
 metadata:
   content_hash:
     linux-64: de9d202de65e0c9e6d0c3acced24963a3d8d411489b2e6403bedd638d391b33d
-    osx-arm64: c5ce62a949e8e797699cb02d34b3fa095c7b63e7766401f742836307e82a1dd7
-    osx-64: a79761dbd25bb8648366415dcd41a9c642e40b20779510fc142a802633c66c42
+    osx-arm64: b8eb71dfd9698860178adb6e8117f00240dc6c40df9d177acd2fd4bbf6d2ca6e
+    osx-64: 5042e94cf87e0ca604cedeb55d83cdf8fd9009c12b9ec0e2b555e2c8f4397f11
     win-64: 8b259641eb05a5e00e9f1b00c44e3b9d26bd52a23e0d225157a9619476403c60
   channels:
   - url: conda-forge
@@ -139,10 +139,10 @@ package:
     packaging: ''
     python: '>=3.8,<3.13'
     typing-extensions: '>=4.10.0'
-  url: https://conda.anaconda.org/conda-forge/noarch/altair-5.4.1-pyhd8ed1ab_2.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/altair-5.4.1-pyhd8ed1ab_3.conda
   hash:
-    md5: a3731e9aa5c5ca7bceaa7c9c0b65be22
-    sha256: e7a5fd57d19820bf66391f815abeee9e324ba6acffff4adde5dfd6b8790f04f0
+    md5: 1023b24b9c859bf5d9223a202d7e58b9
+    sha256: fc20cce4f91eeaf7c4f801f635f6fb5f2d29e10ac373ffa3292a4407f9ef73b0
   category: main
   optional: false
 - name: altair
@@ -157,10 +157,10 @@ package:
     jsonschema: '>=3.0'
     typing-extensions: '>=4.10.0'
     narwhals: '>=1.1.0'
-  url: https://conda.anaconda.org/conda-forge/noarch/altair-5.4.1-pyhd8ed1ab_2.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/altair-5.4.1-pyhd8ed1ab_3.conda
   hash:
-    md5: a3731e9aa5c5ca7bceaa7c9c0b65be22
-    sha256: e7a5fd57d19820bf66391f815abeee9e324ba6acffff4adde5dfd6b8790f04f0
+    md5: 1023b24b9c859bf5d9223a202d7e58b9
+    sha256: fc20cce4f91eeaf7c4f801f635f6fb5f2d29e10ac373ffa3292a4407f9ef73b0
   category: main
   optional: false
 - name: altair
@@ -2320,7 +2320,7 @@ package:
   category: main
   optional: false
 - name: debugpy
-  version: 1.8.8
+  version: 1.8.9
   manager: conda
   platform: osx-64
   dependencies:
@@ -2328,14 +2328,14 @@ package:
     libcxx: '>=18'
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
-  url: https://conda.anaconda.org/conda-forge/osx-64/debugpy-1.8.8-py312haafddd8_0.conda
+  url: https://conda.anaconda.org/conda-forge/osx-64/debugpy-1.8.9-py312haafddd8_0.conda
   hash:
-    md5: 5370c8f3dd57bfa6c824f1857cc00bd6
-    sha256: 68384ba578b83a9effa14e543f04566d3bbdfc31f1d8d7bba1f67f4fbd1590c0
+    md5: 9e50ff5d80cdebeda0fe7eabba6d55e0
+    sha256: 95b43839332c9bcd7da3f98ad322f371d8a3a40283945fadfecf8043d0a0cf38
   category: main
   optional: false
 - name: debugpy
-  version: 1.8.8
+  version: 1.8.9
   manager: conda
   platform: osx-arm64
   dependencies:
@@ -2343,10 +2343,10 @@ package:
     libcxx: '>=18'
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
-  url: https://conda.anaconda.org/conda-forge/osx-arm64/debugpy-1.8.8-py312hd8f9ff3_0.conda
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/debugpy-1.8.9-py312hd8f9ff3_0.conda
   hash:
-    md5: a47db7a8ec137fa9cc5ba9f20a45394f
-    sha256: 2a20826d25063bb500a8bda98a02fee024a64da0fa52183a29af026e2d4e81a7
+    md5: 51085e5bb7f21019186cc88fd9a03164
+    sha256: d588943ac0392300f31115d9852a2ff4213ec22856c382ef56f5650576523ec6
   category: main
   optional: false
 - name: debugpy
@@ -10404,23 +10404,23 @@ package:
   category: main
   optional: false
 - name: pydantic
-  version: 2.10.0
+  version: 2.10.1
   manager: conda
   platform: osx-64
   dependencies:
     annotated-types: '>=0.6.0'
-    pydantic-core: 2.27.0
+    pydantic-core: 2.27.1
     python: '>=3.9'
     typing-extensions: '>=4.6.1'
     typing_extensions: '>=4.12.2'
-  url: https://conda.anaconda.org/conda-forge/noarch/pydantic-2.10.0-pyh10f6f8f_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/pydantic-2.10.1-pyh10f6f8f_0.conda
   hash:
-    md5: c8d0d99422d56d42185f43e1d4808cb5
-    sha256: fbb18b5d24acad15c452d1d4467999d1a6cbc7b3a89771c0b2424031ddc303b4
+    md5: c15343c9dbdb30766a07e5b70e46c7d3
+    sha256: b1872231d26ee3ded32bd1fe3ee1b3c7d9834ad72bf28aed70e5cd1235341584
   category: main
   optional: false
 - name: pydantic
-  version: 2.10.0
+  version: 2.10.1
   manager: conda
   platform: osx-arm64
   dependencies:
@@ -10428,11 +10428,11 @@ package:
     typing-extensions: '>=4.6.1'
     typing_extensions: '>=4.12.2'
     annotated-types: '>=0.6.0'
-    pydantic-core: 2.27.0
-  url: https://conda.anaconda.org/conda-forge/noarch/pydantic-2.10.0-pyh10f6f8f_0.conda
+    pydantic-core: 2.27.1
+  url: https://conda.anaconda.org/conda-forge/noarch/pydantic-2.10.1-pyh10f6f8f_0.conda
   hash:
-    md5: c8d0d99422d56d42185f43e1d4808cb5
-    sha256: fbb18b5d24acad15c452d1d4467999d1a6cbc7b3a89771c0b2424031ddc303b4
+    md5: c15343c9dbdb30766a07e5b70e46c7d3
+    sha256: b1872231d26ee3ded32bd1fe3ee1b3c7d9834ad72bf28aed70e5cd1235341584
   category: main
   optional: false
 - name: pydantic
@@ -10468,7 +10468,7 @@ package:
   category: main
   optional: false
 - name: pydantic-core
-  version: 2.27.0
+  version: 2.27.1
   manager: conda
   platform: osx-64
   dependencies:
@@ -10476,14 +10476,14 @@ package:
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
     typing-extensions: '>=4.6.0,!=4.7.0'
-  url: https://conda.anaconda.org/conda-forge/osx-64/pydantic-core-2.27.0-py312h0d0de52_0.conda
+  url: https://conda.anaconda.org/conda-forge/osx-64/pydantic-core-2.27.1-py312h0d0de52_0.conda
   hash:
-    md5: 1ad7a3379e3acea1cebc873a93f19cab
-    sha256: 596cad17f155e9b174561c97458eebdc0a0fc6d039714f63e4dfb38c596cacf5
+    md5: e510fbc49c8057cfd2145e9deaabcb19
+    sha256: 4648a840c983b97494c88ac4551eac65a03d8ed8a4171ef2dc4d3a4a93f1a54f
   category: main
   optional: false
 - name: pydantic-core
-  version: 2.27.0
+  version: 2.27.1
   manager: conda
   platform: osx-arm64
   dependencies:
@@ -10491,10 +10491,10 @@ package:
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
     typing-extensions: '>=4.6.0,!=4.7.0'
-  url: https://conda.anaconda.org/conda-forge/osx-arm64/pydantic-core-2.27.0-py312hcd83bfe_0.conda
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/pydantic-core-2.27.1-py312hcd83bfe_0.conda
   hash:
-    md5: 0c3f3cfb26ecaf470a41aae1af404265
-    sha256: b636b735b955d7ba68544f6e970f6423466a6046ae4626a05117bf7e199b82cb
+    md5: 3847a96eaf24a877b6091150ff9c4955
+    sha256: 5bba8de2bbbbdb39390abb1e2aff310e8cfd49646ae5a0e0ea4d6582bd1d52ba
   category: main
   optional: false
 - name: pydantic-core
@@ -14702,5 +14702,53 @@ package:
   hash:
     md5: 9a17230f95733c04dc40a2b1e5491d74
     sha256: 768e30dc513568491818fb068ee867c57c514b553915536da09e5d10b4ebf3c3
+  category: main
+  optional: false
+- name: altair-ally
+  version: 0.1.1
+  manager: pip
+  platform: osx-64
+  dependencies:
+    altair: '*'
+    vega-datasets: '*'
+    pandas: '*'
+  url: https://files.pythonhosted.org/packages/ca/b3/df528cb8c8242485b7f5d4d973fea5233b216486b3e1d2d8b14d92772ddf/altair_ally-0.1.1.tar.gz
+  hash:
+    sha256: f8b7179fda6335322048f71ec29b827b63f658e8a9fb54426927597eeb1f446e
+  category: main
+  optional: false
+- name: altair-ally
+  version: 0.1.1
+  manager: pip
+  platform: osx-arm64
+  dependencies:
+    altair: '*'
+    vega-datasets: '*'
+    pandas: '*'
+  url: https://files.pythonhosted.org/packages/ca/b3/df528cb8c8242485b7f5d4d973fea5233b216486b3e1d2d8b14d92772ddf/altair_ally-0.1.1.tar.gz
+  hash:
+    sha256: f8b7179fda6335322048f71ec29b827b63f658e8a9fb54426927597eeb1f446e
+  category: main
+  optional: false
+- name: vega-datasets
+  version: 0.9.0
+  manager: pip
+  platform: osx-64
+  dependencies:
+    pandas: '*'
+  url: https://files.pythonhosted.org/packages/e6/9f/ca52771fe972e0dcc5167fedb609940e01516066938ff2ee28b273ae4f29/vega_datasets-0.9.0-py3-none-any.whl
+  hash:
+    sha256: 3d7c63917be6ca9b154b565f4779a31fedce57b01b5b9d99d8a34a7608062a1d
+  category: main
+  optional: false
+- name: vega-datasets
+  version: 0.9.0
+  manager: pip
+  platform: osx-arm64
+  dependencies:
+    pandas: '*'
+  url: https://files.pythonhosted.org/packages/e6/9f/ca52771fe972e0dcc5167fedb609940e01516066938ff2ee28b273ae4f29/vega_datasets-0.9.0-py3-none-any.whl
+  hash:
+    sha256: 3d7c63917be6ca9b154b565f4779a31fedce57b01b5b9d99d8a34a7608062a1d
   category: main
   optional: false

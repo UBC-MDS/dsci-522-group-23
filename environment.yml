@@ -16,3 +16,5 @@ dependencies:
   - xgboost
   - nb_conda_kernels
   - pip
+  - pip:
+      - altair-ally
