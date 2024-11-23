@@ -48,7 +48,7 @@ conda create -n 522-project-env --file conda-lock.yml
 #### With `conda-lock`
 
 ```bash
-conda-lock install -n 522-project-env
+conda-lock install --name 522-project-env conda-lock.yml
 ```
 
 Both method will create a new conda environment called `522-project-env` that contains the neccessary packages to run the analysis
