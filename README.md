@@ -2,6 +2,7 @@
 ## dsci-522-group-23
 
 This is group#23 repository for DSCI 522 
+- Author: Zhengling Jiang, Colombe Tolokin, Franklin Aryee, Tien Nguyen
 
 In this project, we aim to address this question: “Can we predict a student's math academic performance based on the demographic and behavioral data?”. We will test out various machine learning algorithms and pick the best one that can reliably predict a student final grades base on the features.
 
@@ -61,17 +62,19 @@ conda-lock -f environment.yml -p <os>
 
 Where `<os>` are any of the following platform `['linux-64', 'osx-64', 'osx-arm64', 'win-64']`. Omitting the `-p` will generate a lockfile for all platforms.
 
-Authors: Zhengling Jiang,  Colombe Tolokin, Franklin Aryee, Tien Nguyen
+## Dependencies
 
-## About
-
-
-## Usage
-
+conda: Version 23.9.0 or higher <br>
+conda-lock: Version 2.5.7 or higher <br>
+jupyterlab: Version 4.3.1 or higher <br>
+nb_conda_kernels: Version 2.5.1 or higher <br>
+Python and packages listed in [environment.yml](https://github.com/UBC-MDS/dsci-522-group-23/blob/main/environment.yml) <br>
 
 ## License
 
-The software code contained within this repository is licensed under the
-MIT license. See [the license file](LICENSE.md) for more information.
+The project follows a dual licensing structure:
 
-## References
+- The project code is licensed under the [MIT License](https://opensource.org/license/MIT). See the [LICENSE.md](https://github.com/UBC-MDS/dsci-522-group-23/blob/main/LICENSE.md) file for details.<br>
+- The project report is licensed under the [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0) license](https://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+If re-using or re-mixing this project, please ensure proper attribution and adherence to the terms of the respective licenses.
