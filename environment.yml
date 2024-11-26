@@ -2,7 +2,7 @@ name: 522-project-env
 channels:
   - conda-forge
 dependencies:
-  - python=3.12
+  - python=3.11.9
   - conda-lock
   - numpy
   - pandas
