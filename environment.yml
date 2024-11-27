@@ -2,10 +2,11 @@ name: 522-project-env
 channels:
   - conda-forge
 dependencies:
-  - python=3.12
-  - conda-lock
+  - python=3.11.9
   - numpy
   - pandas
+  - pandera
+  - deepchecks
   - matplotlib
   - altair
   - nbconvert
@@ -14,7 +15,6 @@ dependencies:
   - jupyterlab
   - ipykernel
   - xgboost
-  - nb_conda_kernels
   - pip
   - pip:
       - altair-ally
