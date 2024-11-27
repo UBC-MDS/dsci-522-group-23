@@ -5,6 +5,7 @@ dependencies:
   - python=3.11.9
   - numpy=1.26.4
   - pandas=2.2.2
+  - pandera=0.20.4
   - matplotlib=3.9.2
   - altair=5.4.1
   - nbconvert=7.16.4
@@ -17,3 +18,4 @@ dependencies:
   - pip
   - pip:
       - altair-ally==0.1.1
+      - deepchecks==0.18.1
