@@ -1,0 +1,11 @@
+services:
+  jupyter-notebook:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8889:8888" # map port 8889 on host computer to 8888 in container
+    volumes:
+      - .:/home/jovyan/work
+    container_name: dsci-522-project-container

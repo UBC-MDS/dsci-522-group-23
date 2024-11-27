@@ -3,19 +3,18 @@ channels:
   - conda-forge
 dependencies:
   - python=3.11.9
-  - numpy=1.26.4
-  - pandas=2.2.2
-  - pandera=0.20.4
-  - matplotlib=3.9.2
-  - altair=5.4.1
-  - nbconvert=7.16.4
-  - seaborn=0.13.2
-  - scikit-learn=1.5.2
-  - jupyterlab=4.2.6
-  - ipykernel=6.29.5
-  - xgboost=2.1.2
-  - nb_conda_kernels=2.5.1
+  - numpy
+  - pandas
+  - pandera
+  - deepchecks
+  - matplotlib
+  - altair
+  - nbconvert
+  - seaborn
+  - scikit-learn
+  - jupyterlab
+  - ipykernel
+  - xgboost
   - pip
   - pip:
-      - altair-ally==0.1.1
-      - deepchecks==0.18.1
+      - altair-ally

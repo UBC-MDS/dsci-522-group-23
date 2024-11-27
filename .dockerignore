@@ -1,0 +1,26 @@
+# Exclude version control directories
+.git
+.gitignore
+
+# Exclude Python bytecode files
+*.pyc
+*.pyo
+*.pyd
+__pycache__
+
+# Exclude Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Exclude temporary files created by editors (e.g., VSCode, Vim)
+.vscode
+.idea
+*.swp
+
+.dockerignore
+
+# Exclude virtual environments
+env/
+venv/
+
+# Exclude macOS system files
+.DS_Store
