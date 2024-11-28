@@ -65,10 +65,26 @@ conda deactivate
 
 #### Launch Jupyter Lab and run the analyses
 
-Make sure that you have activate the `522-project-env` conda environment. You can launch JupyterLab via
+1. Navigate to the root of this project on your computer and run the following command to create and start containers:
 
 ```bash
-jupyter lab
+docker compose up
+```
+2. In the terminal, look for a URL: `http://127.0.0.1:8888/lab`. Copy and paste the URL into your browser and change `8888` to `8889` manually.
+
+3. To run the analysis, open `notebooks/student_performance_predictor_report.ipynb` in the Jupyterlab that just launched and click "Restart Kernel and Run All Cells..." under the "Kernel" menu.
+
+#### Clean Up
+1. Shut Down the Container
+
+To stop the container, press Ctrl + C in the terminal where you launched the container using docker compose up.
+
+2. Remove the Container
+
+Once the container is stopped, remove it and its associated resources by running:
+
+```bash
+docker compose rm
 ```
 
 Navigate to the notebook file [student_performance_predictor_report.ipynb](notebooks/student_performance_predictor_report.ipynb) to view or rerun the analysis as you wish.
@@ -80,6 +96,21 @@ Navigate to the notebook file [student_performance_predictor_report.ipynb](noteb
 - `conda-lock`: Version 2.5.7 or higher
 
 - Python and packages listed in [environment.yml](environment.yml) or [conda-lock.yml](conda-lock.yml)
+
+### Update the Container
+If you need to change the container, follow this workflow:
+
+1. Add the new dependency or any chagnes in the `emvironment.yml` file.
+2. Update the lock file: run 
+```bash
+conda-lock -k explicit --file environment.yml -p linux-64 
+```
+to update the conda-linux-64.lock file.
+3. Build the Docker image locally to test it and verify the container starts correctly.
+4. Push the updated branch to Github. The updated image will be automatically built and pushed to Docker Hub. 
+5. Modify the docker-compose.yml file to reference the updated Docker image. Commit the changes to the same branch.
+6. Open a PR to merge your branch into the main branch.
+
 
 ## License
 
