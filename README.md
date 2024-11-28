@@ -65,10 +65,26 @@ conda deactivate
 
 #### Launch Jupyter Lab and run the analyses
 
-Make sure that you have activate the `522-project-env` conda environment. You can launch JupyterLab via
+1. Navigate to the root of this project on your computer and run the following command to create and start containers:
 
 ```bash
-jupyter lab
+docker compose up
+```
+2. In the terminal, look for a URL: `http://127.0.0.1:8888/lab`. Copy and paste the URL into your browser and change `8888` to `8889` manually.
+
+3. To run the analysis, open `notebooks/student_performance_predictor_report.ipynb` in the Jupyterlab that just launched and click "Restart Kernel and Run All Cells..." under the "Kernel" menu.
+
+#### Clean Up
+1. Shut Down the Container
+
+To stop the container, press Ctrl + C in the terminal where you launched the container using docker compose up.
+
+2. Remove the Container
+
+Once the container is stopped, remove it and its associated resources by running:
+
+```bash
+docker compose rm
 ```
 
 Navigate to the notebook file [student_performance_predictor_report.ipynb](notebooks/student_performance_predictor_report.ipynb) to view or rerun the analysis as you wish.
