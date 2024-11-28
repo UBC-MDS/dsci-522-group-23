@@ -97,6 +97,21 @@ Navigate to the notebook file [student_performance_predictor_report.ipynb](noteb
 
 - Python and packages listed in [environment.yml](environment.yml) or [conda-lock.yml](conda-lock.yml)
 
+### Update the Container
+If you need to change the container, follow this workflow:
+
+1. Add the new dependency or any chagnes in the `emvironment.yml` file.
+2. Update the lock file: run 
+```bash
+conda-lock -k explicit --file environment.yml -p linux-64 
+```
+to update the conda-linux-64.lock file.
+3. Build the Docker image locally to test it and verify the container starts correctly.
+4. Push the updated branch to Github. The updated image will be automatically built and pushed to Docker Hub. 
+5. Modify the docker-compose.yml file to reference the updated Docker image. Commit the changes to the same branch.
+6. Open a PR to merge your branch into the main branch.
+
+
 ## License
 
 The project follows a dual licensing structure:
