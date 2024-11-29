@@ -1,50 +1,59 @@
 # Predicting Academic Performance in Mathematics using Demographic and Student Behavioral Data
+
 ## dsci-522-group-23
 
-This is group#23 repository for DSCI 522 
-- Author: Zhengling Jiang, Colombe Tolokin, Franklin Aryee, Tien Nguyen
+### Author: Zhengling Jiang, Colombe Tolokin, Franklin Aryee, Tien Nguyen
 
-In this project, we aim to address this question: “Can we predict a student's math academic performance based on the demographic and behavioral data?”. We will test out various machine learning algorithms and pick the best one that can reliably predict a student final grades base on the features.
+## Summary
 
-## Collaborative Development Workflow Reminders:
+This project investigates whether a student's mathematics performance can be predicted with linear regression using demographic and behavioral data, aiming to help educators in supporting students and tailoring educational strategies.
 
-### Branching
+## Usage
 
-- Whenever you start working on a new feature or bug fix, create a new branch. This keeps your changes separate from the main codebase.
-- **Please consult the team before force pushing anything on the `main` branch.** Ideally we should be working on feature branches at all times.
-
-### Syncing Local/Remote
-
-- Before working, please run `git pull` to update your local repo. If you have uncommited work, run `git stash` before `git pull`, then after pulling you can run `git stash pop`.
-
-## Software Installation
+This section details the step to install the softwares and packages to run the analysis
 
 ### `conda` and `conda-lock`
 
 We assume that you have installed the `conda` software and `conda-lock` packages on your machine. For instructions on how to install those softwares, please see:
+
 - `conda`: [https://conda-forge.org/download/](https://conda-forge.org/download/)
 - `conda-lock`: [https://github.com/conda/conda-lock](https://github.com/conda/conda-lock)
 
-We provided both the conda `environment.yml` and conda-lock.yml` files. To install the neccessary packages, first make sure you are in the root directory of the project (`dsci-522-group-23`). We highly recommended installing with `conda-lock`, but both method will works just fine.
+See the [Dependencies](#dependencies) section below to install the appropriate softare versions
 
-- With `conda`
+### Clone the git repository from GitHub
+
+In your terminal, please run the following commands:
+
+```bash
+git clone https://github.com/UBC-MDS/dsci-522-group-23.git
+```
+
+### Setup `conda` environment
+
+We provided both the conda `environment.yml` and `conda-lock.yml` files. To install the neccessary packages, first make sure you are in the root directory of the project (`dsci-522-group-23`). We highly recommended installing with `conda-lock`, but both method will works just fine.
+
+#### With `conda`
 
 ```bash
 conda env create -f environment.yml
 ```
-Or 
+
+Or
 
 ```bash
 conda create -n 522-project-env --file conda-lock.yml
 ```
 
-- With `conda-lock`
+#### With `conda-lock`
 
 ```bash
-conda-lock install -n 522-project-env
+conda-lock install --name 522-project-env conda-lock.yml
 ```
 
-To activate / deactivate the environment:
+Both method will create a new conda environment called `522-project-env` that contains the neccessary packages to run the analysis
+
+#### To activate / deactivate the environment
 
 ```bash
 conda activate 522-project-env
@@ -54,27 +63,65 @@ conda activate 522-project-env
 conda deactivate
 ```
 
-To generate a new `conda-lock` file:
+#### Launch Jupyter Lab and run the analyses
+
+1. Navigate to the root of this project on your computer and run the following command to create and start containers:
 
 ```bash
-conda-lock -f environment.yml -p <os>
+docker compose up
+```
+2. In the terminal, look for a URL: `http://127.0.0.1:8888/lab`. Copy and paste the URL into your browser and change `8888` to `8889` manually.
+
+3. To run the analysis, open `notebooks/student_performance_predictor_report.ipynb` in the Jupyterlab that just launched and click "Restart Kernel and Run All Cells..." under the "Kernel" menu.
+
+#### Clean Up
+1. Shut Down the Container
+
+To stop the container, press Ctrl + C in the terminal where you launched the container using docker compose up.
+
+2. Remove the Container
+
+Once the container is stopped, remove it and its associated resources by running:
+
+```bash
+docker compose rm
 ```
 
-Where `<os>` are any of the following platform `['linux-64', 'osx-64', 'osx-arm64', 'win-64']`. Omitting the `-p` will generate a lockfile for all platforms.
+Navigate to the notebook file [student_performance_predictor_report.ipynb](notebooks/student_performance_predictor_report.ipynb) to view or rerun the analysis as you wish.
 
 ## Dependencies
 
-conda: Version 23.9.0 or higher <br>
-conda-lock: Version 2.5.7 or higher <br>
-jupyterlab: Version 4.3.1 or higher <br>
-nb_conda_kernels: Version 2.5.1 or higher <br>
-Python and packages listed in [environment.yml](https://github.com/UBC-MDS/dsci-522-group-23/blob/main/environment.yml) <br>
+- `conda`: Version 23.9.0 or higher
+
+- `conda-lock`: Version 2.5.7 or higher
+
+- Python and packages listed in [environment.yml](environment.yml) or [conda-lock.yml](conda-lock.yml)
+
+### Update the Container
+If you need to change the container, follow this workflow:
+
+1. Add the new dependency or any chagnes in the `emvironment.yml` file.
+2. Update the lock file: run 
+```bash
+conda-lock -k explicit --file environment.yml -p linux-64 
+```
+to update the conda-linux-64.lock file.
+
+3. Build the Docker image locally to test it and verify the container starts correctly.
+4. Push the updated branch to Github. The updated image will be automatically built and pushed to Docker Hub. 
+5. Modify the docker-compose.yml file to reference the updated Docker image. Commit the changes to the same branch.
+6. Open a PR to merge your branch into the main branch.
+
 
 ## License
 
 The project follows a dual licensing structure:
 
-- The project code is licensed under the [MIT License](https://opensource.org/license/MIT). See the [LICENSE.md](https://github.com/UBC-MDS/dsci-522-group-23/blob/main/LICENSE.md) file for details.<br>
+- The project code is licensed under the [MIT License](https://opensource.org/license/MIT). See the [LICENSE.md](https://github.com/UBC-MDS/dsci-522-group-23/blob/main/LICENSE.md) file for details.
 - The project report is licensed under the [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0) license](https://creativecommons.org/licenses/by-nc-nd/4.0/).
 
 If re-using or re-mixing this project, please ensure proper attribution and adherence to the terms of the respective licenses.
+
+## Contributing
+
+Please see the [Contributing Guidelines](CONTRIBUTING.md) for proper procedures to contribute to our project.
