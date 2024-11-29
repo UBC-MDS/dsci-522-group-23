@@ -63,7 +63,7 @@ conda activate 522-project-env
 conda deactivate
 ```
 
-#### Launch Jupyter Lab and run the analyses
+### Launch Jupyter Lab and run the analyses
 
 1. Navigate to the root of this project on your computer and run the following command to create and start containers:
 
@@ -74,7 +74,7 @@ docker compose up
 
 3. To run the analysis, open `notebooks/student_performance_predictor_report.ipynb` in the Jupyterlab that just launched and click "Restart Kernel and Run All Cells..." under the "Kernel" menu.
 
-#### Clean Up
+### Clean Up
 1. Shut Down the Container
 
 To stop the container, press Ctrl + C in the terminal where you launched the container using docker compose up.
