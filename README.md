@@ -12,15 +12,6 @@ This project investigates whether a student's mathematics performance can be pre
 
 This section details the step to install the softwares and packages to run the analysis
 
-### `conda` and `conda-lock`
-
-We assume that you have installed the `conda` software and `conda-lock` packages on your machine. For instructions on how to install those softwares, please see:
-
-- `conda`: [https://conda-forge.org/download/](https://conda-forge.org/download/)
-- `conda-lock`: [https://github.com/conda/conda-lock](https://github.com/conda/conda-lock)
-
-See the [Dependencies](#dependencies) section below to install the appropriate softare versions
-
 ### Clone the git repository from GitHub
 
 In your terminal, please run the following commands:
@@ -29,63 +20,31 @@ In your terminal, please run the following commands:
 git clone https://github.com/UBC-MDS/dsci-522-group-23.git
 ```
 
-### Setup `conda` environment
-
-We provided both the conda `environment.yml` and `conda-lock.yml` files. To install the neccessary packages, first make sure you are in the root directory of the project (`dsci-522-group-23`). We highly recommended installing with `conda-lock`, but both method will works just fine.
-
-#### With `conda`
-
-```bash
-conda env create -f environment.yml
-```
-
-Or
-
-```bash
-conda create -n 522-project-env --file conda-lock.yml
-```
-
-#### With `conda-lock`
-
-```bash
-conda-lock install --name 522-project-env conda-lock.yml
-```
-
-Both method will create a new conda environment called `522-project-env` that contains the neccessary packages to run the analysis
-
-#### To activate / deactivate the environment
-
-```bash
-conda activate 522-project-env
-```
-
-```bash
-conda deactivate
-```
-
 ### Launch Jupyter Lab and run the analyses
 
 1. Navigate to the root of this project on your computer and run the following command to create and start containers:
 
-```bash
-docker compose up
-```
+     ```bash
+    docker compose up
+    ```
+
 2. In the terminal, look for a URL: `http://127.0.0.1:8888/lab`. Copy and paste the URL into your browser and change `8888` to `8889` manually.
 
 3. To run the analysis, open `notebooks/student_performance_predictor_report.ipynb` in the Jupyterlab that just launched and click "Restart Kernel and Run All Cells..." under the "Kernel" menu.
 
 ### Clean Up
+
 1. Shut Down the Container
 
-To stop the container, press Ctrl + C in the terminal where you launched the container using docker compose up.
+    To stop the container, press Ctrl + C in the terminal where you launched the container using docker compose up.
 
 2. Remove the Container
 
 Once the container is stopped, remove it and its associated resources by running:
 
-```bash
-docker compose rm
-```
+ ```bash
+ docker compose rm
+ ```
 
 Navigate to the notebook file [student_performance_predictor_report.ipynb](notebooks/student_performance_predictor_report.ipynb) to view or rerun the analysis as you wish.
 
@@ -98,20 +57,23 @@ Navigate to the notebook file [student_performance_predictor_report.ipynb](noteb
 - Python and packages listed in [environment.yml](environment.yml) or [conda-lock.yml](conda-lock.yml)
 
 ### Update the Container
+
 If you need to change the container, follow this workflow:
 
 1. Add the new dependency or any chagnes in the `emvironment.yml` file.
-2. Update the lock file: run 
-```bash
-conda-lock -k explicit --file environment.yml -p linux-64 
-```
+
+2. Update the lock file: run
+
+    ```bash
+    conda-lock -k explicit --file environment.yml -p linux-64 
+    ```
+
 to update the conda-linux-64.lock file.
 
-3. Build the Docker image locally to test it and verify the container starts correctly.
-4. Push the updated branch to Github. The updated image will be automatically built and pushed to Docker Hub. 
-5. Modify the docker-compose.yml file to reference the updated Docker image. Commit the changes to the same branch.
-6. Open a PR to merge your branch into the main branch.
-
+1. Build the Docker image locally to test it and verify the container starts correctly.
+2. Push the updated branch to Github. The updated image will be automatically built and pushed to Docker Hub.
+3. Modify the docker-compose.yml file to reference the updated Docker image. Commit the changes to the same branch.
+4. Open a PR to merge your branch into the main branch.
 
 ## License
 
