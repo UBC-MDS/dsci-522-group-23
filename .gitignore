@@ -55,3 +55,7 @@ dist/
 
 # Notebook-specific outputs (optional)
 *.nbconvert/
+*.cache/
+*.local/
+*.ipython/
+
