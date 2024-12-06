@@ -1,4 +1,6 @@
 # split_n_preprocess.py
+# Usage: python scripts/split_preprocess.py --raw-data=data/raw/student-mat.csv 
+# --data-to=data/processed/ --preprocessor-to=results/models/
 
 import click
 import os
