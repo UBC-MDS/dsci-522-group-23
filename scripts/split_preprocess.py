@@ -28,10 +28,39 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 )
 def main(raw_data, data_to, preprocessor_to):
     """
-    Split the raw data into train and test sets.
-    Preprocesses the data to be used in exploratory data analysis.
-    Saves the preprocessor to be used in the model training script.
+    Splits raw data into train and test sets, preprocesses the data, and saves the results for further use.
+
+    The function performs the following tasks:
+    1. Reads the raw student performance dataset.
+    2. Splits the data into training and testing subsets.
+    3. Saves the train/test splits as CSV files for exploratory data analysis.
+    4. Creates and saves a preprocessing pipeline for use in downstream model training.
+
+    Parameters
+    ----------
+    raw_data : str
+        Path to the raw validated dataset (CSV format).
+    data_to : str
+        Directory path where the processed train and test datasets will be saved.
+    preprocessor_to : str
+        Directory path where the preprocessor object (pickle file) will be saved.
+
+    Returns
+    -------
+    None
+        The function saves the processed data and preprocessor object to the specified directories.
+
+    Examples
+    --------
+    To execute this script via the command line:
+    ```bash
+    python scripts/split_preprocess.py \
+        --raw-data='data/raw/student-mat.csv' \
+        --data-to='data/processed/' \
+        --preprocessor-to='results/models/'
+    ```
     """
+
     set_config(transform_output="pandas")
 
     student_performance = pd.read_csv(raw_data, delimiter=";")
@@ -48,6 +77,12 @@ def main(raw_data, data_to, preprocessor_to):
     X_train, y_train = (train_df.drop(columns=["G3"]), train_df["G3"])
     X_test, y_test = (test_df.drop(columns=["G3"]), test_df["G3"])
     
+    # saving X/y train/test to csv
+    X_train.to_csv(os.path.join(data_to, "X_train.csv"), index=False)
+    y_train.to_csv(os.path.join(data_to, "y_train.csv"), index=False)
+    X_test.to_csv(os.path.join(data_to, "X_test.csv"), index=False)
+    y_test.to_csv(os.path.join(data_to, "y_test.csv"), index=False)
+
     # Store splits in csv files
     os.makedirs(data_to, exist_ok=True)
     train_df.to_csv(os.path.join(data_to, "train_df.csv"), index=False)
@@ -66,16 +101,6 @@ def main(raw_data, data_to, preprocessor_to):
     pickle.dump(
         preprocessor, open(os.path.join(preprocessor_to, "preprocessor.pickle"), "wb")
     )
-
-    preprocessor.fit(X_train)
-    transformed_train = preprocessor.transform(X_train)
-    transformed_test = preprocessor.transform(X_test)
-
-    transformed_train.to_csv(
-        os.path.join(data_to, "transformed_train.csv"), index=False
-    )
-    transformed_test.to_csv(os.path.join(data_to, "transformed_test.csv"), index=False)
-
 
 if __name__ == "__main__":
     main()

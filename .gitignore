@@ -16,7 +16,6 @@ pip-delete-this-directory.txt
 
 # Conda environment files
 *.conda
-*.lock
 
 # Jupyter Notebook extensions and configuration
 .jupyter/

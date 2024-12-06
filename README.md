@@ -32,6 +32,36 @@ git clone https://github.com/UBC-MDS/dsci-522-group-23.git
 
 3. To run the analysis, open `notebooks/student_performance_predictor_report.ipynb` in the Jupyterlab that just launched and click "Restart Kernel and Run All Cells..." under the "Kernel" menu.
 
+### Regenerate the artifacts (datasets, figures, tables, etc) in the analysis
+
+Make sure you are in the root directory of the project, then run these Python scripts sequentially in this order:
+
+```bash
+python scripts/download_data.py \
+    --url='https://archive.ics.uci.edu/static/public/320/student+performance.zip' \
+    --out-dir='data/raw' \
+    --raw-filename='student-mat.csv'
+```
+
+```bash
+python scripts/split_preprocess.py \
+    --raw-data='data/raw/student-mat.csv' \
+    --data-to='data/processed/' \
+    --preprocessor-to='results/models/'
+```
+
+```bash
+python scripts/validate.py \
+    --raw-data='data/raw/student-mat.csv' \
+    --plot-to='results/figures/validate/'
+```
+
+```bash
+python scripts/eda.py \
+    --train-df-path='data/processed/train_df.csv' \
+    --outdir='results/figures/eda/'
+```
+
 ### Clean Up
 
 1. Shut Down the Container
