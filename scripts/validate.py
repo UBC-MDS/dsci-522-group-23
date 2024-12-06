@@ -1,4 +1,5 @@
 # validate.py
+# usage: python scripts/validate.py --raw-data=data/raw/student-mat.csv --plot-to=results/figures/
 
 import click
 import os
@@ -323,14 +324,9 @@ def validate_anomalous_correlations(
 @click.command()
 @click.option("--raw-data", type=str, help="Path to raw data")
 @click.option(
-    "--data-to",
-    type=str,
-    help="Path to directory where processed data will be written to",
-)
-@click.option(
     "--plot-to", type=str, help="Path to directory where the plot will be written to"
 )
-def main(raw_data, data_to, plot_to):
+def main(raw_data, plot_to):
     try:
         # Load the dataset
         subset_df = load_data(raw_data)
@@ -351,12 +347,7 @@ def main(raw_data, data_to, plot_to):
 
         # Validate anomalous correlations
         validate_anomalous_correlations(subset_df, target_col="G3", threshold=0.95)
-        print("\nAll validation checks passed.\nSaving validated data...")
-        validated_data_dir = os.path.join(data_to, "validated")
-        os.makedirs(validated_data_dir, exist_ok=True)
-        validated_data_path = os.path.join(validated_data_dir, "validated-data.csv")
-        subset_df.to_csv(validated_data_path, index=False)
-        print(f"Validated data saved to: {data_to}")
+        print("\nAll validation checks passed...")
 
     except ValueError as ve:
         print(f"Validation error: {ve}")

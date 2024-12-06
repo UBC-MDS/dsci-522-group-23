@@ -13,7 +13,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 
 
 @click.command()
-@click.option("--val-data", type=str, help="Path to validated data")
+@click.option("--raw-data", type=str, help="Path to validated data")
 @click.option(
     "--data-to",
     type=str,
@@ -24,7 +24,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
     type=str,
     help="Path to directory where the preprocessor object will be written to",
 )
-def main(val_data, data_to, preprocessor_to):
+def main(raw_data, data_to, preprocessor_to):
     """
     Split the raw data into train and test sets.
     Preprocesses the data to be used in exploratory data analysis.
@@ -32,7 +32,7 @@ def main(val_data, data_to, preprocessor_to):
     """
     set_config(transform_output="pandas")
 
-    student_performance = pd.read_csv(val_data, delimiter=",")
+    student_performance = pd.read_csv(raw_data, delimiter=";")
 
     # Necessary columns
     columns = ["sex", "age", "studytime", "failures", "goout", "Dalc", "Walc", "G1", "G2", "G3"]
