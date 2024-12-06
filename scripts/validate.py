@@ -140,9 +140,13 @@ def validate_target_distribution(
 
     stat, p = shapiro(data[target_column])
     if p > 0.05:
-        print(f"Target variable '{target_column}' follows a normal distribution (p={p:.4f}).")
+        print(
+            f"Target variable '{target_column}' follows a normal distribution (p={p:.4f})."
+        )
     else:
-        print(f"Target variable '{target_column}' does not follow a normal distribution (p={p:.4f}).")
+        print(
+            f"Target variable '{target_column}' does not follow a normal distribution (p={p:.4f})."
+        )
 
     # Plot target distribution
     plt.figure(figsize=(10, 6))
@@ -274,7 +278,9 @@ def validate_anomalous_correlations(
         )
 
     # Step 2: Correlations among features
-    feature_correlations = correlation_matrix.loc[numeric_data.columns, numeric_data.columns]
+    feature_correlations = correlation_matrix.loc[
+        numeric_data.columns, numeric_data.columns
+    ]
 
     # Check for anomalous (high) correlations among features
     anomalous_feature_corrs = feature_correlations[
@@ -282,7 +288,9 @@ def validate_anomalous_correlations(
     ]
     for feature1 in anomalous_feature_corrs.index:
         for feature2 in anomalous_feature_corrs.columns:
-            if feature1 != feature2 and not pd.isna(anomalous_feature_corrs.loc[feature1, feature2]):
+            if feature1 != feature2 and not pd.isna(
+                anomalous_feature_corrs.loc[feature1, feature2]
+            ):
                 corr = anomalous_feature_corrs.loc[feature1, feature2]
                 warnings.warn(
                     f"Anomalous correlation ({corr:.2f}) between features '{feature1}' and '{feature2}'."
@@ -290,21 +298,23 @@ def validate_anomalous_correlations(
                 anomalous_feature_corrs.loc[feature1, feature2] = None
                 anomalous_feature_corrs.loc[feature2, feature1] = None
 
-    feature_to_target_df = pd.DataFrame({
-        'Feature': target_correlations.index,
-        'Correlation': target_correlations.values
-    }).reset_index(drop=True)
+    feature_to_target_df = pd.DataFrame(
+        {
+            "Feature": target_correlations.index,
+            "Correlation": target_correlations.values,
+        }
+    ).reset_index(drop=True)
 
     feature_to_feature_df = feature_correlations.stack().reset_index()
-    feature_to_feature_df.columns = ['Feature1', 'Feature2', 'Correlation']
+    feature_to_feature_df.columns = ["Feature1", "Feature2", "Correlation"]
     feature_to_feature_df = feature_to_feature_df[
-        feature_to_feature_df['Feature1'] != feature_to_feature_df['Feature2']
+        feature_to_feature_df["Feature1"] != feature_to_feature_df["Feature2"]
     ]
 
     print("Anomalous correlation validation successful!")
     return {
-        'feature_to_target': feature_to_target_df,
-        'feature_to_feature': feature_to_feature_df
+        "feature_to_target": feature_to_target_df,
+        "feature_to_feature": feature_to_feature_df,
     }
 
 
@@ -337,9 +347,7 @@ def main(raw_data, data_to, plot_to):
         validate_no_outliers(subset_df, numeric_columns, max_cols=3, save_path=plot_to)
 
         # Validate anomalous correlations
-        validate_anomalous_correlations(
-            subset_df, target_col="G3", threshold=0.95
-        )
+        validate_anomalous_correlations(subset_df, target_col="G3", threshold=0.95)
         print("\nAll validation checks passed.\nSaving validated data...")
         validated_data_dir = os.path.join(data_to, "validated")
         os.makedirs(validated_data_dir, exist_ok=True)
