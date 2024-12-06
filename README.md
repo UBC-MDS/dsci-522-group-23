@@ -53,7 +53,13 @@ python scripts/split_preprocess.py \
 ```bash
 python scripts/validate.py \
     --raw-data='data/raw/student-mat.csv' \
-    --plot-to='results/figures/'
+    --plot-to='results/figures/validate/'
+```
+
+```bash
+python scripts/eda.py \
+    --train-df-path='data/processed/train_df.csv' \
+    --outdir='results/figures/eda/'
 ```
 
 ### Clean Up

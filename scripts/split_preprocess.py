@@ -28,10 +28,39 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 )
 def main(raw_data, data_to, preprocessor_to):
     """
-    Split the raw data into train and test sets.
-    Preprocesses the data to be used in exploratory data analysis.
-    Saves the preprocessor to be used in the model training script.
+    Splits raw data into train and test sets, preprocesses the data, and saves the results for further use.
+
+    The function performs the following tasks:
+    1. Reads the raw student performance dataset.
+    2. Splits the data into training and testing subsets.
+    3. Saves the train/test splits as CSV files for exploratory data analysis.
+    4. Creates and saves a preprocessing pipeline for use in downstream model training.
+
+    Parameters
+    ----------
+    raw_data : str
+        Path to the raw validated dataset (CSV format).
+    data_to : str
+        Directory path where the processed train and test datasets will be saved.
+    preprocessor_to : str
+        Directory path where the preprocessor object (pickle file) will be saved.
+
+    Returns
+    -------
+    None
+        The function saves the processed data and preprocessor object to the specified directories.
+
+    Examples
+    --------
+    To execute this script via the command line:
+    ```bash
+    python scripts/split_preprocess.py \
+        --raw-data='data/raw/student-mat.csv' \
+        --data-to='data/processed/' \
+        --preprocessor-to='results/models/'
+    ```
     """
+
     set_config(transform_output="pandas")
 
     student_performance = pd.read_csv(raw_data, delimiter=";")

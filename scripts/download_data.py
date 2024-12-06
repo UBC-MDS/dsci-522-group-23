@@ -22,15 +22,46 @@ import click
     help="Output directory for the raw file, relative to the location of the script"
 )
 @click.option("--raw-filename", type=str, help="The raw data file name")
-def download_uci_data(url, out_dir, raw_filename):
+@click.option('--force', is_flag=True, help='Download the data forcefully without checking if file exists')
+def download_uci_data(url, out_dir, raw_filename, force):
     
+    """
+    Downloads and extracts a dataset from a given URL, saving the raw data file to a specified directory.
+
+    Parameters
+    ----------
+    url : str
+        The URL from which to download the dataset (expected to be a ZIP file).
+    out_dir : str
+        The relative path to the directory where the raw data file should be saved.
+    raw_filename : str
+        The name of the raw data file to be extracted and saved.
+    force : bool
+        If True, forces a download and overwrite even if the file already exists.
+
+    Returns
+    -------
+    None
+        This function does not return a value. It downloads, extracts, and saves the specified data file.
+
+    Examples
+    --------
+    Run the script via the command line:
+    ```bash
+    python scripts/download_data.py \
+        --url='https://archive.ics.uci.edu/static/public/320/student+performance.zip' \
+        --out-dir='data/raw' \
+        --raw-filename='student-mat.csv'
+    ```
+    """
+
     script_path = os.path.dirname(os.path.abspath(__file__))
     zip_dir = Path(script_path, "..", "data", "zip")
     zip1 = os.path.join(zip_dir, "student_performance.zip")
     zip2 = os.path.join(zip_dir, "student.zip")
     dest_path = Path(script_path, "..", out_dir)
     
-    if os.path.exists(os.path.join(dest_path, raw_filename)):
+    if (not force) and os.path.exists(os.path.join(dest_path, raw_filename)):
         print("File already existed, exitting script...")
         sys.exit()
     

@@ -327,6 +327,38 @@ def validate_anomalous_correlations(
     "--plot-to", type=str, help="Path to directory where the plot will be written to"
 )
 def main(raw_data, plot_to):
+    """
+    Validates the raw dataset and generates diagnostic plots for data quality and integrity checks.
+
+    The function performs the following tasks:
+    1. Loads the raw dataset and checks for duplicate records.
+    2. Validates the dataset schema for consistency with expected requirements.
+    3. Checks for missing data exceeding a defined threshold and saves a missingness plot.
+    4. Evaluates the distribution of the target variable (`G3`) and saves a distribution plot.
+    5. Identifies potential outliers in numeric columns and saves diagnostic plots.
+    6. Checks for anomalous correlations with the target variable.
+
+    Parameters
+    ----------
+    raw_data : str
+        Path to the raw dataset (CSV format).
+    plot_to : str
+        Directory path where validation diagnostic plots will be saved.
+
+    Returns
+    -------
+    None
+        The function validates the dataset and saves plots as diagnostic outputs.
+
+    Examples
+    --------
+    To run the script via the command line:
+    ```bash
+    python scripts/validate.py \
+        --raw-data='data/raw/student-mat.csv' \
+        --plot-to='results/figures/validate/'
+    ```
+    """
     try:
         # Load the dataset
         subset_df = load_data(raw_data)
