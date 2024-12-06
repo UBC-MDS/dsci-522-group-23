@@ -38,8 +38,10 @@ def load_data(filepath: str) -> pd.DataFrame:
     if not filepath.endswith(".csv"):
         raise ValueError(f"The file '{filepath}' is not a CSV file.")
 
-    print("Data loaded successfully!")
-    return pd.read_csv(filepath, delimiter=";")
+    student_performance = pd.read_csv(filepath, delimiter=";")
+    columns = ["sex", "age", "studytime", "failures", "goout", "Dalc", "Walc", "G1", "G2", "G3"]
+    
+    return student_performance[columns]
 
 
 def validate_student_data(df: pd.DataFrame) -> None:
@@ -49,22 +51,22 @@ def validate_student_data(df: pd.DataFrame) -> None:
     print("Validating data schema...")
     # Define the schema
     schema = pa.DataFrameSchema(
-        {
-            "sex": pa.Column(str, pa.Check.isin(["M", "F"])),
-            "age": pa.Column(int, pa.Check.between(15, 22), nullable=False),
-            "studytime": pa.Column(int, pa.Check.between(1, 4), nullable=False),
-            "failures": pa.Column(int, pa.Check.between(0, 4), nullable=False),
-            "goout": pa.Column(int, pa.Check.between(1, 5), nullable=False),
-            "Dalc": pa.Column(int, pa.Check.between(1, 5), nullable=False),
-            "Walc": pa.Column(int, pa.Check.between(1, 5), nullable=False),
-            "G3": pa.Column(int, pa.Check.between(0, 20), nullable=False),
-        },
-        checks=[
-            pa.Check(lambda df: ~df.duplicated().any(), error="Duplicate rows found."),
-            pa.Check(
-                lambda df: ~(df.isna().all(axis=1)).any(), error="Empty rows found."
-            ),
-        ],
+    {
+        "sex": pa.Column(str, pa.Check.isin(["M", "F"])),
+        "age": pa.Column(int, pa.Check.between(15, 22), nullable=False),
+        "studytime": pa.Column(int, pa.Check.between(1, 4), nullable=False), 
+        "failures": pa.Column(int, pa.Check.between(0, 4), nullable=False),
+        "goout": pa.Column(int, pa.Check.between(1, 5), nullable=False),
+        "Dalc": pa.Column(int, pa.Check.between(1, 5), nullable=False),
+        "Walc": pa.Column(int, pa.Check.between(1, 5), nullable=False),
+        "G1": pa.Column(int, pa.Check.between(0, 20), nullable=False),
+        "G2": pa.Column(int, pa.Check.between(0, 20), nullable=False),
+        "G3": pa.Column(int, pa.Check.between(0, 20), nullable=False)
+    },
+    checks=[
+        pa.Check(lambda df: ~df.duplicated().any(), error="Duplicate rows found."),
+        pa.Check(lambda df: ~(df.isna().all(axis=1)).any(), error="Empty rows found.")
+    ]
     )
     # Validate the DataFrame
     schema.validate(df, lazy=True)
@@ -332,6 +334,7 @@ def main(raw_data, data_to, plot_to):
     try:
         # Load the dataset
         subset_df = load_data(raw_data)
+        print(subset_df[subset_df.duplicated()])
 
         # Validate the data schema
         validate_student_data(subset_df)

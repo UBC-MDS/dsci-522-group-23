@@ -32,10 +32,10 @@ def main(val_data, data_to, preprocessor_to):
     """
     set_config(transform_output="pandas")
 
-    student_performance = pd.read_csv(val_data, delimiter=";")
+    student_performance = pd.read_csv(val_data, delimiter=",")
 
     # Necessary columns
-    columns = ["sex", "age", "studytime", "failures", "goout", "Dalc", "Walc", "G3"]
+    columns = ["sex", "age", "studytime", "failures", "goout", "Dalc", "Walc", "G1", "G2", "G3"]
 
     subset_df = student_performance[columns]
 
@@ -45,7 +45,9 @@ def main(val_data, data_to, preprocessor_to):
 
     X_train, y_train = (train_df.drop(columns=["G3"]), train_df["G3"])
     X_test, y_test = (test_df.drop(columns=["G3"]), test_df["G3"])
+    
     # Store splits in csv files
+    os.makedirs(data_to, exist_ok=True)
     train_df.to_csv(os.path.join(data_to, "train_df.csv"), index=False)
     test_df.to_csv(os.path.join(data_to, "test_df.csv"), index=False)
 
@@ -54,10 +56,11 @@ def main(val_data, data_to, preprocessor_to):
 
     preprocessor = make_column_transformer(
         (StandardScaler(), numeric_feats),
-        (OneHotEncoder(drop="if_binary"), categorical_feats),
+        (OneHotEncoder(drop="if_binary", sparse_output=False), categorical_feats),
         verbose_feature_names_out=False,
     )
 
+    os.makedirs(preprocessor_to, exist_ok=True)
     pickle.dump(
         preprocessor, open(os.path.join(preprocessor_to, "preprocessor.pickle"), "wb")
     )
