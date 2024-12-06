@@ -48,6 +48,12 @@ def main(raw_data, data_to, preprocessor_to):
     X_train, y_train = (train_df.drop(columns=["G3"]), train_df["G3"])
     X_test, y_test = (test_df.drop(columns=["G3"]), test_df["G3"])
     
+    # saving X/y train/test to csv
+    X_train.to_csv(os.path.join(data_to, "X_train.csv"), index=False)
+    y_train.to_csv(os.path.join(data_to, "y_train.csv"), index=False)
+    X_test.to_csv(os.path.join(data_to, "X_test.csv"), index=False)
+    y_test.to_csv(os.path.join(data_to, "y_test.csv"), index=False)
+
     # Store splits in csv files
     os.makedirs(data_to, exist_ok=True)
     train_df.to_csv(os.path.join(data_to, "train_df.csv"), index=False)
@@ -66,16 +72,6 @@ def main(raw_data, data_to, preprocessor_to):
     pickle.dump(
         preprocessor, open(os.path.join(preprocessor_to, "preprocessor.pickle"), "wb")
     )
-
-    preprocessor.fit(X_train)
-    transformed_train = preprocessor.transform(X_train)
-    transformed_test = preprocessor.transform(X_test)
-
-    transformed_train.to_csv(
-        os.path.join(data_to, "transformed_train.csv"), index=False
-    )
-    transformed_test.to_csv(os.path.join(data_to, "transformed_test.csv"), index=False)
-
 
 if __name__ == "__main__":
     main()
