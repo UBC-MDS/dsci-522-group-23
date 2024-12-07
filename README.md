@@ -63,13 +63,13 @@ python scripts/eda.py \
 ```
 
 ```bash
-python scripts/evaluate_model.py \ 
-     --y-test='data/processed/y_test.csv' \ 
-	--X-test='data/processed/X_test.csv' \ 
-	--best-model='results/models/best_model.pkl' \
-     --metrics-to='results/table/metrics/' \ 
-	--coefs-to='results/table/coefficients/' \ 
-     --plot-to='results/figures/'
+python scripts/evaluate_model.py \
+    --y-test='data/processed/y_test.csv' \
+    --X-test='data/processed/X_test.csv' \ 
+    --best-model='results/models/best_model.pkl' \
+    --metrics-to='results/table/metrics/' \
+    --coefs-to='results/table/coefficients/' \
+    --plot-to='results/figures/'
 
 ```
 
