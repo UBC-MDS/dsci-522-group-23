@@ -20,12 +20,12 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error
 
 
 @click.command()
-@click.option('--y_test', type=str, required=True, help="Path to y test data")
-@click.option('--X_test', type=str, required=True, help="Path to X test data")
-@click.option('--best_model', type=str, required=True, help="Path to best model (pickle file)")
-@click.option('--metrics_to', type=str, required=True, help="Path to directory where metrics will be saved")
-@click.option('--coefs_to', type=str, required=True, help="Path to directory where coefficients will be saved")
-@click.option('--plot_to', type=str, required=True, help="Path to directory where plots will be saved")
+@click.option('--y-test', type=str, required=True, help="Path to y test data")
+@click.option('--X-test', type=str, required=True, help="Path to X test data")
+@click.option('--best-model', type=str, required=True, help="Path to best model (pickle file)")
+@click.option('--metrics-to', type=str, required=True, help="Path to directory where metrics will be saved")
+@click.option('--coefs-to', type=str, required=True, help="Path to directory where coefficients will be saved")
+@click.option('--plot-to', type=str, required=True, help="Path to directory where plots will be saved")
    
 def main(y_test, X_test, best_model, metrics_to, coefs_to, plot_to):
     """
