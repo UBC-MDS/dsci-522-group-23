@@ -50,8 +50,7 @@ This project investigates whether a student's mathematics performance can be pre
 
 Math teaches us to think logically and it also provides us with analytical and problem-solving skills. These skills can be applied to various academic and professional fields. However, student performance in mathematics can be influenced by many factors, like individual factor, social factor, and family factor. Research has shown that attributes such as study habits, age, social behaviour (alcohol consumptions, etc) and family background can significantly impact a student's academic success. Understanding these factors is crucial for improving educational outcomes. (@amuda2016marital, @hjarnaa2023alcohol, @modi2023impact)
 
-In this study, we aim to address this question: **“Can we predict a student's math academic performance based on the demographic and behavioral data?”**. Answering this question is important because understanding the factors behind student performance can help teachers provide support to struggling students. Furthermore, the ability to predict academic performance could assist schools in developing educational strategies based on different backgrounds of students.
-The goal of this study is to develop a machine learning model capable of predicting student’s math performance with high accuracy.
+In this study, we aim to address this question: **“Can we predict a student's math academic performance based on the demographic and behavioral data?”**. Answering this question is important because understanding the factors behind student performance can help teachers provide support to struggling students. Furthermore, the ability to predict academic performance could assist schools in developing educational strategies based on different backgrounds of students. The goal of this study is to develop a machine learning model capable of predicting student’s math performance with high accuracy.
 
 The dataset (@student_performance) used in this study contains detailed records of student demographics and behaviors, such as age, study habits, social behaviors, and family background. The target variable, mathematics performance, is measured as a continuous score reflecting students' final grade. This dataset offers a great opportunity to explore meaningful relationships between features and academic outcomes.
 
@@ -63,44 +62,44 @@ The objective here to prepare the data for our classification analysis by explor
 
 The full data set contains the following columns:
 
-1. `school` - student's school (binary: 'GP' - Gabriel Pereira or 'MS' - Mousinho da Silveira)
-1. `sex` - student's sex (binary: 'F' - female or 'M' - male)
-1. `age` - student's age (numeric: from 15 to 22)
-1. `address` - student's home address type (binary: 'U' - urban or 'R' - rural)
-1. `famsize` - family size (binary: 'LE3' - less or equal to 3 or 'GT3' - greater than 3)
-1. `Pstatus` - parent's cohabitation status (binary: 'T' - living together or 'A' - apart)
-1. `Medu` - mother's education (numeric: 0 - none, 1 - primary education (4th grade), 2 - “ 5th to 9th grade, 3 - “ secondary education or 4 - “ higher education)
-1. `Fedu` - father's education (numeric: 0 - none, 1 - primary education (4th grade), 2 - “ 5th to 9th grade, 3 - “ secondary education or 4 - “ higher education)
-1. `Mjob` - mother's job (nominal: 'teacher', 'health' care related, civil 'services' (e.g. administrative or police), 'at_home' or 'other')
-1. `Fjob` - father's job (nominal: 'teacher', 'health' care related, civil 'services' (e.g. administrative or police), 'at_home' or 'other')
-1. `reason` - reason to choose this school (nominal: close to 'home', school 'reputation', 'course' preference or 'other')
-1. `guardian` - student's guardian (nominal: 'mother', 'father' or 'other')
-1. `traveltime` - home to school travel time (numeric: 1 - <15 min., 2 - 15 to 30 min., 3 - 30 min. to 1 hour, or 4 - >1 hour)
-1. `studytime` - weekly study time (numeric: 1 - <2 hours, 2 - 2 to 5 hours, 3 - 5 to 10 hours, or 4 - >10 hours)
-1. `failures` - number of past class failures (numeric: n if 1<=n<3, else 4)
-1. `schoolsup` - extra educational support (binary: yes or no)
-1. famsup` - family educational support (binary: yes or no)
-1. `paid` - extra paid classes within the course subject (Math or Portuguese) (binary: yes or no)
-1. `activities` - extra-curricular activities (binary: yes or no)
-1. `nursery` - attended nursery school (binary: yes or no)
-1. `higher` - wants to take higher education (binary: yes or no)
-1. `internet` - Internet access at home (binary: yes or no)
-1. `romantic` - with a romantic relationship (binary: yes or no)
-1. `famrel` - quality of family relationships (numeric: from 1 - very bad to 5 - excellent)
-1. `freetime` - free time after school (numeric: from 1 - very low to 5 - very high)
-1. `goout` - going out with friends (numeric: from 1 - very low to 5 - very high)
-1. `Dalc` - workday alcohol consumption (numeric: from 1 - very low to 5 - very high)
-1. `Walc` - weekend alcohol consumption (numeric: from 1 - very low to 5 - very high)
-1. `health` - current health status (numeric: from 1 - very bad to 5 - very good)
-1. `absences` - number of school absences (numeric: from 0 to 93)
+1.  `school` - student's school (binary: 'GP' - Gabriel Pereira or 'MS' - Mousinho da Silveira)
+2.  `sex` - student's sex (binary: 'F' - female or 'M' - male)
+3.  `age` - student's age (numeric: from 15 to 22)
+4.  `address` - student's home address type (binary: 'U' - urban or 'R' - rural)
+5.  `famsize` - family size (binary: 'LE3' - less or equal to 3 or 'GT3' - greater than 3)
+6.  `Pstatus` - parent's cohabitation status (binary: 'T' - living together or 'A' - apart)
+7.  `Medu` - mother's education (numeric: 0 - none, 1 - primary education (4th grade), 2 - “ 5th to 9th grade, 3 - “ secondary education or 4 - “ higher education)
+8.  `Fedu` - father's education (numeric: 0 - none, 1 - primary education (4th grade), 2 - “ 5th to 9th grade, 3 - “ secondary education or 4 - “ higher education)
+9.  `Mjob` - mother's job (nominal: 'teacher', 'health' care related, civil 'services' (e.g. administrative or police), 'at_home' or 'other')
+10. `Fjob` - father's job (nominal: 'teacher', 'health' care related, civil 'services' (e.g. administrative or police), 'at_home' or 'other')
+11. `reason` - reason to choose this school (nominal: close to 'home', school 'reputation', 'course' preference or 'other')
+12. `guardian` - student's guardian (nominal: 'mother', 'father' or 'other')
+13. `traveltime` - home to school travel time (numeric: 1 - \<15 min., 2 - 15 to 30 min., 3 - 30 min. to 1 hour, or 4 - \>1 hour)
+14. `studytime` - weekly study time (numeric: 1 - \<2 hours, 2 - 2 to 5 hours, 3 - 5 to 10 hours, or 4 - \>10 hours)
+15. `failures` - number of past class failures (numeric: n if 1\<=n\<3, else 4)
+16. `schoolsup` - extra educational support (binary: yes or no)
+17. famsup\` - family educational support (binary: yes or no)
+18. `paid` - extra paid classes within the course subject (Math or Portuguese) (binary: yes or no)
+19. `activities` - extra-curricular activities (binary: yes or no)
+20. `nursery` - attended nursery school (binary: yes or no)
+21. `higher` - wants to take higher education (binary: yes or no)
+22. `internet` - Internet access at home (binary: yes or no)
+23. `romantic` - with a romantic relationship (binary: yes or no)
+24. `famrel` - quality of family relationships (numeric: from 1 - very bad to 5 - excellent)
+25. `freetime` - free time after school (numeric: from 1 - very low to 5 - very high)
+26. `goout` - going out with friends (numeric: from 1 - very low to 5 - very high)
+27. `Dalc` - workday alcohol consumption (numeric: from 1 - very low to 5 - very high)
+28. `Walc` - weekend alcohol consumption (numeric: from 1 - very low to 5 - very high)
+29. `health` - current health status (numeric: from 1 - very bad to 5 - very good)
+30. `absences` - number of school absences (numeric: from 0 to 93)
 
 These columns represent the grades:
 
-- G1 - first period grade (numeric: from 0 to 20)
-- G2 - second period grade (numeric: from 0 to 20)
-- G3 - final grade (numeric: from 0 to 20, output target)
+-   G1 - first period grade (numeric: from 0 to 20)
+-   G2 - second period grade (numeric: from 0 to 20)
+-   G3 - final grade (numeric: from 0 to 20, output target)
 
-_Attribution_: The dataset variable description is copied as original from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/320/student+performance).
+*Attribution*: The dataset variable description is copied as original from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/320/student+performance).
 
 ### Data Loading, Wrangling and Summary
 
@@ -134,9 +133,9 @@ There is a large range of features but not all of them are necessary for this an
 
 Let's selected the following key columns:
 
-- Demographic attributes: sex, age
-- Academic Attributes: studytime, failures, G1, G2, G3 (grades for three terms)
-- Behavioral Attributes: goout (socializing), Dalc (weekday alcohol consumption), Walc (weekend alcohol consumption)
+-   Demographic attributes: sex, age
+-   Academic Attributes: studytime, failures, G1, G2, G3 (grades for three terms)
+-   Behavioral Attributes: goout (socializing), Dalc (weekday alcohol consumption), Walc (weekend alcohol consumption)
 
 We will also split the dataset into train and test set with a 80/20 ratio. We also set `random_state=123` for reproducibility.
 
@@ -162,294 +161,19 @@ train_df, test_df = train_test_split(
 
 #### Data Validation Checks
 
-```{python}
-# Data validation checks:
+From heatmap shown in @fig-missingness-heatmap, we observe no missing values, suggesting the dataset is entirely complete.
 
-# Correct column names
-# No empty observations
-# Correct data types in each column
-# No duplicate observations
-# Correct category levels (i.e., no string mismatches or single values)
-schema = pa.DataFrameSchema(
-    {
-        "sex": pa.Column(str, pa.Check.isin(["M", "F"])),
-        "age": pa.Column(int, pa.Check.between(15, 22), nullable=False),
-        "studytime": pa.Column(int, pa.Check.between(1, 4), nullable=False), 
-        "failures": pa.Column(int, pa.Check.between(0, 4), nullable=False),
-        "goout": pa.Column(int, pa.Check.between(1, 5), nullable=False),
-        "Dalc": pa.Column(int, pa.Check.between(1, 5), nullable=False),
-        "Walc": pa.Column(int, pa.Check.between(1, 5), nullable=False),
-        "G1": pa.Column(int, pa.Check.between(0, 20), nullable=False),
-        "G2": pa.Column(int, pa.Check.between(0, 20), nullable=False),
-        "G3": pa.Column(int, pa.Check.between(0, 20), nullable=False)
-    },
-    checks=[
-        pa.Check(lambda df: ~df.duplicated().any(), error="Duplicate rows found."),
-        pa.Check(lambda df: ~(df.isna().all(axis=1)).any(), error="Empty rows found.")
-    ]
-)
+![Missing Values Heatmap](../results/figures/validate/missingness_heatmap.png){#fig-missingness-heatmap width="50%"}
 
-schema.validate(subset_df, lazy=True);
-```
+The histogram in @fig-target-dist-hist visualizes the spread of the target variable. This distribution is critical to understanding how the target behaves and whether any transformations are needed to ensure better model performance.
 
-```{python}
-# Missingness Not Beyond Expected Threshold
-def validate_missingness(data: pd.DataFrame, threshold: float = 0.05) -> None:
-    """
-    Validate that missing values in the dataset do not exceed the acceptable threshold and visualize the missingness.
-
-    Parameters
-    ----------
-    data : pd.DataFrame
-        The dataset to check for missing values.
-    threshold : float, optional
-        The maximum allowable percentage of missing values per column (default is 0.05).
-
-    Returns
-    -------
-    None
-        This function does not return anything. It prints a message indicating whether missing values are within
-        the acceptable threshold and displays a heatmap of missing values in the dataset.
-
-    Examples
-    --------
-    >>> import pandas as pd
-    >>> df = pd.DataFrame({
-    >>>     'A': [1, 2, None, 4, 5],
-    >>>     'B': [None, None, 3, 4, 5],
-    >>>     'C': [1, 2, 3, 4, 5]
-    >>> })
-    >>> validate_missingness(df, threshold=0.1)
-    """
-    
-    print("Validating missingness...")
-    missing_percentage = data.isnull().mean()
-    above_threshold = missing_percentage[missing_percentage > threshold]
-
-    if above_threshold.empty:
-        print("Missingness is within the acceptable threshold.")
-    else:
-        print(f"Columns with missing values beyond threshold ({threshold}):")
-        print(above_threshold)
-
-    # To visualize missingness
-    plt.figure(figsize=(10, 6))
-    sns.heatmap(
-        data.isnull(),
-        cbar=True,
-        cmap="viridis",
-        cbar_kws={'label': 'Missing Value Indicator (1 = Missing, 0 = Present)'}
-    )
-    plt.title("Missing Value Heatmap")
-    plt.show()
-validate_missingness(subset_df)
-```
-
-**Figure 1: Missing Values Heatmap**
-
-```{python}
-# Target/Response Variable Follows Expected Distribution
-def validate_target_distribution(data: pd.DataFrame, target_column: str) -> None:
-    """
-    Validate the distribution of the target variable by plotting its histogram and performing a Shapiro-Wilk test.
-
-    Parameters
-    ----------
-    data : pd.DataFrame
-        The dataset containing the target variable.
-    target_column : str
-        The name of the target column whose distribution is to be validated.
-
-    Returns
-    -------
-    None
-        This function does not return anything. It displays a histogram with a KDE of the target variable
-        and prints the result of the normality test.
-
-    Examples
-    --------
-    >>> import pandas as pd
-    >>> df = pd.DataFrame({
-    >>>     'target': [1.2, 2.3, 2.9, 3.5, 2.1, 3.8, 4.0, 5.1]
-    >>> })
-    >>> validate_target_distribution(df, 'target')
-    """
-    print("Validating target distribution...")
-    sns.histplot(data[target_column], 
-                 kde=True, 
-                 bins=20)
-    plt.title(f"Distribution of {target_column}")
-    plt.show()
-    stat, p = shapiro(data[target_column])
-    if p > 0.05:
-        print(f"Target variable '{target_column}' follows a normal distribution (p={p:.4f}).")
-    else:
-        print(f"Target variable '{target_column}' does not follow a normal distribution (p={p:.4f}).")
-validate_target_distribution(subset_df, target_column="G3")
-```
-
-**Figure 2: Distribution of the target variable**
+![Distribution of the target variable](../results/figures/validate/target_distribution_histogram.png){#fig-target-dist-hist width="50%"}
 
 #### Checking for Outliers
 
-Before proceeding with preprocessing and modeling, we check for potential outliers or anomalous values in the training dataset.
+There are few outliers in `failures`, `Dalc`, `age`, `studytime`, `G2`, and `G1`, as shown in @fig-boxplots. These outliers are relatively few compared to the 395 entries, but could still influence model results. We will apply a `StandardScaler` transformation to the numeric variables, the effect of these outliers will be minimized. Therefore, we will not drop or modify these outliers at this step.
 
-```{python}
-def validate_no_outliers(data: pd.DataFrame, numeric_columns: list, max_cols: int = 3) -> None:
-    """
-    Validate the presence of outliers in numeric columns using boxplots.
-
-    Parameters
-    ----------
-    data : pd.DataFrame
-        The dataset containing the numeric columns to be checked for outliers.
-    numeric_columns : list
-        A list of column names from `data` that contain numeric data to plot.
-    max_cols : int, optional
-        The maximum number of boxplots to display per row (default is 3).
-
-    Returns
-    -------
-    None
-        This function does not return anything. It displays boxplots for the specified numeric columns.
-    
-    Examples
-    --------
-    >>> import pandas as pd
-    >>> from matplotlib import pyplot as plt
-    >>> import seaborn as sns
-    >>> df = pd.DataFrame({
-    ...     'A': [1, 2, 3, 4, 100],
-    ...     'B': [10, 20, 30, 40, 50],
-    ...     'C': [5, 15, 25, 35, 45]
-    ... })
-    >>> validate_no_outliers(data=df, numeric_columns=['A', 'B', 'C'], max_cols=2)
-    """
-    print("Validating outliers...")
-
-    num_plots = len(numeric_columns)
-    nrows = -(-num_plots // max_cols)
-    ncols = min(num_plots, max_cols)
-
-    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(15, 10))
-
-    for ax, column in zip(axes.flatten(), numeric_columns):
-        sns.boxplot(data=subset_df, x=column, ax=ax)
-        ax.set_title(f"Boxplot of {column}")
-    
-    plt.tight_layout(rect=[0, 0, 1, 0.95])
-    plt.suptitle("Boxplots of Numeric Columns", fontsize=14)
-    plt.show()
-```
-
-```{python}
-# checking outlier for dataset
-numeric_columns = subset_df.select_dtypes(include='number').columns
-
-validate_no_outliers(subset_df, numeric_columns)
-```
-
-**Figure 3: Outliers visualization**
-
-There are few outliers in `failures`, `Dalc`, `age`, `studytime`, `G2`, and `G1`, as seen in the boxplots. These outliers are relatively few compared to the 395 entries, but could still influence model results. We will apply a `StandardScaler` transformation to the numeric variables, the effect of these outliers will be minimized. Therefore, we will not drop or modify these outliers at this step.
-
-```{python}
-import warnings
-
-def validate_anomalous_correlations(data: pd.DataFrame, target_col: str, threshold: float = 0.9, zero_tolerance: float = 1e-5):
-    """
-    Check for anomalous correlations in a dataset:
-    - Between features and the target variable.
-    - Among features themselves.
-    - Includes checks for zero correlations.
-
-    Parameters
-    ----------
-    data : pd.DataFrame
-        The dataset containing the target and features.
-    target_col : str
-        The name of the target column in the dataset.
-    threshold : float, optional
-        The correlation threshold above which correlations are flagged as anomalous (default is 0.9).
-    zero_tolerance : float, optional
-        The tolerance for detecting zero correlations (default is 1e-5).
-
-    Returns
-    -------
-    dict
-        A dictionary containing:
-        - 'feature_to_target': DataFrame of correlations between features and the target.
-        - 'feature_to_feature': DataFrame of correlations between features themselves.
-
-    Raises
-    ------
-    Warning
-        Issues warnings for high and near-zero correlations.
-    """
-    if target_col not in data.columns:
-        raise ValueError(f"Target column '{target_col}' not found in the dataset.")
-    
-    features = data.drop(columns=[target_col])
-    target = data[target_col]
-
-    # Compute the full correlation matrix
-    correlation_matrix = data.corr()
-
-    # Step 1: Correlations between features and target
-    target_correlations = correlation_matrix[target_col].drop(target_col)
-
-    # Check for anomalous (high) correlations
-    anomalous_target_corrs = target_correlations[target_correlations.abs() > threshold]
-    for feature, corr in anomalous_target_corrs.items():
-        warnings.warn(
-            f"Anomalous correlation ({corr:.2f}) between feature '{feature}' and target '{target_col}'."
-        )
-
-    # Check for zero correlations
-    zero_target_corrs = target_correlations[target_correlations.abs() <= zero_tolerance]
-    for feature, corr in zero_target_corrs.items():
-        warnings.warn(
-            f"Zero or near-zero correlation ({corr:.2f}) between feature '{feature}' and target '{target_col}'."
-        )
-
-    # Step 2: Correlations among features
-    feature_correlations = correlation_matrix.loc[features.columns, features.columns]
-
-    # Check for anomalous (high) correlations among features
-    anomalous_feature_corrs = feature_correlations[
-        (feature_correlations.abs() > threshold) & (feature_correlations != 1)
-    ]
-    for feature1 in anomalous_feature_corrs.index:
-        for feature2 in anomalous_feature_corrs.columns:
-            if feature1 != feature2 and not pd.isna(anomalous_feature_corrs.loc[feature1, feature2]):
-                corr = anomalous_feature_corrs.loc[feature1, feature2]
-                warnings.warn(
-                    f"Anomalous correlation ({corr:.2f}) between features '{feature1}' and '{feature2}'."
-                )
-                anomalous_feature_corrs.loc[feature1, feature2] = None
-                anomalous_feature_corrs.loc[feature2, feature1] = None
-
-    feature_to_target_df = pd.DataFrame({
-        'Feature': target_correlations.index,
-        'Correlation': target_correlations.values
-    }).reset_index(drop=True)
-
-    feature_to_feature_df = feature_correlations.stack().reset_index()
-    feature_to_feature_df.columns = ['Feature1', 'Feature2', 'Correlation']
-    feature_to_feature_df = feature_to_feature_df[
-        feature_to_feature_df['Feature1'] != feature_to_feature_df['Feature2']
-    ]
-
-    return {
-        'feature_to_target': feature_to_target_df,
-        'feature_to_feature': feature_to_feature_df
-    }
-
-# a warning will be issue if there are any problems
-correlation_check = validate_anomalous_correlations(
-    train_df.select_dtypes(include="number"), "G3", threshold=0.95
-)
-```
+![Visualization of Outliers](../results/figures/validate/boxplots.png){#fig-boxplots}
 
 ```{python}
 train_df.head()
@@ -467,10 +191,10 @@ train_df.describe()
 
 Key takeaways from summary statistics:
 
-- Final grades `G3` range from `0` to `20`, with an average of around `10.26`.
-- The average study time is about `2.05` hours.
-- Most students have zero reported failures.
-- Alcohol consumption (Dalc and Walc) and socializing habits (goout) appear to vary across the student population.
+-   Final grades `G3` range from `0` to `20`, with an average of around `10.26`.
+-   The average study time is about `2.05` hours.
+-   Most students have zero reported failures.
+-   Alcohol consumption (Dalc and Walc) and socializing habits (goout) appear to vary across the student population.
 
 Let's create a visualization to explore the final grades `G3` distribution. We will use a histogram as it allows us to see the spread.
 
@@ -506,9 +230,9 @@ plt.tight_layout()
 
 Some interesting observations:
 
-- The distirbution of the grades `G3`, `G2`, `G1` are somewhat bell-shaped.
-- Most student do not consume alcohol, or very minimally.
-- Most student studies around 2-5 hours a week and most of them also did not fail any previous classes.
+-   The distirbution of the grades `G3`, `G2`, `G1` are somewhat bell-shaped.
+-   Most student do not consume alcohol, or very minimally.
+-   Most student studies around 2-5 hours a week and most of them also did not fail any previous classes.
 
 ```{python}
 # ally.corr(train_df).properties(title="Correlation matrices for each numeric column pair")
@@ -534,9 +258,9 @@ alt.Chart(corr_mat).mark_circle().encode(
 
 Some interesting observations:
 
-- The grades are very correlated with one another
-- Alcohol consumptions are somewhat negatively correlated with grades
-- Study time are somewhat positively correlated with grades/
+-   The grades are very correlated with one another
+-   Alcohol consumptions are somewhat negatively correlated with grades
+-   Study time are somewhat positively correlated with grades/
 
 ### Analysis
 
@@ -685,12 +409,10 @@ The Ridge coefficients suggests that student performance is most strongly influe
 
 Based on the evaluation on the test set, the model achieved the following performance metrics:
 
-- Mean Squared Error (MSE): 3.83
-- Root Mean Squared Error (RMSE): 1.96
-- Mean Absolute Error (MAE): 1.27
+-   Mean Squared Error (MSE): 3.83
+-   Root Mean Squared Error (RMSE): 1.96
+-   Mean Absolute Error (MAE): 1.27
 
 These metrics suggest that the model is reasonably accurate in predicting students' final grades. However, there are areas for improvement. We can explore other models which could better capture the non-linear relationships and feature interactions. Another improvement we can do is to provide confidence intervals for predictions. This approach could enhance the reliability and interpretability of predictions and help readers make more informed decisions.
 
 ## References
-
-
