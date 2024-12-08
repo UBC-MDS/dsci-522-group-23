@@ -40,7 +40,7 @@ git clone https://github.com/UBC-MDS/dsci-522-group-23.git
 
 ### Regenerate the artifacts (datasets, figures, tables, etc) in the analysis
 
-Make sure you are in the root directory of the project, then run these Python scripts sequentially in this order:
+Make sure you are in the root directory of the project (`work` directory of the Docker notebook), then run these Python scripts sequentially in this order, **using a Jupyter Lab terminal GUI**:
 
 ```bash
 python scripts/download_data.py \
