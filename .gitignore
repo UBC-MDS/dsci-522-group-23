@@ -45,8 +45,6 @@ dist/
 *.tar
 *.h5
 *.hdf5
-*.pickle
-*.pkl
 
 # Temporary files
 *.tmp
