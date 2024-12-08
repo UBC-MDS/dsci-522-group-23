@@ -1,13 +1,13 @@
 # evaluate_predictor.py
 
 """
-python scripts/evaluate_model.py \ 
-	--y-test='data/processed/y_test.csv' \ 
-	--X-test='data/processed/X_test.csv' \ 
-	--best-model='results/models/best_model.pkl' \
-	--metrics-to='results/table/metrics/' \ 
-	--coefs-to='results/table/coefficients/' \ 
-	--plot-to='results/figures/'
+python scripts/evaluate_model.py \
+    --y-test=data/processed/y_test.csv \
+    --X-test=data/processed/X_test.csv \
+    --best-model=results/models/best_model.pkl \
+    --metrics-to=results/table/metrics/ \
+    --coefs-to=results/table/coefficients/ \
+    --plot-to=results/figures/
 '"""
 
 import click
@@ -104,7 +104,7 @@ def main(y_test, X_test, best_model, metrics_to, coefs_to, plot_to):
     # Extract and save coefficients
     coefs = best_model.named_steps['ridge'].coef_
     feature_names = best_model.named_steps['columntransformer'].get_feature_names_out().tolist()
-    feature_names = [n.split("__")[1] for n in feature_names]
+
     coefs_df = pd.DataFrame({"features": feature_names, "coefs": coefs})
     coefs_path = os.path.join(coefs_to, "ridge_coefficients.csv")
     coefs_df.to_csv(coefs_path, index=False)
