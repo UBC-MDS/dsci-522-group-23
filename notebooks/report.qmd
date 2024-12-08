@@ -15,6 +15,7 @@ editor: source
 # execute: 
 #   echo: false
 bibliography: references.bib
+link-citations: true
 ---
 
 ```{python}
@@ -38,17 +39,19 @@ from sklearn.dummy import DummyRegressor
 from sklearn.model_selection import cross_validate
 from pathlib import Path
 
+from IPython.display import Markdown
+
 alt.renderers.enable("mimetype")
 %matplotlib inline
 ```
 
 ## Summary
 
-This project investigates whether a student's mathematics performance can be predicted using demographic and behavioral data, aiming to help educators in supporting students and tailoring educational strategies. Using a Ridge Regression model with optimized hyperparameters (alpha = 1), we achieved a strong predictive accuracy with a cross-validation score of 0.81 and evaluation metrics on the test set including an MSE of 3.83, RMSE of 1.96, and MAE of 1.27. While the model demonstrates robust performance, future work could explore non-linear models and provide confidence intervals for predictions to enhance interpretability and reliability, ultimately contributing to better educational outcomes.
+This project investigates whether a student's mathematics performance can be predicted using demographic and behavioral data, aiming to help educators in supporting students and tailoring educational strategies. Using a Ridge Regression model with optimized hyperparameters (alpha = 1), we achieved a strong predictive accuracy with a cross-validation score of 0.81 and evaluation metrics on the test set including an MSE of 4.048, RMSE of 2.012, and MAE of 1.309. While the model demonstrates robust performance, future work could explore non-linear models and provide confidence intervals for predictions to enhance interpretability and reliability, ultimately contributing to better educational outcomes.
 
 ## Introduction
 
-Math teaches us to think logically and it also provides us with analytical and problem-solving skills. These skills can be applied to various academic and professional fields. However, student performance in mathematics can be influenced by many factors, like individual factor, social factor, and family factor. Research has shown that attributes such as study habits, age, social behaviour (alcohol consumptions, etc) and family background can significantly impact a student's academic success. Understanding these factors is crucial for improving educational outcomes. (@amuda2016marital, @hjarnaa2023alcohol, @modi2023impact)
+Math teaches us to think logically and it also provides us with analytical and problem-solving skills. These skills can be applied to various academic and professional fields. However, student performance in mathematics can be influenced by many factors, like individual factor, social factor, and family factor. Research has shown that attributes such as study habits, age, social behaviour (alcohol consumptions, etc) and family background can significantly impact a student's academic success. Understanding these factors is crucial for improving educational outcomes. (@bitrus2016marital, @hjarnaa2023alcohol, @modi2023)
 
 In this study, we aim to address this question: **“Can we predict a student's math academic performance based on the demographic and behavioral data?”**. Answering this question is important because understanding the factors behind student performance can help teachers provide support to struggling students. Furthermore, the ability to predict academic performance could assist schools in developing educational strategies based on different backgrounds of students. The goal of this study is to develop a machine learning model capable of predicting student’s math performance with high accuracy.
 
@@ -108,7 +111,7 @@ Let's start by loading the data and have an initial view of data set structure.
 The file is a `.csv` file with `;` as delimiter. Let's use `pandas`to read it in.
 
 ```{python}
-student_performance = pd.read_csv(Path('../data/raw/student-mat.csv'))
+student_performance = pd.read_csv(Path('../data/raw/student-mat.csv'), sep=';')
 ```
 
 This provides an overview of the data set with 33 columns, each representing student attributes such as age, gender, study time, grades, and parental details.
@@ -357,49 +360,32 @@ comparison = pd.DataFrame({
 })
 comparison.head(10)
 ```
+### Model Evaluation
+
+The @tbl-metrics below summarizes the performance metrics of the model on the test dataset. These metrics help us evaluate the model's ability to generalize to unseen data.
 
 ```{python}
-# Evaluate performance on the test set
-mse = mean_squared_error(y_test, y_pred)    # Mean squared error
+#| label: tbl-metrics
+#| tbl-cap: Performance metrics on test data
+#| echo: false
 
-rmse = np.sqrt(mse) # Root Mean Squared error
-
-mae = mean_absolute_error(y_test, y_pred)  # Mean Absolute Error
-
-
-# Create a data frame to display performance metrics
-metrics = pd.DataFrame({
-    "Metric": ["Mean Squared Error (MSE)", 
-               "Root Mean Squared Error (RMSE)", 
-               "Mean Absolute Error (MAE)"],
-    "Value": [mse, rmse, mae]
-})
-metrics.set_index('Metric')
+metrics_table = pd.read_csv("../results/table/metrics/evaluation_metrics.csv")
+Markdown(metrics_table.to_markdown(index = False))
 ```
+Next, we analyze the coefficients of the Ridge regression model. The @tbl-coefficients shows the values of the coefficients, which indicate the importance of each feature in predicting the target variable.
 
 ```{python}
-import seaborn as sns
+#| label: tbl-coefficients
+#| tbl-cap: Coefficients of Ridge model
+#| echo: false
 
-# Assume coefficients are stored in a matrix `coef` (predictors x responses)
-coefs = best_model.named_steps['ridge'].coef_
-feature_names = best_model.named_steps['columntransformer']\
-    .get_feature_names_out().tolist()
-feature_names = [n.split("__")[1] for n in feature_names]
-
-coefs_df = pd.DataFrame({"features": feature_names, "coefs": coefs})
-coefs_df
+coeffs_table = pd.read_csv("../results/table/coefficients/ridge_coefficients.csv")
+Markdown(coeffs_table.to_markdown(index = False))
 ```
 
-```{python}
-plt.bar(feature_names, coefs)
-plt.xlabel("Features")
-plt.ylabel("Coefficient Value")
-plt.title("Ridge Regression Coefficients")
-plt.xticks(rotation=45)
-plt.show()
-```
+The following @fig-coefficients visualizes the coefficients of the Ridge regression model. Features with higher absolute coefficients have more impact on the model's predictions.
 
-**Figure 7: Ridge regression coefficients**
+![Ridge regression coefficients.](../results/figures/coefficients_plot.png){#fig-coefficients width="60%"}
 
 ## Results & Discussion
 
@@ -409,9 +395,9 @@ The Ridge coefficients suggests that student performance is most strongly influe
 
 Based on the evaluation on the test set, the model achieved the following performance metrics:
 
--   Mean Squared Error (MSE): 3.83
--   Root Mean Squared Error (RMSE): 1.96
--   Mean Absolute Error (MAE): 1.27
+-   Mean Squared Error (MSE): 4.048
+-   Root Mean Squared Error (RMSE): 2.012
+-   Mean Absolute Error (MAE): 1.309
 
 These metrics suggest that the model is reasonably accurate in predicting students' final grades. However, there are areas for improvement. We can explore other models which could better capture the non-linear relationships and feature interactions. Another improvement we can do is to provide confidence intervals for predictions. This approach could enhance the reliability and interpretability of predictions and help readers make more informed decisions.
 
