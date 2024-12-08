@@ -1,0 +1,258 @@
+---
+title: Predicting academic performance using demographic and behavioral Data
+jupyter: python3
+author: "Zhengling Jiang, Colombe Tolokin, Franklin Aryee, Tien Nguyen"
+format: 
+    html:
+        toc: true
+        toc-depth: 4
+        number-sections: true
+        embed-resources: true
+    pdf:
+        toc: true
+        toc-depth: 4
+        number-sections: true
+editor: source
+# execute: 
+#   echo: false
+bibliography: references.bib
+link-citations: true
+---
+
+```{python}
+# | echo: false
+import pandas as pd
+import altair as alt
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import GridSearchCV
+from sklearn.pipeline import make_pipeline
+from sklearn.compose import make_column_transformer
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.linear_model import Ridge
+from sklearn.metrics import mean_squared_error, mean_absolute_error
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os
+import pandera as pa
+from scipy.stats import shapiro
+from sklearn.dummy import DummyRegressor
+from sklearn.model_selection import cross_validate
+from pathlib import Path
+
+from IPython.display import Markdown
+
+alt.renderers.enable("mimetype")
+%matplotlib inline
+```
+
+## Summary
+
+This project investigates whether a student's mathematics performance can be predicted using demographic and behavioral data, aiming to help educators in supporting students and tailoring educational strategies. Using a Ridge Regression model with optimized hyperparameters (alpha = 1), we achieved a strong predictive accuracy with a cross-validation score of 0.81 and evaluation metrics on the test set including an MSE of 4.048, RMSE of 2.012, and MAE of 1.309. While the model demonstrates robust performance, future work could explore non-linear models and provide confidence intervals for predictions to enhance interpretability and reliability, ultimately contributing to better educational outcomes.
+
+## Introduction
+
+Math teaches us to think logically and it also provides us with analytical and problem-solving skills. These skills can be applied to various academic and professional fields. However, student performance in mathematics can be influenced by many factors, like individual factor, social factor, and family factor. Research has shown that attributes such as study habits, age, social behaviour (alcohol consumptions, etc) and family background can significantly impact a student's academic success. Understanding these factors is crucial for improving educational outcomes. (@bitrus2016marital, @hjarnaa2023alcohol, @modi2023)
+
+In this study, we aim to address this question: **“Can we predict a student's math academic performance based on the demographic and behavioral data?”**. Answering this question is important because understanding the factors behind student performance can help teachers provide support to struggling students. Furthermore, the ability to predict academic performance could assist schools in developing educational strategies based on different backgrounds of students. The goal of this study is to develop a machine learning model capable of predicting student’s math performance with high accuracy.
+
+The dataset (@student_performance) used in this study contains detailed records of student demographics and behaviors, such as age, study habits, social behaviors, and family background. The target variable, mathematics performance, is measured as a continuous score reflecting students' final grade. This dataset offers a great opportunity to explore meaningful relationships between features and academic outcomes.
+
+## Methods & Results
+
+The objective here to prepare the data for our classification analysis by exploring relevant features and summarizing key insights through data wrangling and visualization.
+
+### Dataset Description
+
+The full data set contains the following columns:
+
+1.  `school` - student's school (binary: 'GP' - Gabriel Pereira or 'MS' - Mousinho da Silveira)
+2.  `sex` - student's sex (binary: 'F' - female or 'M' - male)
+3.  `age` - student's age (numeric: from 15 to 22)
+4.  `address` - student's home address type (binary: 'U' - urban or 'R' - rural)
+5.  `famsize` - family size (binary: 'LE3' - less or equal to 3 or 'GT3' - greater than 3)
+6.  `Pstatus` - parent's cohabitation status (binary: 'T' - living together or 'A' - apart)
+7.  `Medu` - mother's education (numeric: 0 - none, 1 - primary education (4th grade), 2 - “ 5th to 9th grade, 3 - “ secondary education or 4 - “ higher education)
+8.  `Fedu` - father's education (numeric: 0 - none, 1 - primary education (4th grade), 2 - “ 5th to 9th grade, 3 - “ secondary education or 4 - “ higher education)
+9.  `Mjob` - mother's job (nominal: 'teacher', 'health' care related, civil 'services' (e.g. administrative or police), 'at_home' or 'other')
+10. `Fjob` - father's job (nominal: 'teacher', 'health' care related, civil 'services' (e.g. administrative or police), 'at_home' or 'other')
+11. `reason` - reason to choose this school (nominal: close to 'home', school 'reputation', 'course' preference or 'other')
+12. `guardian` - student's guardian (nominal: 'mother', 'father' or 'other')
+13. `traveltime` - home to school travel time (numeric: 1 - \<15 min., 2 - 15 to 30 min., 3 - 30 min. to 1 hour, or 4 - \>1 hour)
+14. `studytime` - weekly study time (numeric: 1 - \<2 hours, 2 - 2 to 5 hours, 3 - 5 to 10 hours, or 4 - \>10 hours)
+15. `failures` - number of past class failures (numeric: n if 1\<=n\<3, else 4)
+16. `schoolsup` - extra educational support (binary: yes or no)
+17. famsup\` - family educational support (binary: yes or no)
+18. `paid` - extra paid classes within the course subject (Math or Portuguese) (binary: yes or no)
+19. `activities` - extra-curricular activities (binary: yes or no)
+20. `nursery` - attended nursery school (binary: yes or no)
+21. `higher` - wants to take higher education (binary: yes or no)
+22. `internet` - Internet access at home (binary: yes or no)
+23. `romantic` - with a romantic relationship (binary: yes or no)
+24. `famrel` - quality of family relationships (numeric: from 1 - very bad to 5 - excellent)
+25. `freetime` - free time after school (numeric: from 1 - very low to 5 - very high)
+26. `goout` - going out with friends (numeric: from 1 - very low to 5 - very high)
+27. `Dalc` - workday alcohol consumption (numeric: from 1 - very low to 5 - very high)
+28. `Walc` - weekend alcohol consumption (numeric: from 1 - very low to 5 - very high)
+29. `health` - current health status (numeric: from 1 - very bad to 5 - very good)
+30. `absences` - number of school absences (numeric: from 0 to 93)
+
+These columns represent the grades:
+
+-   G1 - first period grade (numeric: from 0 to 20)
+-   G2 - second period grade (numeric: from 0 to 20)
+-   G3 - final grade (numeric: from 0 to 20, output target)
+
+*Attribution*: The dataset variable description is copied as original from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/320/student+performance).
+
+### Data Loading, Wrangling and Summary
+
+Let's start by loading the data and have an initial view of data set structure.
+
+The file is a `.csv` file with `;` as delimiter. Let's use `pandas`to read it in.
+
+```{python}
+# | echo: false
+student_performance = pd.read_csv(Path('../data/raw/student-mat.csv'), sep=';')
+```
+
+This provides an overview of the data set with 33 columns, each representing student attributes such as age, gender, study time, grades, and parental details.
+
+Let's get some information on the data set to better understand it.
+
+```{python}
+# | echo: false
+student_performance.head()
+```
+
+```{python}
+# | echo: false
+student_performance.info()
+```
+
+The data set contains 395 observations and 33 columns covering different aspects of student demographics, academic and behavioral traits.
+
+We can see that there is no missing values. There is not need to handle NAs.
+
+The data set includes categorical (school, sex, Mjob) and numerical (age, G1, G2, G3) features.
+
+There is a large range of features but not all of them are necessary for this analysis. Let's proceed and select only the necessary ones.
+
+Let's selected the following key columns:
+
+-   Demographic attributes: sex, age
+-   Academic Attributes: studytime, failures, G1, G2, G3 (grades for three terms)
+-   Behavioral Attributes: goout (socializing), Dalc (weekday alcohol consumption), Walc (weekend alcohol consumption)
+
+We will also split the dataset into train and test set with a 80/20 ratio. We also set `random_state=123` for reproducibility.
+
+#### Data Validation Checks
+
+From heatmap shown in @fig-missingness-heatmap, we observe no missing values, suggesting the dataset is entirely complete.
+
+![Missing Values Heatmap](../results/figures/validate/missingness_heatmap.png){#fig-missingness-heatmap width="50%"}
+
+The histogram in @fig-target-dist-hist visualizes the spread of the target variable. This distribution is critical to understanding how the target behaves and whether any transformations are needed to ensure better model performance.
+
+![Distribution of the target variable](../results/figures/validate/target_distribution_histogram.png){#fig-target-dist-hist width="50%"}
+
+#### Checking for Outliers
+
+There are few outliers in `failures`, `Dalc`, `age`, `studytime`, `G2`, and `G1`, as shown in @fig-boxplots. These outliers are relatively few compared to the 395 entries, but could still influence model results. We will apply a `StandardScaler` transformation to the numeric variables, the effect of these outliers will be minimized. Therefore, we will not drop or modify these outliers at this step.
+
+![Visualization of Outliers](../results/figures/validate/boxplots.png){#fig-boxplots}
+
+```{python}
+# | echo: false
+train_df = pd.read_csv("../data/processed/train_df.csv")
+train_df.info()
+```
+
+Let's get a summary of the training set we are going to use for the analysis.
+
+```{python}
+# | echo: false
+#| label: tbl-summary
+#| tbl-cap: Summary statistics for columns 
+Markdown(train_df.describe().to_markdown(index = True))
+```
+
+Key takeaways from summary statistics from @tbl-summary:
+
+-   Final grades `G3` range from `0` to `20`, with an average of around `10.26`.
+-   The average study time is about `2.05` hours.
+-   Most students have zero reported failures.
+-   Alcohol consumption (Dalc and Walc) and socializing habits (goout) appear to vary across the student population.
+
+Let's create a visualization to explore the final grades `G3` distribution. We will use a histogram as it allows us to see the spread.
+
+![Distribution of Final Grades (G3)](../results/figures/eda/g3_dist.png){#fig-g3-dist}
+
+From @fig-g3-dist, The histogram shows that most students achieve grades between 8 and 15, with fewer students scoring very low or very high.
+
+![Density plot for each numeric columns](../results/figures/eda/density_plots.png){#fig-density-plot width="80%" height="80%"}
+
+
+Some interesting observations from @fig-density-plot :
+
+-   The distirbution of the grades `G3`, `G2`, `G1` are somewhat bell-shaped.
+-   Most student do not consume alcohol, or very minimally.
+-   Most student studies around 2-5 hours a week and most of them also did not fail any previous classes.
+
+![Correlation matrices for each numeric column](../results/figures/eda/corr_mat.png){#fig-corr-plot width="50%" height="50%"}
+
+Some interesting observations from @fig-corr-plot:
+
+-   The grades are very correlated with one another
+-   Alcohol consumptions are somewhat negatively correlated with grades
+-   Study time are somewhat positively correlated with grades/
+
+### Analysis
+
+We begin our analysis by preparing the data, splitting it into features and target variables for both training and testing. To establish a baseline for comparison, we fit a DummyRegressor and evaluate its performance. Following this, we preprocess the data by identifying categorical and numerical features, applying scaling to the numeric features and one-hot encoding to the categorical ones. A Ridge regression model is then incorporated into a pipeline, and we fine-tune its hyperparameters using grid search with 5-folds cross-validation to optimize its performance. Finally, we evaluate the model on the test set, analyze the observed versus predicted values, and review the cross-validation results to assess the overall model effectiveness.
+
+### Model Evaluation
+
+The @tbl-metrics below summarizes the performance metrics of the model on the test dataset. These metrics help us evaluate the model's ability to generalize to unseen data.
+
+```{python}
+#| label: tbl-metrics
+#| tbl-cap: Performance metrics on test data
+#| echo: false
+
+metrics_table = pd.read_csv("../results/table/metrics/evaluation_metrics.csv")
+mse = round(float(metrics_table.query('Metric == "Mean Squared Error (MSE)"')['Value'].iloc[0]), 3)
+rmse = round(float(metrics_table.query('Metric == "Root Mean Squared Error (RMSE)"')['Value'].iloc[0]), 3)
+mae = round(float(metrics_table.query('Metric == "Mean Absolute Error (MAE)"')['Value'].iloc[0]), 3)
+Markdown(metrics_table.to_markdown(index = False))
+```
+Next, we analyze the coefficients of the Ridge regression model. The @tbl-coefficients shows the values of the coefficients, which indicate the importance of each feature in predicting the target variable.
+
+```{python}
+#| label: tbl-coefficients
+#| tbl-cap: Coefficients of Ridge model
+#| echo: false
+
+coeffs_table = pd.read_csv("../results/table/coefficients/ridge_coefficients.csv")
+Markdown(coeffs_table.to_markdown(index = False))
+```
+
+The following @fig-coefficients visualizes the coefficients of the Ridge regression model. Features with higher absolute coefficients have more impact on the model's predictions.
+
+![Ridge regression coefficients.](../results/figures/coefficients_plot.png){#fig-coefficients width="60%"}
+
+## Results & Discussion
+
+The Ridge Regression model, with tuned hyperparameters, demonstrated well predictive capabilities on student’s math performance. The optimal hyperparameter for Ridge was found to be alpha = 1, and the best cross-validation score is approximately 0.81. This indicates a strong predictive accuracy during the model's validation phase.
+
+The Ridge coefficients suggests that student performance is most strongly influenced by prior grades, with G2 having the greatest positive impact, followed by G1. Social behaviors like going out and weekend alcohol consumption also show a smaller positive influence, while age, study time, and workday alcohol consumption have a negative effect. Failures and gender appear to have extremely minimal influence on the final grade.
+
+Based on the evaluation on the test set, the model achieved the following performance metrics:
+
+-   Mean Squared Error (MSE): `{python} mse`
+-   Root Mean Squared Error (RMSE): `{python} rmse`
+-   Mean Absolute Error (MAE): `{python} mae`
+
+These metrics suggest that the model is reasonably accurate in predicting students' final grades. However, there are areas for improvement. We can explore other models which could better capture the non-linear relationships and feature interactions. Another improvement we can do is to provide confidence intervals for predictions. This approach could enhance the reliability and interpretability of predictions and help readers make more informed decisions.
+
+## References
