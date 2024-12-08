@@ -17,6 +17,12 @@ This section details the step to install the softwares and packages to run the a
 In your terminal, please run the following commands:
 
 ```bash
+git clone git@github.com:UBC-MDS/dsci-522-group-23.git
+```
+
+or 
+
+```bash
 git clone https://github.com/UBC-MDS/dsci-522-group-23.git
 ```
 
@@ -60,6 +66,16 @@ python scripts/validate.py \
 python scripts/eda.py \
     --train-df-path='data/processed/train_df.csv' \
     --outdir='results/figures/eda/'
+```
+
+```bash
+python scripts/fit_model.py \
+    --training-data=data/processed/train_df.csv \
+    --pipeline-to=results/models/ \
+    --model-to=results/models/ \
+    --test-data-to=data/processed/test/ \
+    --plot-to=results/plots/ \
+    --seed=42
 ```
 
 ```bash
