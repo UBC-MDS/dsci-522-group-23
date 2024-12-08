@@ -21,40 +21,6 @@ width: 0.8em;
 margin: 0 0.8em 0.2em -1em;  vertical-align: middle;
 }
 
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-{ counter-reset: source-line 0; }
-pre.numberSource code > span
-{ position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-{ content: counter(source-line);
-position: relative; left: -1em; text-align: right; vertical-align: baseline;
-border: none; display: inline-block;
--webkit-touch-callout: none; -webkit-user-select: none;
--khtml-user-select: none; -moz-user-select: none;
--ms-user-select: none; user-select: none;
-padding: 0 4px; width: 4em;
-}
-pre.numberSource { margin-left: 3em; padding-left: 4px; }
-div.sourceCode
-{ }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-
 div.csl-bib-body { }
 div.csl-entry {
 clear: both;
@@ -3121,9 +3087,7 @@ vertical-align: -.125em;
   <li><a href="#checking-for-outliers" id="toc-checking-for-outliers" class="nav-link" data-scroll-target="#checking-for-outliers"><span class="header-section-number">3.2.2</span> Checking for Outliers</a></li>
   </ul></li>
   <li><a href="#analysis" id="toc-analysis" class="nav-link" data-scroll-target="#analysis"><span class="header-section-number">3.3</span> Analysis</a></li>
-  <li><a href="#baseline-model" id="toc-baseline-model" class="nav-link" data-scroll-target="#baseline-model"><span class="header-section-number">3.4</span> Baseline Model</a></li>
-  <li><a href="#define-categorical-and-numerical-columns" id="toc-define-categorical-and-numerical-columns" class="nav-link" data-scroll-target="#define-categorical-and-numerical-columns"><span class="header-section-number">3.5</span> Define categorical and numerical columns</a></li>
-  <li><a href="#model-evaluation" id="toc-model-evaluation" class="nav-link" data-scroll-target="#model-evaluation"><span class="header-section-number">3.6</span> Model Evaluation</a></li>
+  <li><a href="#model-evaluation" id="toc-model-evaluation" class="nav-link" data-scroll-target="#model-evaluation"><span class="header-section-number">3.4</span> Model Evaluation</a></li>
   </ul></li>
   <li><a href="#results-discussion" id="toc-results-discussion" class="nav-link" data-scroll-target="#results-discussion"><span class="header-section-number">4</span> Results &amp; Discussion</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">5</span> References</a></li>
@@ -3217,14 +3181,10 @@ vertical-align: -.125em;
 <h3 data-number="3.2" class="anchored" data-anchor-id="data-loading-wrangling-and-summary"><span class="header-section-number">3.2</span> Data Loading, Wrangling and Summary</h3>
 <p>Let’s start by loading the data and have an initial view of data set structure.</p>
 <p>The file is a <code>.csv</code> file with <code>;</code> as delimiter. Let’s use <code>pandas</code>to read it in.</p>
-<div id="aada036e" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>student_performance <span class="op">=</span> pd.read_csv(Path(<span class="st">&#39;../data/raw/student-mat.csv&#39;</span>), sep<span class="op">=</span><span class="st">&#39;;&#39;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <p>This provides an overview of the data set with 33 columns, each representing student attributes such as age, gender, study time, grades, and parental details.</p>
 <p>Let’s get some information on the data set to better understand it.</p>
-<div id="501a30bc" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>student_performance.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="135">
+<div id="258a3f07" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="26">
 <div>
 
 
@@ -3383,8 +3343,7 @@ vertical-align: -.125em;
 </div>
 </div>
 </div>
-<div id="d4d51842" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>student_performance.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="48979602" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
 RangeIndex: 395 entries, 0 to 394
@@ -3439,25 +3398,6 @@ memory usage: 102.0+ KB</code></pre>
 <li>Behavioral Attributes: goout (socializing), Dalc (weekday alcohol consumption), Walc (weekend alcohol consumption)</li>
 </ul>
 <p>We will also split the dataset into train and test set with a 80/20 ratio. We also set <code>random_state=123</code> for reproducibility.</p>
-<div id="f3588066" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Necessary columns</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>columns <span class="op">=</span> [<span class="st">&#39;sex&#39;</span>, </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>           <span class="st">&#39;age&#39;</span>, </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>           <span class="st">&#39;studytime&#39;</span>, </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>           <span class="st">&#39;failures&#39;</span>, </span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>           <span class="st">&#39;goout&#39;</span>, </span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>           <span class="st">&#39;Dalc&#39;</span>, </span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>           <span class="st">&#39;Walc&#39;</span>,</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>           <span class="st">&#39;G1&#39;</span>,</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>           <span class="st">&#39;G2&#39;</span>,</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>           <span class="st">&#39;G3&#39;</span>]</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>subset_df <span class="op">=</span> student_performance[columns]</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>train_df, test_df <span class="op">=</span> train_test_split(</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    subset_df, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">123</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <section id="data-validation-checks" class="level4" data-number="3.2.1">
 <h4 data-number="3.2.1" class="anchored" data-anchor-id="data-validation-checks"><span class="header-section-number">3.2.1</span> Data Validation Checks</h4>
 <p>From heatmap shown in <a href="#fig-missingness-heatmap" class="quarto-xref">Figure 1</a>, we observe no missing values, suggesting the dataset is entirely complete.</p>
@@ -3496,105 +3436,10 @@ Figure 3: Visualization of Outliers
 </figcaption>
 </figure>
 </div>
-<div id="0e44d77c" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>train_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="138">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">sex</th>
-<th data-quarto-table-cell-role="th">age</th>
-<th data-quarto-table-cell-role="th">studytime</th>
-<th data-quarto-table-cell-role="th">failures</th>
-<th data-quarto-table-cell-role="th">goout</th>
-<th data-quarto-table-cell-role="th">Dalc</th>
-<th data-quarto-table-cell-role="th">Walc</th>
-<th data-quarto-table-cell-role="th">G1</th>
-<th data-quarto-table-cell-role="th">G2</th>
-<th data-quarto-table-cell-role="th">G3</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">288</td>
-<td>M</td>
-<td>18</td>
-<td>3</td>
-<td>0</td>
-<td>4</td>
-<td>1</td>
-<td>3</td>
-<td>15</td>
-<td>14</td>
-<td>14</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">6</td>
-<td>M</td>
-<td>16</td>
-<td>2</td>
-<td>0</td>
-<td>4</td>
-<td>1</td>
-<td>1</td>
-<td>12</td>
-<td>12</td>
-<td>11</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">226</td>
-<td>F</td>
-<td>17</td>
-<td>2</td>
-<td>0</td>
-<td>4</td>
-<td>1</td>
-<td>3</td>
-<td>16</td>
-<td>15</td>
-<td>15</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">319</td>
-<td>F</td>
-<td>18</td>
-<td>2</td>
-<td>0</td>
-<td>4</td>
-<td>3</td>
-<td>3</td>
-<td>11</td>
-<td>11</td>
-<td>11</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">216</td>
-<td>F</td>
-<td>17</td>
-<td>2</td>
-<td>2</td>
-<td>5</td>
-<td>2</td>
-<td>4</td>
-<td>6</td>
-<td>6</td>
-<td>4</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
-<div id="d2dcc024" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>train_df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="102c79bf" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
-Index: 316 entries, 288 to 365
+RangeIndex: 316 entries, 0 to 315
 Data columns (total 10 columns):
  #   Column     Non-Null Count  Dtype 
 ---  ------     --------------  ----- 
@@ -3609,135 +3454,150 @@ Data columns (total 10 columns):
  8   G2         316 non-null    int64 
  9   G3         316 non-null    int64 
 dtypes: int64(9), object(1)
-memory usage: 27.2+ KB</code></pre>
+memory usage: 24.8+ KB</code></pre>
 </div>
 </div>
 <p>Let’s get a summary of the training set we are going to use for the analysis.</p>
-<div id="7af53389" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>train_df.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="140">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<div class="cell" data-execution_count="6">
+<div id="tbl-summary" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="6">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table 1: Summary statistics for columns
+</figcaption>
+<div aria-describedby="tbl-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="29">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 10%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 10%">
+<col style="width: 11%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 9%">
+<col style="width: 10%">
+</colgroup>
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">age</th>
-<th data-quarto-table-cell-role="th">studytime</th>
-<th data-quarto-table-cell-role="th">failures</th>
-<th data-quarto-table-cell-role="th">goout</th>
-<th data-quarto-table-cell-role="th">Dalc</th>
-<th data-quarto-table-cell-role="th">Walc</th>
-<th data-quarto-table-cell-role="th">G1</th>
-<th data-quarto-table-cell-role="th">G2</th>
-<th data-quarto-table-cell-role="th">G3</th>
+<th style="text-align: left;"></th>
+<th style="text-align: right;">age</th>
+<th style="text-align: right;">studytime</th>
+<th style="text-align: right;">failures</th>
+<th style="text-align: right;">goout</th>
+<th style="text-align: right;">Dalc</th>
+<th style="text-align: right;">Walc</th>
+<th style="text-align: right;">G1</th>
+<th style="text-align: right;">G2</th>
+<th style="text-align: right;">G3</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">count</td>
-<td>316.000000</td>
-<td>316.000000</td>
-<td>316.000000</td>
-<td>316.000000</td>
-<td>316.000000</td>
-<td>316.000000</td>
-<td>316.000000</td>
-<td>316.000000</td>
-<td>316.000000</td>
+<td style="text-align: left;">count</td>
+<td style="text-align: right;">316</td>
+<td style="text-align: right;">316</td>
+<td style="text-align: right;">316</td>
+<td style="text-align: right;">316</td>
+<td style="text-align: right;">316</td>
+<td style="text-align: right;">316</td>
+<td style="text-align: right;">316</td>
+<td style="text-align: right;">316</td>
+<td style="text-align: right;">316</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">mean</td>
-<td>16.756329</td>
-<td>2.050633</td>
-<td>0.360759</td>
-<td>3.098101</td>
-<td>1.471519</td>
-<td>2.306962</td>
-<td>10.835443</td>
-<td>10.601266</td>
-<td>10.262658</td>
+<td style="text-align: left;">mean</td>
+<td style="text-align: right;">16.7563</td>
+<td style="text-align: right;">2.05063</td>
+<td style="text-align: right;">0.360759</td>
+<td style="text-align: right;">3.0981</td>
+<td style="text-align: right;">1.47152</td>
+<td style="text-align: right;">2.30696</td>
+<td style="text-align: right;">10.8354</td>
+<td style="text-align: right;">10.6013</td>
+<td style="text-align: right;">10.2627</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">std</td>
-<td>1.290056</td>
-<td>0.860398</td>
-<td>0.770227</td>
-<td>1.118330</td>
-<td>0.855874</td>
-<td>1.258904</td>
-<td>3.252078</td>
-<td>3.756797</td>
-<td>4.522676</td>
+<td style="text-align: left;">std</td>
+<td style="text-align: right;">1.29006</td>
+<td style="text-align: right;">0.860398</td>
+<td style="text-align: right;">0.770227</td>
+<td style="text-align: right;">1.11833</td>
+<td style="text-align: right;">0.855874</td>
+<td style="text-align: right;">1.2589</td>
+<td style="text-align: right;">3.25208</td>
+<td style="text-align: right;">3.7568</td>
+<td style="text-align: right;">4.52268</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">min</td>
-<td>15.000000</td>
-<td>1.000000</td>
-<td>0.000000</td>
-<td>1.000000</td>
-<td>1.000000</td>
-<td>1.000000</td>
-<td>4.000000</td>
-<td>0.000000</td>
-<td>0.000000</td>
+<td style="text-align: left;">min</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">25%</td>
-<td>16.000000</td>
-<td>1.000000</td>
-<td>0.000000</td>
-<td>2.000000</td>
-<td>1.000000</td>
-<td>1.000000</td>
-<td>8.000000</td>
-<td>8.750000</td>
-<td>8.000000</td>
+<td style="text-align: left;">25%</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">8.75</td>
+<td style="text-align: right;">8</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">50%</td>
-<td>17.000000</td>
-<td>2.000000</td>
-<td>0.000000</td>
-<td>3.000000</td>
-<td>1.000000</td>
-<td>2.000000</td>
-<td>11.000000</td>
-<td>11.000000</td>
-<td>11.000000</td>
+<td style="text-align: left;">50%</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">11</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">75%</td>
-<td>18.000000</td>
-<td>2.000000</td>
-<td>0.000000</td>
-<td>4.000000</td>
-<td>2.000000</td>
-<td>3.000000</td>
-<td>13.000000</td>
-<td>13.000000</td>
-<td>13.000000</td>
+<td style="text-align: left;">75%</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">13</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">max</td>
-<td>22.000000</td>
-<td>4.000000</td>
-<td>3.000000</td>
-<td>5.000000</td>
-<td>5.000000</td>
-<td>5.000000</td>
-<td>19.000000</td>
-<td>19.000000</td>
-<td>20.000000</td>
+<td style="text-align: left;">max</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">20</td>
 </tr>
 </tbody>
 </table>
-
 </div>
 </div>
+</figure>
 </div>
-<p>Key takeaways from summary statistics:</p>
+</div>
+<p>Key takeaways from summary statistics from <a href="#tbl-summary" class="quarto-xref">Table 1</a>:</p>
 <ul>
 <li>Final grades <code>G3</code> range from <code>0</code> to <code>20</code>, with an average of around <code>10.26</code>.</li>
 <li>The average study time is about <code>2.05</code> hours.</li>
@@ -3792,637 +3652,19 @@ Figure 6: Correlation matrices for each numeric column
 </section>
 <section id="analysis" class="level3" data-number="3.3">
 <h3 data-number="3.3" class="anchored" data-anchor-id="analysis"><span class="header-section-number">3.3</span> Analysis</h3>
-<div id="08eb60e0" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split features and target</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>X_train, y_train <span class="op">=</span> (</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    train_df.drop(columns<span class="op">=</span>[<span class="st">&#39;G3&#39;</span>]),</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    train_df[<span class="st">&#39;G3&#39;</span>]</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>X_test, y_test <span class="op">=</span> (</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    test_df.drop(columns<span class="op">=</span>[<span class="st">&#39;G3&#39;</span>]),</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    test_df[<span class="st">&#39;G3&#39;</span>]</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="7c39c777" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>X_train.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
-Index: 316 entries, 288 to 365
-Data columns (total 9 columns):
- #   Column     Non-Null Count  Dtype 
----  ------     --------------  ----- 
- 0   sex        316 non-null    object
- 1   age        316 non-null    int64 
- 2   studytime  316 non-null    int64 
- 3   failures   316 non-null    int64 
- 4   goout      316 non-null    int64 
- 5   Dalc       316 non-null    int64 
- 6   Walc       316 non-null    int64 
- 7   G1         316 non-null    int64 
- 8   G2         316 non-null    int64 
-dtypes: int64(8), object(1)
-memory usage: 24.7+ KB</code></pre>
-</div>
-</div>
+<p>We begin our analysis by preparing the data, splitting it into features and target variables for both training and testing. To establish a baseline for comparison, we fit a DummyRegressor and evaluate its performance. Following this, we preprocess the data by identifying categorical and numerical features, applying scaling to the numeric features and one-hot encoding to the categorical ones. A Ridge regression model is then incorporated into a pipeline, and we fine-tune its hyperparameters using grid search with 5-folds cross-validation to optimize its performance. Finally, we evaluate the model on the test set, analyze the observed versus predicted values, and review the cross-validation results to assess the overall model effectiveness.</p>
 </section>
-<section id="baseline-model" class="level3" data-number="3.4">
-<h3 data-number="3.4" class="anchored" data-anchor-id="baseline-model"><span class="header-section-number">3.4</span> Baseline Model</h3>
-<div id="760022d4" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dr <span class="op">=</span> DummyRegressor()</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>dummy_cv <span class="op">=</span> cross_validate(dr, X_train, y_train, return_train_score<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(dummy_cv).agg([<span class="st">&#39;mean&#39;</span>]).T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="143">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">mean</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">fit_time</td>
-<td>0.001011</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">score_time</td>
-<td>0.000674</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">test_score</td>
-<td>-0.006492</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">train_score</td>
-<td>0.000000</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
-</section>
-<section id="define-categorical-and-numerical-columns" class="level3" data-number="3.5">
-<h3 data-number="3.5" class="anchored" data-anchor-id="define-categorical-and-numerical-columns"><span class="header-section-number">3.5</span> Define categorical and numerical columns</h3>
-<div id="d06c21d0" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>categorical_feats <span class="op">=</span> X_train.select_dtypes(include<span class="op">=</span>[<span class="st">&#39;object&#39;</span>]).columns</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>numeric_feats <span class="op">=</span> X_train.select_dtypes(include<span class="op">=</span>[<span class="st">&#39;int64&#39;</span>]).columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="f7288f04" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply column transformers</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>preprocessor <span class="op">=</span> make_column_transformer(    </span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    (StandardScaler(), numeric_feats),  <span class="co"># scaling on numeric features </span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    (OneHotEncoder(drop<span class="op">=</span><span class="st">&quot;if_binary&quot;</span>), categorical_feats),  <span class="co"># OHE on categorical features</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">#  Make pipeline</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>pipe_lr <span class="op">=</span> make_pipeline(preprocessor, Ridge())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="3df80751" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define parameter grid</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>param_grid <span class="op">=</span> {</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;ridge__alpha&#39;</span>: [<span class="fl">0.1</span>, <span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">100</span>]</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform grid search with cross-validation</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>grid_search <span class="op">=</span> GridSearchCV(pipe_lr, param_grid<span class="op">=</span>param_grid, n_jobs<span class="op">=-</span><span class="dv">1</span>, return_train_score<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>grid_search.fit(X_train, y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="146">
-<style>#sk-container-id-7 {
-
---sklearn-color-text: black;
---sklearn-color-line: gray;
-
---sklearn-color-unfitted-level-0: #fff5e6;
---sklearn-color-unfitted-level-1: #f6e4d2;
---sklearn-color-unfitted-level-2: #ffe0b3;
---sklearn-color-unfitted-level-3: chocolate;
-
---sklearn-color-fitted-level-0: #f0f8ff;
---sklearn-color-fitted-level-1: #d4ebff;
---sklearn-color-fitted-level-2: #b3dbfd;
---sklearn-color-fitted-level-3: cornflowerblue;
-
---sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
---sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
---sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
---sklearn-color-icon: #696969;
-@media (prefers-color-scheme: dark) {
-
---sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
---sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
---sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
---sklearn-color-icon: #878787;
-}
-}
-#sk-container-id-7 {
-color: var(--sklearn-color-text);
-}
-#sk-container-id-7 pre {
-padding: 0;
-}
-#sk-container-id-7 input.sk-hidden--visually {
-border: 0;
-clip: rect(1px 1px 1px 1px);
-clip: rect(1px, 1px, 1px, 1px);
-height: 1px;
-margin: -1px;
-overflow: hidden;
-padding: 0;
-position: absolute;
-width: 1px;
-}
-#sk-container-id-7 div.sk-dashed-wrapped {
-border: 1px dashed var(--sklearn-color-line);
-margin: 0 0.4em 0.5em 0.4em;
-box-sizing: border-box;
-padding-bottom: 0.4em;
-background-color: var(--sklearn-color-background);
-}
-#sk-container-id-7 div.sk-container {
-
-display: inline-block !important;
-position: relative;
-}
-#sk-container-id-7 div.sk-text-repr-fallback {
-display: none;
-}
-div.sk-parallel-item,
-div.sk-serial,
-div.sk-item {
-
-background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
-background-size: 2px 100%;
-background-repeat: no-repeat;
-background-position: center center;
-}
-
-#sk-container-id-7 div.sk-parallel-item::after {
-content: "";
-width: 100%;
-border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
-flex-grow: 1;
-}
-#sk-container-id-7 div.sk-parallel {
-display: flex;
-align-items: stretch;
-justify-content: center;
-background-color: var(--sklearn-color-background);
-position: relative;
-}
-#sk-container-id-7 div.sk-parallel-item {
-display: flex;
-flex-direction: column;
-}
-#sk-container-id-7 div.sk-parallel-item:first-child::after {
-align-self: flex-end;
-width: 50%;
-}
-#sk-container-id-7 div.sk-parallel-item:last-child::after {
-align-self: flex-start;
-width: 50%;
-}
-#sk-container-id-7 div.sk-parallel-item:only-child::after {
-width: 0;
-}
-
-#sk-container-id-7 div.sk-serial {
-display: flex;
-flex-direction: column;
-align-items: center;
-background-color: var(--sklearn-color-background);
-padding-right: 1em;
-padding-left: 1em;
-}
-
-
-#sk-container-id-7 div.sk-toggleable {
-
-background-color: var(--sklearn-color-background);
-}
-
-#sk-container-id-7 label.sk-toggleable__label {
-cursor: pointer;
-display: block;
-width: 100%;
-margin-bottom: 0;
-padding: 0.5em;
-box-sizing: border-box;
-text-align: center;
-}
-#sk-container-id-7 label.sk-toggleable__label-arrow:before {
-
-content: "▸";
-float: left;
-margin-right: 0.25em;
-color: var(--sklearn-color-icon);
-}
-#sk-container-id-7 label.sk-toggleable__label-arrow:hover:before {
-color: var(--sklearn-color-text);
-}
-
-#sk-container-id-7 div.sk-toggleable__content {
-max-height: 0;
-max-width: 0;
-overflow: hidden;
-text-align: left;
-
-background-color: var(--sklearn-color-unfitted-level-0);
-}
-#sk-container-id-7 div.sk-toggleable__content.fitted {
-
-background-color: var(--sklearn-color-fitted-level-0);
-}
-#sk-container-id-7 div.sk-toggleable__content pre {
-margin: 0.2em;
-border-radius: 0.25em;
-color: var(--sklearn-color-text);
-
-background-color: var(--sklearn-color-unfitted-level-0);
-}
-#sk-container-id-7 div.sk-toggleable__content.fitted pre {
-
-background-color: var(--sklearn-color-fitted-level-0);
-}
-#sk-container-id-7 input.sk-toggleable__control:checked~div.sk-toggleable__content {
-
-max-height: 200px;
-max-width: 100%;
-overflow: auto;
-}
-#sk-container-id-7 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
-content: "▾";
-}
-
-#sk-container-id-7 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
-color: var(--sklearn-color-text);
-background-color: var(--sklearn-color-unfitted-level-2);
-}
-#sk-container-id-7 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
-background-color: var(--sklearn-color-fitted-level-2);
-}
-
-
-#sk-container-id-7 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
-
-background-color: var(--sklearn-color-unfitted-level-2);
-}
-#sk-container-id-7 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
-
-background-color: var(--sklearn-color-fitted-level-2);
-}
-#sk-container-id-7 div.sk-label label.sk-toggleable__label,
-#sk-container-id-7 div.sk-label label {
-
-color: var(--sklearn-color-text-on-default-background);
-}
-
-#sk-container-id-7 div.sk-label:hover label.sk-toggleable__label {
-color: var(--sklearn-color-text);
-background-color: var(--sklearn-color-unfitted-level-2);
-}
-
-#sk-container-id-7 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
-color: var(--sklearn-color-text);
-background-color: var(--sklearn-color-fitted-level-2);
-}
-
-#sk-container-id-7 div.sk-label label {
-font-family: monospace;
-font-weight: bold;
-display: inline-block;
-line-height: 1.2em;
-}
-#sk-container-id-7 div.sk-label-container {
-text-align: center;
-}
-
-#sk-container-id-7 div.sk-estimator {
-font-family: monospace;
-border: 1px dotted var(--sklearn-color-border-box);
-border-radius: 0.25em;
-box-sizing: border-box;
-margin-bottom: 0.5em;
-
-background-color: var(--sklearn-color-unfitted-level-0);
-}
-#sk-container-id-7 div.sk-estimator.fitted {
-
-background-color: var(--sklearn-color-fitted-level-0);
-}
-
-#sk-container-id-7 div.sk-estimator:hover {
-
-background-color: var(--sklearn-color-unfitted-level-2);
-}
-#sk-container-id-7 div.sk-estimator.fitted:hover {
-
-background-color: var(--sklearn-color-fitted-level-2);
-}
-
-
-.sk-estimator-doc-link,
-a:link.sk-estimator-doc-link,
-a:visited.sk-estimator-doc-link {
-float: right;
-font-size: smaller;
-line-height: 1em;
-font-family: monospace;
-background-color: var(--sklearn-color-background);
-border-radius: 1em;
-height: 1em;
-width: 1em;
-text-decoration: none !important;
-margin-left: 1ex;
-
-border: var(--sklearn-color-unfitted-level-1) 1pt solid;
-color: var(--sklearn-color-unfitted-level-1);
-}
-.sk-estimator-doc-link.fitted,
-a:link.sk-estimator-doc-link.fitted,
-a:visited.sk-estimator-doc-link.fitted {
-
-border: var(--sklearn-color-fitted-level-1) 1pt solid;
-color: var(--sklearn-color-fitted-level-1);
-}
-
-div.sk-estimator:hover .sk-estimator-doc-link:hover,
-.sk-estimator-doc-link:hover,
-div.sk-label-container:hover .sk-estimator-doc-link:hover,
-.sk-estimator-doc-link:hover {
-
-background-color: var(--sklearn-color-unfitted-level-3);
-color: var(--sklearn-color-background);
-text-decoration: none;
-}
-div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
-.sk-estimator-doc-link.fitted:hover,
-div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
-.sk-estimator-doc-link.fitted:hover {
-
-background-color: var(--sklearn-color-fitted-level-3);
-color: var(--sklearn-color-background);
-text-decoration: none;
-}
-
-.sk-estimator-doc-link span {
-display: none;
-z-index: 9999;
-position: relative;
-font-weight: normal;
-right: .2ex;
-padding: .5ex;
-margin: .5ex;
-width: min-content;
-min-width: 20ex;
-max-width: 50ex;
-color: var(--sklearn-color-text);
-box-shadow: 2pt 2pt 4pt #999;
-
-background: var(--sklearn-color-unfitted-level-0);
-border: .5pt solid var(--sklearn-color-unfitted-level-3);
-}
-.sk-estimator-doc-link.fitted span {
-
-background: var(--sklearn-color-fitted-level-0);
-border: var(--sklearn-color-fitted-level-3);
-}
-.sk-estimator-doc-link:hover span {
-display: block;
-}
-/* "?"-specific style due to the `<a>` HTML tag */
-
-#sk-container-id-7 a.estimator_doc_link {
-  float: right;
-  font-size: 1rem;
-  line-height: 1em;
-  font-family: monospace;
-  background-color: var(--sklearn-color-background);
-  border-radius: 1rem;
-  height: 1rem;
-  width: 1rem;
-  text-decoration: none;
-  /* unfitted */
-  color: var(--sklearn-color-unfitted-level-1);
-  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
-}
-
-#sk-container-id-7 a.estimator_doc_link.fitted {
-  /* fitted */
-  border: var(--sklearn-color-fitted-level-1) 1pt solid;
-  color: var(--sklearn-color-fitted-level-1);
-}
-
-/* On hover */
-#sk-container-id-7 a.estimator_doc_link:hover {
-  /* unfitted */
-  background-color: var(--sklearn-color-unfitted-level-3);
-  color: var(--sklearn-color-background);
-  text-decoration: none;
-}
-
-#sk-container-id-7 a.estimator_doc_link.fitted:hover {
-  /* fitted */
-  background-color: var(--sklearn-color-fitted-level-3);
-}
-</style><div id="sk-container-id-7" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>GridSearchCV(estimator=Pipeline(steps=[(&#39;columntransformer&#39;,
-                                        ColumnTransformer(transformers=[(&#39;standardscaler&#39;,
-                                                                         StandardScaler(),
-                                                                         Index([&#39;age&#39;, &#39;studytime&#39;, &#39;failures&#39;, &#39;goout&#39;, &#39;Dalc&#39;, &#39;Walc&#39;, &#39;G1&#39;, &#39;G2&#39;], dtype=&#39;object&#39;)),
-                                                                        (&#39;onehotencoder&#39;,
-                                                                         OneHotEncoder(drop=&#39;if_binary&#39;),
-                                                                         Index([&#39;sex&#39;], dtype=&#39;object&#39;))])),
-                                       (&#39;ridge&#39;, Ridge())]),
-             n_jobs=-1, param_grid={&#39;ridge__alpha&#39;: [0.1, 1, 10, 100]},
-             return_train_score=True)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-49" type="checkbox"><label for="sk-estimator-id-49" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">  GridSearchCV<a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.model_selection.GridSearchCV.html">?<span>Documentation for GridSearchCV</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></label><div class="sk-toggleable__content fitted"><pre>GridSearchCV(estimator=Pipeline(steps=[(&#39;columntransformer&#39;,
-                                        ColumnTransformer(transformers=[(&#39;standardscaler&#39;,
-                                                                         StandardScaler(),
-                                                                         Index([&#39;age&#39;, &#39;studytime&#39;, &#39;failures&#39;, &#39;goout&#39;, &#39;Dalc&#39;, &#39;Walc&#39;, &#39;G1&#39;, &#39;G2&#39;], dtype=&#39;object&#39;)),
-                                                                        (&#39;onehotencoder&#39;,
-                                                                         OneHotEncoder(drop=&#39;if_binary&#39;),
-                                                                         Index([&#39;sex&#39;], dtype=&#39;object&#39;))])),
-                                       (&#39;ridge&#39;, Ridge())]),
-             n_jobs=-1, param_grid={&#39;ridge__alpha&#39;: [0.1, 1, 10, 100]},
-             return_train_score=True)</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-50" type="checkbox"><label for="sk-estimator-id-50" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">best_estimator_: Pipeline</label><div class="sk-toggleable__content fitted"><pre>Pipeline(steps=[(&#39;columntransformer&#39;,
-                 ColumnTransformer(transformers=[(&#39;standardscaler&#39;,
-                                                  StandardScaler(),
-                                                  Index([&#39;age&#39;, &#39;studytime&#39;, &#39;failures&#39;, &#39;goout&#39;, &#39;Dalc&#39;, &#39;Walc&#39;, &#39;G1&#39;, &#39;G2&#39;], dtype=&#39;object&#39;)),
-                                                 (&#39;onehotencoder&#39;,
-                                                  OneHotEncoder(drop=&#39;if_binary&#39;),
-                                                  Index([&#39;sex&#39;], dtype=&#39;object&#39;))])),
-                (&#39;ridge&#39;, Ridge(alpha=1))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-51" type="checkbox"><label for="sk-estimator-id-51" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted"> columntransformer: ColumnTransformer<a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for columntransformer: ColumnTransformer</span></a></label><div class="sk-toggleable__content fitted"><pre>ColumnTransformer(transformers=[(&#39;standardscaler&#39;, StandardScaler(),
-                                 Index([&#39;age&#39;, &#39;studytime&#39;, &#39;failures&#39;, &#39;goout&#39;, &#39;Dalc&#39;, &#39;Walc&#39;, &#39;G1&#39;, &#39;G2&#39;], dtype=&#39;object&#39;)),
-                                (&#39;onehotencoder&#39;,
-                                 OneHotEncoder(drop=&#39;if_binary&#39;),
-                                 Index([&#39;sex&#39;], dtype=&#39;object&#39;))])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-52" type="checkbox"><label for="sk-estimator-id-52" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">standardscaler</label><div class="sk-toggleable__content fitted"><pre>Index([&#39;age&#39;, &#39;studytime&#39;, &#39;failures&#39;, &#39;goout&#39;, &#39;Dalc&#39;, &#39;Walc&#39;, &#39;G1&#39;, &#39;G2&#39;], dtype=&#39;object&#39;)</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-53" type="checkbox"><label for="sk-estimator-id-53" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted"> StandardScaler<a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.StandardScaler.html">?<span>Documentation for StandardScaler</span></a></label><div class="sk-toggleable__content fitted"><pre>StandardScaler()</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-54" type="checkbox"><label for="sk-estimator-id-54" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">onehotencoder</label><div class="sk-toggleable__content fitted"><pre>Index([&#39;sex&#39;], dtype=&#39;object&#39;)</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-55" type="checkbox"><label for="sk-estimator-id-55" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted"> OneHotEncoder<a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.OneHotEncoder.html">?<span>Documentation for OneHotEncoder</span></a></label><div class="sk-toggleable__content fitted"><pre>OneHotEncoder(drop=&#39;if_binary&#39;)</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-56" type="checkbox"><label for="sk-estimator-id-56" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted"> Ridge<a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.linear_model.Ridge.html">?<span>Documentation for Ridge</span></a></label><div class="sk-toggleable__content fitted"><pre>Ridge(alpha=1)</pre></div> </div></div></div></div></div></div></div></div></div></div></div>
-</div>
-</div>
-<div id="9c5bdb22" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Best score</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>grid_search.best_score_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="147">
-<pre><code>np.float64(0.8097283181869402)</code></pre>
-</div>
-</div>
-<div id="8340a976" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the best hyperparameter value</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>grid_search.best_params_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="148">
-<pre><code>{&#39;ridge__alpha&#39;: 1}</code></pre>
-</div>
-</div>
-<div id="d76a5685" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the best model</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>best_model <span class="op">=</span> grid_search.best_estimator_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="c5191bfe" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(grid_search.cv_results_)[</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    [</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;mean_test_score&quot;</span>,</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;param_ridge__alpha&quot;</span>,</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;mean_fit_time&quot;</span>,</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;rank_test_score&quot;</span>,</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>].set_index(<span class="st">&quot;rank_test_score&quot;</span>).sort_index().T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="150">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th">rank_test_score</th>
-<th data-quarto-table-cell-role="th">1</th>
-<th data-quarto-table-cell-role="th">2</th>
-<th data-quarto-table-cell-role="th">3</th>
-<th data-quarto-table-cell-role="th">4</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">mean_test_score</td>
-<td>0.809728</td>
-<td>0.809702</td>
-<td>0.808180</td>
-<td>0.765174</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">param_ridge__alpha</td>
-<td>1.000000</td>
-<td>0.100000</td>
-<td>10.000000</td>
-<td>100.000000</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">mean_fit_time</td>
-<td>0.039715</td>
-<td>0.060579</td>
-<td>0.013961</td>
-<td>0.018804</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
-<div id="602967cd" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply best model on test set</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> best_model.predict(X_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="fe925a1d" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a dataframe to compare observed and predicted values</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>comparison <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Observed (y_test)&quot;</span>: y_test.values,</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Predicted (y_pred)&quot;</span>: y_pred</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>comparison.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="152">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Observed (y_test)</th>
-<th data-quarto-table-cell-role="th">Predicted (y_pred)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>8</td>
-<td>8.253681</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>13</td>
-<td>12.963188</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>12</td>
-<td>11.922506</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>0</td>
-<td>5.186794</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>10</td>
-<td>9.629068</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">5</td>
-<td>12</td>
-<td>9.214681</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">6</td>
-<td>5</td>
-<td>3.293215</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">7</td>
-<td>0</td>
-<td>4.514123</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">8</td>
-<td>16</td>
-<td>14.885317</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">9</td>
-<td>13</td>
-<td>11.746364</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
-</section>
-<section id="model-evaluation" class="level3" data-number="3.6">
-<h3 data-number="3.6" class="anchored" data-anchor-id="model-evaluation"><span class="header-section-number">3.6</span> Model Evaluation</h3>
-<p>The <a href="#tbl-metrics" class="quarto-xref">Table 1</a> below summarizes the performance metrics of the model on the test dataset. These metrics help us evaluate the model’s ability to generalize to unseen data.</p>
-<div class="cell" data-execution_count="21">
-<div id="tbl-metrics" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="21">
+<section id="model-evaluation" class="level3" data-number="3.4">
+<h3 data-number="3.4" class="anchored" data-anchor-id="model-evaluation"><span class="header-section-number">3.4</span> Model Evaluation</h3>
+<p>The <a href="#tbl-metrics" class="quarto-xref">Table 2</a> below summarizes the performance metrics of the model on the test dataset. These metrics help us evaluate the model’s ability to generalize to unseen data.</p>
+<div class="cell" data-execution_count="7">
+<div id="tbl-metrics" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="7">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table 1: Performance metrics on test data
+Table 2: Performance metrics on test data
 </figcaption>
 <div aria-describedby="tbl-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="153">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="30">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -4450,15 +3692,15 @@ Table 1: Performance metrics on test data
 </figure>
 </div>
 </div>
-<p>Next, we analyze the coefficients of the Ridge regression model. The <a href="#tbl-coefficients" class="quarto-xref">Table 2</a> shows the values of the coefficients, which indicate the importance of each feature in predicting the target variable.</p>
-<div class="cell" data-execution_count="22">
-<div id="tbl-coefficients" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="22">
+<p>Next, we analyze the coefficients of the Ridge regression model. The <a href="#tbl-coefficients" class="quarto-xref">Table 3</a> shows the values of the coefficients, which indicate the importance of each feature in predicting the target variable.</p>
+<div class="cell" data-execution_count="8">
+<div id="tbl-coefficients" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="8">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-coefficients-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table 2: Coefficients of Ridge model
+Table 3: Coefficients of Ridge model
 </figcaption>
 <div aria-describedby="tbl-coefficients-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="154">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="31">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">

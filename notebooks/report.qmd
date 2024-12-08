@@ -112,6 +112,7 @@ Let's start by loading the data and have an initial view of data set structure.
 The file is a `.csv` file with `;` as delimiter. Let's use `pandas`to read it in.
 
 ```{python}
+# | echo: false
 student_performance = pd.read_csv(Path('../data/raw/student-mat.csv'), sep=';')
 ```
 
@@ -120,10 +121,12 @@ This provides an overview of the data set with 33 columns, each representing stu
 Let's get some information on the data set to better understand it.
 
 ```{python}
+# | echo: false
 student_performance.head()
 ```
 
 ```{python}
+# | echo: false
 student_performance.info()
 ```
 
@@ -143,26 +146,6 @@ Let's selected the following key columns:
 
 We will also split the dataset into train and test set with a 80/20 ratio. We also set `random_state=123` for reproducibility.
 
-```{python}
-# Necessary columns
-columns = ['sex', 
-           'age', 
-           'studytime', 
-           'failures', 
-           'goout', 
-           'Dalc', 
-           'Walc',
-           'G1',
-           'G2',
-           'G3']
-
-subset_df = student_performance[columns]
-
-train_df, test_df = train_test_split(
-    subset_df, test_size=0.2, random_state=123
-)
-```
-
 #### Data Validation Checks
 
 From heatmap shown in @fig-missingness-heatmap, we observe no missing values, suggesting the dataset is entirely complete.
@@ -180,20 +163,21 @@ There are few outliers in `failures`, `Dalc`, `age`, `studytime`, `G2`, and `G1`
 ![Visualization of Outliers](../results/figures/validate/boxplots.png){#fig-boxplots}
 
 ```{python}
-train_df.head()
-```
-
-```{python}
+# | echo: false
+train_df = pd.read_csv("../data/processed/train_df.csv")
 train_df.info()
 ```
 
 Let's get a summary of the training set we are going to use for the analysis.
 
 ```{python}
-train_df.describe()
+# | echo: false
+#| label: tbl-summary
+#| tbl-cap: Summary statistics for columns 
+Markdown(train_df.describe().to_markdown(index = True))
 ```
 
-Key takeaways from summary statistics:
+Key takeaways from summary statistics from @tbl-summary:
 
 -   Final grades `G3` range from `0` to `20`, with an average of around `10.26`.
 -   The average study time is about `2.05` hours.
@@ -225,99 +209,8 @@ Some interesting observations from @fig-corr-plot:
 
 ### Analysis
 
-```{python}
-# Split features and target
-X_train, y_train = (
-    train_df.drop(columns=['G3']),
-    train_df['G3']
-)
-X_test, y_test = (
-    test_df.drop(columns=['G3']),
-    test_df['G3']
-)
-```
+We begin our analysis by preparing the data, splitting it into features and target variables for both training and testing. To establish a baseline for comparison, we fit a DummyRegressor and evaluate its performance. Following this, we preprocess the data by identifying categorical and numerical features, applying scaling to the numeric features and one-hot encoding to the categorical ones. A Ridge regression model is then incorporated into a pipeline, and we fine-tune its hyperparameters using grid search with 5-folds cross-validation to optimize its performance. Finally, we evaluate the model on the test set, analyze the observed versus predicted values, and review the cross-validation results to assess the overall model effectiveness.
 
-```{python}
-X_train.info()
-```
-
-### Baseline Model
-
-```{python}
-dr = DummyRegressor()
-
-dummy_cv = cross_validate(dr, X_train, y_train, return_train_score=True)
-pd.DataFrame(dummy_cv).agg(['mean']).T
-```
-
-### Define categorical and numerical columns
-
-```{python}
-categorical_feats = X_train.select_dtypes(include=['object']).columns
-numeric_feats = X_train.select_dtypes(include=['int64']).columns
-```
-
-```{python}
-# Apply column transformers
-preprocessor = make_column_transformer(    
-    (StandardScaler(), numeric_feats),  # scaling on numeric features 
-    (OneHotEncoder(drop="if_binary"), categorical_feats),  # OHE on categorical features
-)
-
-#  Make pipeline
-pipe_lr = make_pipeline(preprocessor, Ridge())
-```
-
-```{python}
-# Define parameter grid
-param_grid = {
-    'ridge__alpha': [0.1, 1, 10, 100]
-}
-
-# Perform grid search with cross-validation
-grid_search = GridSearchCV(pipe_lr, param_grid=param_grid, n_jobs=-1, return_train_score=True)
-grid_search.fit(X_train, y_train)
-```
-
-```{python}
-# Best score
-grid_search.best_score_
-```
-
-```{python}
-# Get the best hyperparameter value
-grid_search.best_params_
-```
-
-```{python}
-# Define the best model
-best_model = grid_search.best_estimator_
-```
-
-```{python}
-pd.DataFrame(grid_search.cv_results_)[
-    [
-        "mean_test_score",
-        "param_ridge__alpha",
-        "mean_fit_time",
-        "rank_test_score",
-    ]
-].set_index("rank_test_score").sort_index().T
-```
-
-```{python}
-# Apply best model on test set
-y_pred = best_model.predict(X_test)
-```
-
-```{python}
-# Create a dataframe to compare observed and predicted values
-comparison = pd.DataFrame({
-    "Observed (y_test)": y_test.values,
-    "Predicted (y_pred)": y_pred
-})
-comparison.head(10)
-```
 ### Model Evaluation
 
 The @tbl-metrics below summarizes the performance metrics of the model on the test dataset. These metrics help us evaluate the model's ability to generalize to unseen data.
@@ -328,6 +221,9 @@ The @tbl-metrics below summarizes the performance metrics of the model on the te
 #| echo: false
 
 metrics_table = pd.read_csv("../results/table/metrics/evaluation_metrics.csv")
+mse = round(float(metrics_table.query('Metric == "Mean Squared Error (MSE)"')['Value'].iloc[0]), 3)
+rmse = round(float(metrics_table.query('Metric == "Root Mean Squared Error (RMSE)"')['Value'].iloc[0]), 3)
+mae = round(float(metrics_table.query('Metric == "Mean Absolute Error (MAE)"')['Value'].iloc[0]), 3)
 Markdown(metrics_table.to_markdown(index = False))
 ```
 Next, we analyze the coefficients of the Ridge regression model. The @tbl-coefficients shows the values of the coefficients, which indicate the importance of each feature in predicting the target variable.
@@ -353,9 +249,9 @@ The Ridge coefficients suggests that student performance is most strongly influe
 
 Based on the evaluation on the test set, the model achieved the following performance metrics:
 
--   Mean Squared Error (MSE): 4.048
--   Root Mean Squared Error (RMSE): 2.012
--   Mean Absolute Error (MAE): 1.309
+-   Mean Squared Error (MSE): `{python} mse`
+-   Root Mean Squared Error (RMSE): `{python} rmse`
+-   Mean Absolute Error (MAE): `{python} mae`
 
 These metrics suggest that the model is reasonably accurate in predicting students' final grades. However, there are areas for improvement. We can explore other models which could better capture the non-linear relationships and feature interactions. Another improvement we can do is to provide confidence intervals for predictions. This approach could enhance the reliability and interpretability of predictions and help readers make more informed decisions.
 
