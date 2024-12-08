@@ -62,6 +62,17 @@ python scripts/eda.py \
     --outdir='results/figures/eda/'
 ```
 
+```bash
+python scripts/evaluate_model.py \
+    --y-test='data/processed/y_test.csv' \
+    --X-test='data/processed/X_test.csv' \ 
+    --best-model='results/models/best_model.pkl' \
+    --metrics-to='results/table/metrics/' \
+    --coefs-to='results/table/coefficients/' \
+    --plot-to='results/figures/'
+
+```
+
 ### Clean Up
 
 1. Shut Down the Container
