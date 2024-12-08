@@ -7,6 +7,7 @@ format:
         toc: true
         toc-depth: 4
         number-sections: true
+        embed-resources: true
     pdf:
         toc: true
         toc-depth: 4
@@ -201,65 +202,22 @@ Key takeaways from summary statistics:
 
 Let's create a visualization to explore the final grades `G3` distribution. We will use a histogram as it allows us to see the spread.
 
-```{python}
-# Visualization of grade distributions
-eda_plot1 = alt.Chart(train_df).mark_bar().encode(
-    x=alt.X('G3:Q', bin=True, title='Final Grades (G3)'),
-    y=alt.Y('count()', title='Number of Students'),
-    tooltip=['G3']
-).properties(
-    title='Distribution of Final Grades (G3)',
-    width=400,
-    height=200
-)
-eda_plot1 
-```
+![Distribution of Final Grades (G3)](../results/figures/eda/g3_dist.png){#fig-g3-dist}
 
-**Figure 4: Distribution of Final Grades (G3)**
+From @fig-g3-dist, The histogram shows that most students achieve grades between 8 and 15, with fewer students scoring very low or very high.
 
-The histogram shows that most students achieve grades between 8 and 15, with fewer students scoring very low or very high.
+![Density plot for each numeric columns](../results/figures/eda/density_plots.png){#fig-density-plot width="80%" height="80%"}
 
-```{python}
-# ally.dist(train_df).properties(title="Density Plot for all numeric columns")
-fig, axes = plt.subplots(3, 3, figsize=(8, 8), sharey=False, sharex=False)
-axes = axes.flatten()
-numeric_columns = train_df.select_dtypes(include='number').columns
-for i, column in enumerate(numeric_columns):
-    dp = sns.kdeplot(data=train_df, x=column, fill=True, ax=axes[i])
-plt.tight_layout()
-```
 
-**Figure 5: Density plot for each numeric columns (including the target `G3`)**
-
-Some interesting observations:
+Some interesting observations from @fig-density-plot :
 
 -   The distirbution of the grades `G3`, `G2`, `G1` are somewhat bell-shaped.
 -   Most student do not consume alcohol, or very minimally.
 -   Most student studies around 2-5 hours a week and most of them also did not fail any previous classes.
 
-```{python}
-# ally.corr(train_df).properties(title="Correlation matrices for each numeric column pair")
-corr_mat = train_df.select_dtypes(include='number').corr() \
-    .reset_index(names="var1") \
-    .melt(id_vars="var1", var_name="var2", value_name="correlation")
-# get rid of "duplicated" correlation
-corr_mat = corr_mat[corr_mat['var1'] <= corr_mat['var2']].reset_index(drop=True)
-corr_mat["abs_corr"] = np.abs(corr_mat["correlation"])
-alt.Chart(corr_mat).mark_circle().encode(
-    alt.X("var1").title("variable 1"),
-    alt.Y("var2").title("variable 2"),
-    alt.Color("correlation").scale(domain=[-1, 1], scheme="blueorange"),
-    alt.Size("abs_corr").legend(None)
-).properties(
-    width=250,
-    height=250,
-    title="Pairwise correlations between variables (including target)"
-)
-```
+![Correlation matrices for each numeric column](../results/figures/eda/corr_mat.png){#fig-corr-plot width="50%" height="50%"}
 
-**Figure 6: Correlation matrices for each numeric columns (including target `G3`)**
-
-Some interesting observations:
+Some interesting observations from @fig-corr-plot:
 
 -   The grades are very correlated with one another
 -   Alcohol consumptions are somewhat negatively correlated with grades
