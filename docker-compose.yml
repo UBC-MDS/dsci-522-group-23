@@ -1,11 +1,9 @@
 services:
-  jupyter-notebook:
+  student-performance-predictor-env:
     platform: linux/amd64
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: nhantien/student-performance-predictor:v0.4.0
     ports:
       - "8889:8888" # map port 8889 on host computer to 8888 in container
     volumes:
       - .:/home/jovyan/work
-    container_name: dsci-522-project-container
+    container_name: student-performance-predictor

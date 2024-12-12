@@ -126,10 +126,25 @@ If you need to change the container, follow this workflow:
 
 to update the conda-linux-64.lock file.
 
-1. Build the Docker image locally to test it and verify the container starts correctly.
-2. Push the updated branch to Github. The updated image will be automatically built and pushed to Docker Hub.
-3. Modify the docker-compose.yml file to reference the updated Docker image. Commit the changes to the same branch.
-4. Open a PR to merge your branch into the main branch.
+1. Build the Docker image locally to test it and verify the container starts correctly. Make sure you're in the root directory of the project. The command you can use is:
+
+    ```bash
+    docker build -t <your-tag> --platform=linux/amd64 .
+    ```
+
+    ```bash
+    docker run --platform linux/amd64 \
+    -p 8889:8888 \
+    -v "$(pwd):/home/jovyan/work" \
+    --name student-performance-predictor \
+        <image-name>
+    ```
+
+    > Replace `<you-tag>` and `<image-name> `with the proper values you want to name it
+
+1. Push the updated branch to Github. The updated image will be automatically built and pushed to Docker Hub.
+1. Modify the docker-compose.yml file to reference the updated Docker image. Commit the changes to the same branch.
+1. Open a PR to merge your branch into the main branch.
 
 ## License
 

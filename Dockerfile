@@ -8,6 +8,7 @@ USER root
 
 RUN sudo apt update \
     && sudo apt install -y lmodern \
+    && sudo apt install -y make \
     && chown -R $NB_UID /home \
     && chmod -R 0777 /home
 
@@ -18,9 +19,6 @@ RUN mamba update --file /tmp/conda-linux-64.lock \
     &&  mamba clean --all -y -f \
     && fix-permissions "${CONDA_DIR}" \
     && fix-permissions "/home/${NB_USER}"
-
-# expose port 8888 of container
-EXPOSE 8888
 
 # start jupyter lab without auth token
 CMD ["jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--allow-root", "--NotebookApp.token=''"]
