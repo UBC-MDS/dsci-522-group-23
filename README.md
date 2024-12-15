@@ -36,7 +36,11 @@ git clone https://github.com/UBC-MDS/dsci-522-group-23.git
 
 2. In the terminal, look for a URL: `http://127.0.0.1:8888/lab`. Copy and paste the URL into your browser and change `8888` to `8889` manually.
 
-3. To run the analysis, open `notebooks/student_performance_predictor_report.ipynb` in the Jupyterlab that just launched and click "Restart Kernel and Run All Cells..." under the "Kernel" menu.
+   <img src="img/example_usage.png" alt="Example Usage" width="500">
+   
+   <img src="img/example2.png" alt="Example2" width="500">
+
+4. To run the analysis, open `notebooks/student_performance_predictor_report.ipynb` in the Jupyterlab that just launched and click "Restart Kernel and Run All Cells..." under the "Kernel" menu.
 
 ### Regenerate the artifacts (datasets, figures, tables, etc) in the analysis
 
