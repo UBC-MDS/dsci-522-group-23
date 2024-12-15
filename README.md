@@ -42,54 +42,19 @@ git clone https://github.com/UBC-MDS/dsci-522-group-23.git
 
 4. To run the analysis, open `notebooks/student_performance_predictor_report.ipynb` in the Jupyterlab that just launched and click "Restart Kernel and Run All Cells..." under the "Kernel" menu.
 
-### Regenerate the artifacts (datasets, figures, tables, etc) in the analysis
+### Regenerate the artifacts (datasets, figures, tables, html file, etc) in the analysis
 
-Make sure you are in the root directory of the project (`work` directory of the Docker notebook), then run these Python scripts sequentially in this order, **using a Jupyter Lab terminal GUI**:
+Make sure you are in the root directory of the project (`work` directory of the Docker notebook). Open the **Terminal GUI of the Docker Jupyter Lab** and run
 
 ```bash
-python scripts/download_data.py \
-    --url='https://archive.ics.uci.edu/static/public/320/student+performance.zip' \
-    --out-dir='data/raw' \
-    --raw-filename='student-mat.csv'
+make clean
+make all
 ```
 
-```bash
-python scripts/split_preprocess.py \
-    --raw-data='data/raw/student-mat.csv' \
-    --data-to='data/processed/' \
-    --preprocessor-to='results/models/'
-```
+To rerun the unit tests:
 
 ```bash
-python scripts/validate.py \
-    --raw-data='data/raw/student-mat.csv' \
-    --plot-to='results/figures/validate/'
-```
-
-```bash
-python scripts/eda.py \
-    --train-df-path='data/processed/train_df.csv' \
-    --outdir='results/figures/eda/'
-```
-
-```bash
-python scripts/fit_model.py \
-    --training-data=data/processed/train_df.csv \
-    --pipeline-to=results/models/ \
-    --model-to=results/models/ \
-    --test-data-to=data/processed/test/ \
-    --plot-to=results/plots/ \
-    --seed=42
-```
-
-```bash
-python scripts/evaluate_model.py \
-    --y-test=data/processed/y_test.csv \
-    --X-test=data/processed/X_test.csv \
-    --best-model=results/models/best_model.pkl \
-    --metrics-to=results/table/metrics/ \
-    --coefs-to=results/table/coefficients/ \
-    --plot-to=results/figures/
+make tests
 ```
 
 ### Clean Up
@@ -133,7 +98,7 @@ to update the conda-linux-64.lock file.
 1. Build the Docker image locally to test it and verify the container starts correctly. Make sure you're in the root directory of the project. The command you can use is:
 
     ```bash
-    docker build -t <your-tag> --platform=linux/amd64 .
+    docker build -t <image-tag> --platform=linux/amd64 .
     ```
 
     ```bash
@@ -141,12 +106,12 @@ to update the conda-linux-64.lock file.
     -p 8889:8888 \
     -v "$(pwd):/home/jovyan/work" \
     --name student-performance-predictor \
-        <image-name>
+        <image-name:image-tag>
     ```
 
-    > Replace `<you-tag>` and `<image-name> `with the proper values you want to name it
+    > Replace `<image-tag>` and `<image-name> `with the proper values you want to name it
 
-1. Push the updated branch to Github. The updated image will be automatically built and pushed to Docker Hub.
+1. Push the updated branch to Github. The updated image will be automatically built and pushed to Docker Hub with the GitHub Workflows. The tag of that auto-build image is the same as the commit SHA.
 1. Modify the docker-compose.yml file to reference the updated Docker image. Commit the changes to the same branch.
 1. Open a PR to merge your branch into the main branch.
 
