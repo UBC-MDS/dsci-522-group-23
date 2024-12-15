@@ -213,7 +213,13 @@ We begin our analysis by preparing the data, splitting it into features and targ
 
 ### Model Evaluation
 
-The @tbl-metrics below summarizes the performance metrics of the model on the test dataset. These metrics help us evaluate the model's ability to generalize to unseen data.
+The @tbl-metrics below summarizes the performance metrics of the model on the test dataset. The metrics we use are MSE, RMSE, and MAE. 
+
+- Mean Squared Error (MSE): The average of squared differences between predicted and actual values, giving more weight to larger errors.
+- Root Mean Squared Error (RMSE): The square root of MSE, expressing errors in the same units as the data.
+- Mean Absolute Error (MAE): The average absolute difference between predicted and actual values, showing overall prediction accuracy.
+
+We use these metrics to evaluate model performance and understand how well predictions align with actual values, with each providing unique insights into error magnitude and distribution.
 
 ```{python}
 #| label: tbl-metrics
