@@ -4,6 +4,7 @@
 
 import click
 import os
+import sys
 import numpy as np
 import pandas as pd
 import pickle
@@ -12,7 +13,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.compose import make_column_transformer, make_column_selector
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
-
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from src.preprocessor import create_preprocessor, transform_to_dataframe
+from src.split_data import split_train_test
 
 @click.command()
 @click.option("--raw-data", type=str, help="Path to validated data")
@@ -71,11 +74,11 @@ def main(raw_data, data_to, preprocessor_to):
     subset_df = student_performance[columns]
 
     # Split the dataset
-    train_df, test_df = train_test_split(subset_df, test_size=0.2, random_state=123)
+    X_train, X_test, y_train, y_test = split_train_test(subset_df, "G3")
     print("Train-test split successful!")
 
-    X_train, y_train = (train_df.drop(columns=["G3"]), train_df["G3"])
-    X_test, y_test = (test_df.drop(columns=["G3"]), test_df["G3"])
+    train_df = pd.concat([X_train, y_train], axis=1)
+    test_df = pd.concat([X_test, y_test], axis=1)
     
     # saving X/y train/test to csv
     X_train.to_csv(os.path.join(data_to, "X_train.csv"), index=False)
@@ -88,14 +91,7 @@ def main(raw_data, data_to, preprocessor_to):
     train_df.to_csv(os.path.join(data_to, "train_df.csv"), index=False)
     test_df.to_csv(os.path.join(data_to, "test_df.csv"), index=False)
 
-    categorical_feats = X_train.select_dtypes(include=["object"]).columns
-    numeric_feats = X_train.select_dtypes(include=["int64"]).columns
-
-    preprocessor = make_column_transformer(
-        (StandardScaler(), numeric_feats),
-        (OneHotEncoder(drop="if_binary", sparse_output=False), categorical_feats),
-        verbose_feature_names_out=False,
-    )
+    preprocessor = create_preprocessor(X_train=X_train)
 
     os.makedirs(preprocessor_to, exist_ok=True)
     pickle.dump(
