@@ -49,7 +49,7 @@ dist/
 # Temporary files
 *.tmp
 *.temp
-
+*.pytest_cache
 # Notebook-specific outputs (optional)
 *.nbconvert/
 *.cache/
