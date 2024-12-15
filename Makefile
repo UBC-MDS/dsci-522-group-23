@@ -1,6 +1,10 @@
-.PHONY: all clean
+.PHONY: all clean tests
 
-all: notebooks/report.html notebooks/report.pdf
+all: tests notebooks/report.html notebooks/report.pdf
+
+PYTHON_TEST_FILES := $(wildcard tests/*.py)
+tests: $(PYTHON_TEST_FILES)
+	pytest $(PYTHON_TEST_FILES)
 
 # Download and extract data
 data/raw/student-mat.csv : scripts/download_data.py

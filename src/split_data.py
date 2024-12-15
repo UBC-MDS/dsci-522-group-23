@@ -31,7 +31,7 @@ def split_train_test(data, target_column, test_size=0.2, random_state=123):
     if target_column not in data.columns:
         raise ValueError(f"Target column {target_column} not found in dataset.")
 
-    if test_size < 1 or test_size > 1:
+    if test_size  < 0 or test_size > 1:
         raise ValueError(f"Test size {test_size} should range from 0 to 1")
     
     X = data.drop(columns=[target_column])
