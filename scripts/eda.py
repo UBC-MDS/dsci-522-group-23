@@ -9,9 +9,12 @@ import pandas as pd
 import numpy as np
 import click
 import os
+import sys
 from pathlib import Path
 import matplotlib.pyplot as plt
 import seaborn as sns
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+import src.plot_utils as eda 
 
 
 @click.command()
@@ -51,48 +54,35 @@ def plot_eda(train_df_path, outdir):
     train_df = pd.read_csv(train_df_path)
     os.makedirs(outdir, exist_ok=True)
 
-    # target distribution plot
-    dist_plot = alt.Chart(train_df).mark_bar().encode(
-        x=alt.X('G3:Q', bin=True, title='Final Grades (G3)'),
-        y=alt.Y('count()', title='Number of Students'),
-        tooltip=['G3']
-    ).properties(
-        title='Distribution of Final Grades (G3)',
-        width=400,
-        height=200
-    )
+    # distribution histogram
+    xy_enc = {
+        "x": ('G3:Q', 'Final Grades (G3)'),
+        "y": ('count()', 'Number of Students')
+    }
+    props = {
+        "title": 'Distribution of Final Grades (G3)',
+        "width": 400,
+        "height": 200
+    }
+    dist_plot = eda.distribution_plot(train_df=train_df,xy_enc=xy_enc, **props)
     saved_path = Path(outdir, "g3_dist.png")
     dist_plot.save(saved_path)
     print(f"Saved figure to {saved_path}")
 
     # variables density plots
-    fig, axes = plt.subplots(3, 3, figsize=(8, 8), sharey=False, sharex=False)
-    axes = axes.flatten()
-    numeric_columns = train_df.select_dtypes(include='number').columns
-    for i, column in enumerate(numeric_columns):
-        dp = sns.kdeplot(data=train_df, x=column, fill=True, ax=axes[i])
-    plt.tight_layout()
+    props = {"nrows": 3, "ncols": 3, "figsize": (8, 8), "sharey": False, "sharex": False}
+    fig, axes = eda.density_plots(train_df=train_df, **props)
     saved_path =Path(outdir, "density_plots.png")
-    plt.savefig(saved_path)
+    fig.savefig(saved_path)
     print(f"Saved figure to {saved_path}")
 
     # correlation matrix plot
-    corr_mat = train_df.select_dtypes(include='number').corr() \
-        .reset_index(names="var1") \
-        .melt(id_vars="var1", var_name="var2", value_name="correlation")
-    # get rid of "duplicated" correlation
-    corr_mat = corr_mat[corr_mat['var1'] <= corr_mat['var2']].reset_index(drop=True)
-    corr_mat["abs_corr"] = np.abs(corr_mat["correlation"])
-    corr_mat_chart = alt.Chart(corr_mat).mark_circle().encode(
-        alt.X("var1").title("variable 1"),
-        alt.Y("var2").title("variable 2"),
-        alt.Color("correlation").scale(domain=[-1, 1], scheme="blueorange"),
-        alt.Size("abs_corr").legend(None)
-    ).properties(
-        width=250,
-        height=250,
-        title="Pairwise correlations between variables (including target)"
-    )
+    props = {
+        "width": 250,
+        "height": 250,
+        "title": "Pairwise correlations between variables (including target)"
+    }
+    corr_mat_chart = eda.pearson_corr_plot(train_df=train_df, **props)
     saved_path = Path(outdir, "corr_mat.png")
     corr_mat_chart.save(saved_path)
     print(f"Saved figure to {saved_path}")
