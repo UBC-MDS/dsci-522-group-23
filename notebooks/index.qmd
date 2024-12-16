@@ -1,7 +1,0 @@
----
-title: "Predicting academic performance using demographic and behavioral Data"
----
-
-This is a Quarto website.
-
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
