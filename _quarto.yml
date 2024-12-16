@@ -1,6 +1,7 @@
 project:
   type: website
-  output-dir: ../docs
+  output-dir: work/docs
+
 
 website:
   title: "Predicting academic performance using demographic and behavioral Data"
