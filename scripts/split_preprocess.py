@@ -69,7 +69,7 @@ def main(raw_data, data_to, preprocessor_to):
     student_performance = pd.read_csv(raw_data, delimiter=";")
 
     # Necessary columns
-    columns = ["sex", "age", "studytime", "failures", "goout", "Dalc", "Walc", "G1", "G2", "G3"]
+    columns = ["sex", "age", "studytime", "failures", "goout", "Dalc", "Walc", "G3"]
 
     subset_df = student_performance[columns]
 

@@ -40,7 +40,7 @@ def load_data(filepath: str) -> pd.DataFrame:
         raise ValueError(f"The file '{filepath}' is not a CSV file.")
 
     student_performance = pd.read_csv(filepath, delimiter=";")
-    columns = ["sex", "age", "studytime", "failures", "goout", "Dalc", "Walc", "G1", "G2", "G3"]
+    columns = ["sex", "age", "studytime", "failures", "goout", "Dalc", "Walc", "G3"]
     
     return student_performance[columns]
 
@@ -60,8 +60,6 @@ def validate_student_data(df: pd.DataFrame) -> None:
         "goout": pa.Column(int, pa.Check.between(1, 5), nullable=False),
         "Dalc": pa.Column(int, pa.Check.between(1, 5), nullable=False),
         "Walc": pa.Column(int, pa.Check.between(1, 5), nullable=False),
-        "G1": pa.Column(int, pa.Check.between(0, 20), nullable=False),
-        "G2": pa.Column(int, pa.Check.between(0, 20), nullable=False),
         "G3": pa.Column(int, pa.Check.between(0, 20), nullable=False)
     },
     checks=[
@@ -69,6 +67,14 @@ def validate_student_data(df: pd.DataFrame) -> None:
         pa.Check(lambda df: ~(df.isna().all(axis=1)).any(), error="Empty rows found.")
     ]
     )
+
+    initial_row_count = len(df)
+    df = df.drop_duplicates()
+    final_row_count = len(df)
+
+    if initial_row_count > final_row_count:
+        print(f"Dropped {initial_row_count - final_row_count} duplicate rows.")
+    
     # Validate the DataFrame
     schema.validate(df, lazy=True)
     print("Schema validation successful!")
@@ -203,6 +209,10 @@ def validate_no_outliers(
     for ax, column in zip(axes.flatten(), numeric_columns):
         sns.boxplot(data=data, x=column, ax=ax)
         ax.set_title(f"Boxplot of {column}")
+    # hide unuse Axes object
+    if len(numeric_columns) < len(axes.flatten()):
+        for ax in axes.flatten()[len(numeric_columns):]:
+            ax.set_visible(False)
 
     plt.tight_layout(rect=[0, 0, 1, 0.95])
     plt.suptitle("Boxplots of Numeric Columns", fontsize=14)
@@ -378,7 +388,7 @@ def main(raw_data, plot_to):
         validate_no_outliers(subset_df, numeric_columns, max_cols=3, save_path=plot_to)
 
         # Validate anomalous correlations
-        validate_anomalous_correlations(subset_df, target_col="G3", threshold=0.95)
+        validate_anomalous_correlations(subset_df, target_col="G3", threshold=0.9)
         print("\nAll validation checks passed...")
 
     except ValueError as ve:

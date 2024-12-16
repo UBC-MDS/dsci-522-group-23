@@ -72,6 +72,10 @@ def density_plots(train_df: pd.DataFrame, **kwargs) -> tuple:
     numeric_columns = train_df.select_dtypes(include='number').columns
     for i, column in enumerate(numeric_columns):
         dp = sns.kdeplot(data=train_df, x=column, fill=True, ax=axes_flat[i])
+    # hide unuse Axes objects
+    if len(numeric_columns) < len(axes_flat):
+        for ax in axes_flat[len(numeric_columns):]:
+            ax.set_visible(False)
     plt.tight_layout()
     
     return (fig, axes)
