@@ -40,7 +40,7 @@ results/models/best_model.pkl results/plots/ data/processed/test/X_test.csv data
 		--model-to=results/models/ \
 		--test-data-to=data/processed/test/ \
 		--plot-to=results/plots/ \
-		--seed=42
+		--seed=17
 # Evaluate model and save results
 results/table/metrics/ results/table/coefficients/ results/figures/coefficients_plot.png : scripts/evaluate_model.py data/processed/X_test.csv data/processed/y_test.csv results/models/best_model.pkl
 	python scripts/evaluate_model.py \

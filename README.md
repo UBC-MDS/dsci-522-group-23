@@ -51,6 +51,8 @@ make clean
 make all
 ```
 
+<img src="img/terminal-gui.png" alt="Example Usage" width="500">
+
 To rerun the unit tests:
 
 ```bash
