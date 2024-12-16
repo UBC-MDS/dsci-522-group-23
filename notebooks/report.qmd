@@ -48,23 +48,24 @@ alt.renderers.enable("mimetype")
 
 ## Summary
 
-This project investigates whether a student's mathematics performance can be predicted using demographic and behavioral data, aiming to help educators in supporting students and tailoring educational strategies. Using a Ridge Regression model with optimized hyperparameters (alpha = 1), we achieved a strong predictive accuracy with a cross-validation score of 0.81 and evaluation metrics on the test set including an MSE of 4.048, RMSE of 2.012, and MAE of 1.309. While the model demonstrates robust performance, future work could explore non-linear models and provide confidence intervals for predictions to enhance interpretability and reliability, ultimately contributing to better educational outcomes.
+This project investigates whether a student's mathematics performance can be predicted using demographic and behavioral data, aiming to help educators in supporting students and tailoring educational strategies. Using a Ridge Regression model with optimized hyperparameters (alpha = 1), we achieved a strong predictive accuracy with a cross-validation score of 0.81. Evaluation metrics on the test set including an MSE of 4.048, RMSE of 2.012, and MAE of 1.309. While the model demonstrates robust performance, future work could explore non-linear models and provide confidence intervals for predictions to enhance interpretability and reliability, ultimately contributing to better educational outcomes.
 
 ## Introduction
 
-Math teaches us to think logically and it also provides us with analytical and problem-solving skills. These skills can be applied to various academic and professional fields. However, student performance in mathematics can be influenced by many factors, like individual factor, social factor, and family factor. Research has shown that attributes such as study habits, age, social behaviour (alcohol consumptions, etc) and family background can significantly impact a student's academic success. Understanding these factors is crucial for improving educational outcomes. (@bitrus2016marital, @hjarnaa2023alcohol, @modi2023)
+Math teaches us to think logically and it also provides us with analytical and problem-solving skills. These skills can be applied to various academic and professional fields. However, student performance in mathematics can be influenced by many factors, like individual factor, social factor, and family factor. Research has shown that attributes such as study habits, age, social behavior (alcohol consumption, etc) and family background can significantly impact a student's academic success. Understanding these factors is crucial for improving educational outcomes. (@bitrus2016marital, @hjarnaa2023alcohol, @modi2023)
 
-In this study, we aim to address this question: **“Can we predict a student's math academic performance based on the demographic and behavioral data?”**. Answering this question is important because understanding the factors behind student performance can help teachers provide support to struggling students. Furthermore, the ability to predict academic performance could assist schools in developing educational strategies based on different backgrounds of students. The goal of this study is to develop a machine learning model capable of predicting student’s math performance with high accuracy.
+In this study, we aim to address this question: **“Can we predict a student's math academic performance based on the demographic and behavioral data?”**. Answering this question is crucial, as it can help educators identify and support struggling students more effectively. 
+Furthermore, the ability to predict academic performance could assist schools in developing educational strategies tailored to students' diverse backgrounds. The goal of this study is to develop a machine learning model capable of predicting student’s math performance with high accuracy.
 
 The dataset (@student_performance) used in this study contains detailed records of student demographics and behaviors, such as age, study habits, social behaviors, and family background. The target variable, mathematics performance, is measured as a continuous score reflecting students' final grade. This dataset offers a great opportunity to explore meaningful relationships between features and academic outcomes.
 
 ## Methods & Results
 
-The objective here to prepare the data for our classification analysis by exploring relevant features and summarizing key insights through data wrangling and visualization.
+The objective here is to prepare the data for our classification analysis by exploring relevant features and summarizing key insights through data wrangling and visualization.
 
 ### Dataset Description
 
-The full data set contains the following columns:
+The full dataset contains the following columns:
 
 1.  `school` - student's school (binary: 'GP' - Gabriel Pereira or 'MS' - Mousinho da Silveira)
 2.  `sex` - student's sex (binary: 'F' - female or 'M' - male)
@@ -107,7 +108,7 @@ These columns represent the grades:
 
 ### Data Loading, Wrangling and Summary
 
-Let's start by loading the data and have an initial view of data set structure.
+Let's start by loading the data and reviewing the dataset's structure.
 
 The file is a `.csv` file with `;` as delimiter. Let's use `pandas`to read it in.
 
@@ -116,9 +117,9 @@ The file is a `.csv` file with `;` as delimiter. Let's use `pandas`to read it in
 student_performance = pd.read_csv(Path('../data/raw/student-mat.csv'), sep=';')
 ```
 
-This provides an overview of the data set with 33 columns, each representing student attributes such as age, gender, study time, grades, and parental details.
+This provides an overview of the dataset with 33 columns, each representing student attributes such as age, gender, study time, grades, and parental details.
 
-Let's get some information on the data set to better understand it.
+Let's get some information on the dataset to better understand it.
 
 ```{python}
 # | echo: false
@@ -130,11 +131,11 @@ student_performance.head()
 student_performance.info()
 ```
 
-The data set contains 395 observations and 33 columns covering different aspects of student demographics, academic and behavioral traits.
+The dataset contains 395 observations and 33 columns covering different aspects of student demographics, academic and behavioral traits.
 
 We can see that there is no missing values. There is not need to handle NAs.
 
-The data set includes categorical (school, sex, Mjob) and numerical (age, G1, G2, G3) features.
+The dataset includes categorical (school, sex, Mjob) and numerical (age, G1, G2, G3) features.
 
 There is a large range of features but not all of them are necessary for this analysis. Let's proceed and select only the necessary ones.
 
@@ -144,7 +145,7 @@ Let's selected the following key columns:
 -   Academic Attributes: studytime, failures, G1, G2, G3 (grades for three terms)
 -   Behavioral Attributes: goout (socializing), Dalc (weekday alcohol consumption), Walc (weekend alcohol consumption)
 
-We will also split the dataset into train and test set with a 80/20 ratio. We also set `random_state=123` for reproducibility.
+We will split the dataset into train and test set with a 80/20 ratio then set `random_state=123` for reproducibility.
 
 #### Data Validation Checks
 
@@ -158,7 +159,7 @@ The histogram in @fig-target-dist-hist visualizes the spread of the target varia
 
 #### Checking for Outliers
 
-There are few outliers in `failures`, `Dalc`, `age`, `studytime`, `G2`, and `G1`, as shown in @fig-boxplots. These outliers are relatively few compared to the 395 entries, but could still influence model results. We will apply a `StandardScaler` transformation to the numeric variables, the effect of these outliers will be minimized. Therefore, we will not drop or modify these outliers at this step.
+There are few outliers in `failures`, `Dalc`, `age`, `studytime`, `G2`, and `G1`, as shown in @fig-boxplots. Although these outliers are relatively few compared to the 395 entries, they could still influence the model's results. We will apply a `StandardScaler` transformation to the numeric variables, the effect of these outliers will be minimized. Therefore, we will not drop or modify these outliers at this step.
 
 ![Visualization of Outliers](../results/figures/validate/boxplots.png){#fig-boxplots}
 
@@ -195,17 +196,17 @@ From @fig-g3-dist, The histogram shows that most students achieve grades between
 
 Some interesting observations from @fig-density-plot :
 
--   The distirbution of the grades `G3`, `G2`, `G1` are somewhat bell-shaped.
+-   The distribution of the grades `G3`, `G2`, `G1` are somewhat bell-shaped.
 -   Most student do not consume alcohol, or very minimally.
--   Most student studies around 2-5 hours a week and most of them also did not fail any previous classes.
+-   Most student studied around 2-5 hours a week and most of them also did not fail any previous classes.
 
 ![Correlation matrices for each numeric column](../results/figures/eda/corr_mat.png){#fig-corr-plot width="50%" height="50%"}
 
 Some interesting observations from @fig-corr-plot:
 
--   The grades are very correlated with one another
--   Alcohol consumptions are somewhat negatively correlated with grades
--   Study time are somewhat positively correlated with grades/
+-   The grades are significantly correlated to one another.
+-   Alcohol consumptions are somewhat negatively correlated with grades.
+-   Study time are somewhat positively correlated with grades.
 
 ### Analysis
 
@@ -213,7 +214,7 @@ We begin our analysis by preparing the data, splitting it into features and targ
 
 ### Model Evaluation
 
-The @tbl-metrics below summarizes the performance metrics of the model on the test dataset. The metrics we use are MSE, RMSE, and MAE. 
+The @tbl-metrics below summarizes the performance metrics of the model on the test dataset. The metrics used for evaluation are MSE, RMSE, and MAE.
 
 - Mean Squared Error (MSE): The average of squared differences between predicted and actual values, giving more weight to larger errors.
 - Root Mean Squared Error (RMSE): The square root of MSE, expressing errors in the same units as the data.
