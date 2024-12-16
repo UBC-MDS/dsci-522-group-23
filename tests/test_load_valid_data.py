@@ -58,7 +58,7 @@ def test_load_data_valid_csv(sample_csv):
 
 
 def test_load_data_file_not_found(tmp_path):
-    # Create a temporaty path to csv file with wrong name
+    # Create a temporary path to csv file with wrong name
     non_existent_file = tmp_path / "students-eng.csv"
     
     with pytest.raises(FileNotFoundError):
