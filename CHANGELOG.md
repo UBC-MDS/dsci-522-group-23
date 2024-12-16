@@ -47,4 +47,18 @@ The target variable has been clearly defined, and the dataset used to answer the
 ### Evidence:
 Commit: https://github.com/UBC-MDS/dsci-522-group-23/commit/d06bd75d9236f7fa5e59c271ccf59bde1c43bca6
 
+## 6. M2 feedback from teaching team: The platform key and value is missing from the docker-compose.yml file, 
+### Feedback:
+The platform key and value is missing from the  docker-compose.yml file, causing issues when running on different chip architectures.
+### Changes Made:
+Replaced `jupyter-notebook:` with `student-performance-predictor-env:` to ensure a more specific and appropriate service name.
+### Evidence:
+Commit: [https://github.com/UBC-MDS/dsci-522-group-23/commit/d06bd75d9236f7fa5e59c271ccf59bde1c43bca6](https://github.com/UBC-MDS/dsci-522-group-23/commit/008b657bfcfd1ed416e948bf9621d543d31d5805)
 
+## 7. M2 feedback from teaching team: Reproducibility
+### Feedback:
+Could not reproducibly run the analysis because the computational environment cannot be recreated from the provided instructions and/or environment specification files.
+### Changes Made:
+We replaced the process of building the image locally with pulling the pre-built image directly from our DockerHub repository.
+### Evidence:
+Commit: [https://github.com/UBC-MDS/dsci-522-group-23/commit/d06bd75d9236f7fa5e59c271ccf59bde1c43bca6](https://github.com/UBC-MDS/dsci-522-group-23/commit/008b657bfcfd1ed416e948bf9621d543d31d5805)
