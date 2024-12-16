@@ -46,9 +46,24 @@ alt.renderers.enable("mimetype")
 %matplotlib inline
 ```
 
+```{python}
+# | echo: False
+metrics_table = pd.read_csv("../results/table/metrics/evaluation_metrics.csv")
+mse = round(float(metrics_table.query('Metric == "Mean Squared Error (MSE)"')['Value'].iloc[0]), 3)
+rmse = round(float(metrics_table.query('Metric == "Root Mean Squared Error (RMSE)"')['Value'].iloc[0]), 3)
+mae = round(float(metrics_table.query('Metric == "Mean Absolute Error (MAE)"')['Value'].iloc[0]), 3)
+```
+
+```{python}
+#| echo: false
+gs = pd.read_csv("../results/plots/grid_search_results.csv")
+best_alpha = round(float(gs.iloc[0, 2]), 2)
+best_score = round(float(-gs.iloc[0, 1]), 3)
+```
+
 ## Summary
 
-This project investigates whether a student's mathematics performance can be predicted using demographic and behavioral data, aiming to help educators in supporting students and tailoring educational strategies. Using a Ridge Regression model with optimized hyperparameters (alpha = 1), we achieved a strong predictive accuracy with a cross-validation score of 0.81 and evaluation metrics on the test set including an MSE of 4.048, RMSE of 2.012, and MAE of 1.309. While the model demonstrates robust performance, future work could explore non-linear models and provide confidence intervals for predictions to enhance interpretability and reliability, ultimately contributing to better educational outcomes.
+This project investigates whether a student's mathematics performance can be predicted using demographic and behavioral data, aiming to help educators support students and tailor educational strategies. Using a Ridge Regression model with optimized hyperparameters **(alpha = `{python} best_alpha`)**, we achieved strong predictive accuracy with a **cross-validation score of `{python} best_score`** and evaluation metrics on the test set including an **MSE of `{python} mse`, RMSE of `{python} rmse`, and MAE of `{python} mae`**. The Ridge model was particularly suitable for this task as it effectively handles multicollinearity among features while maintaining model interpretability. While the model demonstrates robust performance, future work could explore non-linear models to capture more complex relationships and provide confidence intervals for predictions, enhancing the model's interpretability and reliability. These improvements could further support educators in making data-informed decisions to optimize student outcomes.
 
 ## Introduction
 
@@ -141,7 +156,7 @@ There is a large range of features but not all of them are necessary for this an
 Let's selected the following key columns:
 
 -   Demographic attributes: sex, age
--   Academic Attributes: studytime, failures, G1, G2, G3 (grades for three terms)
+-   Academic Attributes: studytime, failures, G3 (grades for three terms)
 -   Behavioral Attributes: goout (socializing), Dalc (weekday alcohol consumption), Walc (weekend alcohol consumption)
 
 We will also split the dataset into train and test set with a 80/20 ratio. We also set `random_state=123` for reproducibility.
@@ -158,7 +173,7 @@ The histogram in @fig-target-dist-hist visualizes the spread of the target varia
 
 #### Checking for Outliers
 
-There are few outliers in `failures`, `Dalc`, `age`, `studytime`, `G2`, and `G1`, as shown in @fig-boxplots. These outliers are relatively few compared to the 395 entries, but could still influence model results. We will apply a `StandardScaler` transformation to the numeric variables, the effect of these outliers will be minimized. Therefore, we will not drop or modify these outliers at this step.
+There are few outliers in `failures`, `Dalc`, `age`, `studytime`, as shown in @fig-boxplots. These outliers are relatively few compared to the 395 entries, but could still influence model results. We will apply a `StandardScaler` transformation to the numeric variables, the effect of these outliers will be minimized. Therefore, we will not drop or modify these outliers at this step.
 
 ![Visualization of Outliers](../results/figures/validate/boxplots.png){#fig-boxplots}
 
@@ -195,7 +210,7 @@ From @fig-g3-dist, The histogram shows that most students achieve grades between
 
 Some interesting observations from @fig-density-plot :
 
--   The distirbution of the grades `G3`, `G2`, `G1` are somewhat bell-shaped.
+-   The distirbution of the grade `G3` is somewhat bell-shaped.
 -   Most student do not consume alcohol, or very minimally.
 -   Most student studies around 2-5 hours a week and most of them also did not fail any previous classes.
 
@@ -203,13 +218,16 @@ Some interesting observations from @fig-density-plot :
 
 Some interesting observations from @fig-corr-plot:
 
--   The grades are very correlated with one another
 -   Alcohol consumptions are somewhat negatively correlated with grades
 -   Study time are somewhat positively correlated with grades/
 
 ### Analysis
 
-We begin our analysis by preparing the data, splitting it into features and target variables for both training and testing. To establish a baseline for comparison, we fit a DummyRegressor and evaluate its performance. Following this, we preprocess the data by identifying categorical and numerical features, applying scaling to the numeric features and one-hot encoding to the categorical ones. A Ridge regression model is then incorporated into a pipeline, and we fine-tune its hyperparameters using grid search with 5-folds cross-validation to optimize its performance. Finally, we evaluate the model on the test set, analyze the observed versus predicted values, and review the cross-validation results to assess the overall model effectiveness.
+We begin our analysis by preparing the data, splitting it into features and target variables for both training and testing. To establish a baseline for comparison, we first fit a DummyRegressor and evaluate its performance, providing a benchmark against which to measure model improvements. Following this, we preprocess the data by distinguishing between categorical and numerical features, applying scaling to numeric features to standardize their range and one-hot encoding to categorical variables to make them interpretable by the model.
+
+Next, we incorporate Ridge regression into a pipeline. Ridge regression is particularly well-suited for this task because it balances model simplicity and predictive performance by penalizing large coefficients. This helps to address potential multicollinearity in the features, ensuring that no single variable disproportionately influences the model while retaining interpretability. To further optimize performance, we fine-tune the Ridge model's hyperparameters using grid search with 5-fold cross-validation, a robust approach for mitigating overfitting and ensuring that the model generalizes well to unseen data.
+
+Finally, we evaluate the Ridge model on the test set, analyzing the observed versus predicted values to assess its predictive accuracy. We also review the cross-validation results to gauge consistency and reliability across different subsets of the data. 
 
 ### Model Evaluation
 
@@ -225,11 +243,6 @@ We use these metrics to evaluate model performance and understand how well predi
 #| label: tbl-metrics
 #| tbl-cap: Performance metrics on test data
 #| echo: false
-
-metrics_table = pd.read_csv("../results/table/metrics/evaluation_metrics.csv")
-mse = round(float(metrics_table.query('Metric == "Mean Squared Error (MSE)"')['Value'].iloc[0]), 3)
-rmse = round(float(metrics_table.query('Metric == "Root Mean Squared Error (RMSE)"')['Value'].iloc[0]), 3)
-mae = round(float(metrics_table.query('Metric == "Mean Absolute Error (MAE)"')['Value'].iloc[0]), 3)
 Markdown(metrics_table.to_markdown(index = False))
 ```
 Next, we analyze the coefficients of the Ridge regression model. The @tbl-coefficients shows the values of the coefficients, which indicate the importance of each feature in predicting the target variable.
@@ -249,9 +262,11 @@ The following @fig-coefficients visualizes the coefficients of the Ridge regress
 
 ## Results & Discussion
 
-The Ridge Regression model, with tuned hyperparameters, demonstrated well predictive capabilities on student’s math performance. The optimal hyperparameter for Ridge was found to be alpha = 1, and the best cross-validation score is approximately 0.81. This indicates a strong predictive accuracy during the model's validation phase.
+The Ridge Regression model, with tuned hyperparameters, demonstrated well predictive capabilities on student’s math performance. The optimal hyperparameter for Ridge was found to be **alpha = `{python} best_alpha`**, and the **best cross-validation MSE** score is approximately **`{python} best_score`**. This indicates a strong predictive accuracy during the model's validation phase.
 
-The Ridge coefficients suggests that student performance is most strongly influenced by prior grades, with G2 having the greatest positive impact, followed by G1. Social behaviors like going out and weekend alcohol consumption also show a smaller positive influence, while age, study time, and workday alcohol consumption have a negative effect. Failures and gender appear to have extremely minimal influence on the final grade.
+The Ridge coefficients suggest that student performance is influenced by a mix of academic and behavioral factors. Among the features, study time has the greatest positive impact on the final grade, indicating that students who dedicate more time to studying tend to perform better. Gender (male) also shows a strong positive influence, suggesting a notable difference in performance between genders.
+
+In contrast, failures have the most significant negative effect, reflecting that prior academic setbacks strongly detract from final grades. Social behaviors like going out and weekday alcohol consumption (Dalc) also have negative influences, albeit to a lesser extent. Interestingly, weekend alcohol consumption (Walc) shows a small positive effect. Lastly, age exerts a slight negative influence, suggesting that older students in this context may face additional challenges.
 
 Based on the evaluation on the test set, the model achieved the following performance metrics:
 
@@ -259,6 +274,10 @@ Based on the evaluation on the test set, the model achieved the following perfor
 -   Root Mean Squared Error (RMSE): `{python} rmse`
 -   Mean Absolute Error (MAE): `{python} mae`
 
-These metrics suggest that the model is reasonably accurate in predicting students' final grades. However, there are areas for improvement. We can explore other models which could better capture the non-linear relationships and feature interactions. Another improvement we can do is to provide confidence intervals for predictions. This approach could enhance the reliability and interpretability of predictions and help readers make more informed decisions.
+These evaluation metrics indicate that the model demonstrates reasonable accuracy in predicting students' final grades, with an RMSE of `{python} rmse` suggesting that, on average, the model's predictions deviate from actual grades by about `{python} rmse` points. The MAE of `{python} mae` further highlights that most errors are relatively small. However, there is still room for improvement since the model is not fully capturing the underlying patterns in the data.
+
+To enhance performance, we could consider experimenting with alternative modeling techniques, such as tree-based algorithms or neural networks, which might better capture potential non-linear relationships and complex feature interactions. Additionally, feature engineering, such as incorporating interaction terms or applying transformations to certain variables, could help the model better align with the true data distribution.
+
+Another avenue for improvement is to provide confidence intervals for predictions. This would not only enhance the interpretability and reliability of the model but also enable stakeholders to better assess the uncertainty associated with individual predictions. Overall, while the model provides a solid baseline, these enhancements could make it more robust and actionable for practical applications.
 
 ## References

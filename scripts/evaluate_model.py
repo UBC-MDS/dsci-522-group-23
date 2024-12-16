@@ -86,9 +86,9 @@ def main(y_test, X_test, best_model, metrics_to, coefs_to, plot_to):
     y_pred = best_model.predict(X_test)
 
     # Calculate performance metrics
-    mse = mean_squared_error(y_test, y_pred)
+    mse = mean_squared_error(y_true=y_test, y_pred=y_pred)
     rmse = np.sqrt(mse)
-    mae = mean_absolute_error(y_test, y_pred)
+    mae = mean_absolute_error(y_true=y_test,y_pred=y_pred)
 
     # Save metrics
     metrics_df = pd.DataFrame({
