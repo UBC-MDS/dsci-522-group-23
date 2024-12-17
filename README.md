@@ -8,6 +8,11 @@
 
 This project investigates whether a student's mathematics performance can be predicted with linear regression using demographic and behavioral data, aiming to help educators in supporting students and tailoring educational strategies.
 
+## Report file
+
+- The main report file is [report.qmd](notebooks/report.qmd).
+- You can view the GitHub page rendering of the latest version of the report [here](https://ubc-mds.github.io/dsci-522-group-23/).
+
 ## Usage
 
 This section details the step to install the softwares and packages to run the analysis
@@ -40,11 +45,7 @@ git clone https://github.com/UBC-MDS/dsci-522-group-23.git
    
    <img src="img/example2.png" alt="Example2" width="500">
 
-4. To run the analysis, open `notebooks/student_performance_predictor_report.ipynb` in the Jupyterlab that just launched and click "Restart Kernel and Run All Cells..." under the "Kernel" menu.
-
-### Regenerate the artifacts (datasets, figures, tables, html file, etc) in the analysis
-
-Make sure you are in the root directory of the project (`work` directory of the Docker notebook). Open the **Terminal GUI of the Docker Jupyter Lab** and run
+3. To regenerate the artifacts (datasets, figures, tables, html file, etc) and rerun the analysis, make sure you are in the root directory of the project (`work` directory of the Docker notebook). Open the **Terminal GUI of the Docker Jupyter Lab** and run
 
 ```bash
 make clean
@@ -53,7 +54,9 @@ make all
 
 <img src="img/terminal-gui.png" alt="Example Usage" width="500">
 
-To rerun the unit tests:
+- This process will reproduce the analysis artifacts and generate the `report.html` and `report.pdf` files for review. The `.html` file can be viewed in any web browser, while the `.pdf` file can be opened with any standard PDF reader on your computer.
+
+#### (Optional) To rerun the unit tests
 
 ```bash
 make tests
@@ -72,8 +75,6 @@ Once the container is stopped, remove it and its associated resources by running
  ```bash
  docker compose rm
  ```
-
-Navigate to the notebook file [student_performance_predictor_report.ipynb](notebooks/student_performance_predictor_report.ipynb) to view or rerun the analysis as you wish.
 
 ## Dependencies
 
