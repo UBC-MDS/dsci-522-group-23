@@ -270,7 +270,7 @@ Ridge Regression was chosen for the following reasons:
 
 -   Ridge provides interpretable coefficients, making it easier to identify the most influential factors affecting student performance.
 
--   Ridge Regression serves as a strong baseline for comparison with future models, such as ree-based algorithms or neural networks, which might better capture potential non-linear relationships and complex feature interactions.
+-   Ridge Regression serves as a strong baseline for comparison with future models, such as tree-based algorithms or neural networks, which might better capture potential non-linear relationships and complex feature interactions.
 
 **Key Influencial Features**
 
@@ -286,7 +286,7 @@ The Ridge regression coefficients @fig-coefficients provide insights into the re
 
 -   `Weekend Alcohol Consumption (Walc)`: Interestingly, weekend alcohol consumption shows a small positive effect. One hypothesis is that moderate weekend social drinking can act as a stress reliever, improving mental well-being and focus for the upcoming week.
 
--   `Going Out (goout)`: The negative coefficient for socializing (goout) suggests that spending too much time on social activities takes time away from studying, which can hurt academic performance.
+-   `Going Out (goout)`: The negative coefficient for socializing (`goout`) suggests that spending too much time on social activities takes time away from studying, which can hurt academic performance.
 
 -   `Gender`: The positive coefficient for “male” (sex_M) indicates a performance difference between genders in this dataset. This result should be interpreted carefully, as it may reflect underlying social, cultural, or educational factors not captured in the current model.
 
