@@ -70,3 +70,12 @@ The section lacked depth in explaining coefficients, model limitations, and the 
 Expanded discussion on the model coefficients, explained the linearity assumption and provided examples, improved clarity on Ridge’s handling of multicollinearity through coefficient shrinkage and clarified why Ridge Regression was chosen.
 ### Evidence:
 resolved git issue: https://github.com/UBC-MDS/dsci-522-group-23/issues/60
+
+## 9. Feedback from teaching team: Methods Section
+### Feedback:
+The correlations between G1, G2, G3 are very high. It would be best if you had studied the effects of features on G1/G2/G3 without considering the others.
+### Changes Made:
+We removed G1 and G2 from our final model to address multicollinearity and focus on the predictive power of G3.
+### Evidence:
+Check our final report: https://ubc-mds.github.io/dsci-522-group-23/ 
+
