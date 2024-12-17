@@ -3183,8 +3183,8 @@ vertical-align: -.125em;
 <p>The file is a <code>.csv</code> file with <code>;</code> as delimiter. Let’s use <code>pandas</code>to read it in.</p>
 <p>This provides an overview of the dataset with 33 columns, each representing student attributes such as age, gender, study time, grades, and parental details.</p>
 <p>Let’s get some information on the dataset to better understand it.</p>
-<div id="55bb358c" class="cell" data-execution_count="5">
-<div class="cell-output cell-output-display" data-execution_count="35">
+<div id="79015211" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
 
@@ -3343,7 +3343,7 @@ vertical-align: -.125em;
 </div>
 </div>
 </div>
-<div id="1630c400" class="cell" data-execution_count="6">
+<div id="32048ba2" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
 RangeIndex: 395 entries, 0 to 394
@@ -3436,7 +3436,7 @@ Figure 3: Visualization of Outliers
 </figcaption>
 </figure>
 </div>
-<div id="f23b315e" class="cell" data-execution_count="7">
+<div id="92028f65" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
 RangeIndex: 316 entries, 0 to 315
@@ -3463,7 +3463,7 @@ memory usage: 19.9+ KB</code></pre>
 Table 1: Summary statistics for columns
 </figcaption>
 <div aria-describedby="tbl-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="38">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="8">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 7%">
@@ -3649,7 +3649,7 @@ Figure 6: Correlation matrices for each numeric column
 Table 2: Performance metrics on test data
 </figcaption>
 <div aria-describedby="tbl-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="39">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="9">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -3685,7 +3685,7 @@ Table 2: Performance metrics on test data
 Table 3: Coefficients of Ridge model
 </figcaption>
 <div aria-describedby="tbl-coefficients-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="40">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="10">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -3749,7 +3749,7 @@ Figure 7: Ridge regression coefficients.
 <ul>
 <li><p>The presence of correlated features made Ridge a suitable choice, as its L2 regularization shrinks coefficients to stabilize predictions.</p></li>
 <li><p>Ridge provides interpretable coefficients, making it easier to identify the most influential factors affecting student performance.</p></li>
-<li><p>Ridge Regression serves as a strong baseline for comparison with future models, such as ree-based algorithms or neural networks, which might better capture potential non-linear relationships and complex feature interactions.</p></li>
+<li><p>Ridge Regression serves as a strong baseline for comparison with future models, such as tree-based algorithms or neural networks, which might better capture potential non-linear relationships and complex feature interactions.</p></li>
 </ul>
 <p><strong>Key Influencial Features</strong></p>
 <p>The Ridge regression coefficients <a href="#fig-coefficients" class="quarto-xref">Figure 7</a> provide insights into the relative impact of both academic and behavioral factors on student performance:</p>
@@ -3759,7 +3759,7 @@ Figure 7: Ridge regression coefficients.
 <li><p><code>age</code>: Age shows a slight negative influence, suggesting older students may face challenges such as balancing responsibilities or staying engaged with coursework.</p></li>
 <li><p><code>Weekday Alcohol Consumption (Dalc)</code>: The negative coefficient for weekday alcohol consumption aligns with the idea that drinking during weekdays reduces study time and impairs cognitive performance, especially on critical school days.</p></li>
 <li><p><code>Weekend Alcohol Consumption (Walc)</code>: Interestingly, weekend alcohol consumption shows a small positive effect. One hypothesis is that moderate weekend social drinking can act as a stress reliever, improving mental well-being and focus for the upcoming week.</p></li>
-<li><p><code>Going Out (goout)</code>: The negative coefficient for socializing (goout) suggests that spending too much time on social activities takes time away from studying, which can hurt academic performance.</p></li>
+<li><p><code>Going Out (goout)</code>: The negative coefficient for socializing (<code>goout</code>) suggests that spending too much time on social activities takes time away from studying, which can hurt academic performance.</p></li>
 <li><p><code>Gender</code>: The positive coefficient for “male” (sex_M) indicates a performance difference between genders in this dataset. This result should be interpreted carefully, as it may reflect underlying social, cultural, or educational factors not captured in the current model.</p></li>
 </ul>
 <p><strong>Model Performance</strong></p>
