@@ -62,3 +62,11 @@ Could not reproducibly run the analysis because the computational environment ca
 We replaced the process of building the image locally with pulling the pre-built image directly from our DockerHub repository.
 ### Evidence:
 Commit: [https://github.com/UBC-MDS/dsci-522-group-23/commit/d06bd75d9236f7fa5e59c271ccf59bde1c43bca6](https://github.com/UBC-MDS/dsci-522-group-23/commit/008b657bfcfd1ed416e948bf9621d543d31d5805)
+
+## 8. Feedback from Peer Review: Results & Discussion Section
+### Feedback:
+The section lacked depth in explaining coefficients, model limitations, and the role of multicollinearity. Additionally, the justification for using Ridge Regression and discussion of results needed more clarity.
+### Changes Made:
+Expanded discussion on the model coefficients, explained the linearity assumption and provided examples, improved clarity on Ridge’s handling of multicollinearity through coefficient shrinkage and clarified why Ridge Regression was chosen.
+### Evidence:
+resolved git issue: https://github.com/UBC-MDS/dsci-522-group-23/issues/60
