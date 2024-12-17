@@ -12,7 +12,7 @@ format:
         toc: true
         toc-depth: 4
         number-sections: true
-editor: source
+editor: visual
 # execute: 
 #   echo: false
 bibliography: references.bib
@@ -194,7 +194,7 @@ Markdown(train_df.describe().to_markdown(index = True))
 
 Key takeaways from summary statistics from @tbl-summary:
 
--   Final grades `G3` range from `0` to `20`, with an average of around `10.26`.
+-   The final grade `G3` ranges from `0` to `20`, with an average of around `10.26`.
 -   The average study time is about `2.05` hours.
 -   Most students have zero reported failures.
 -   Alcohol consumption (Dalc and Walc) and socializing habits (goout) appear to vary across the student population.
@@ -207,10 +207,9 @@ From @fig-g3-dist, The histogram shows that most students achieve grades between
 
 ![Density plot for each numeric columns](../results/figures/eda/density_plots.png){#fig-density-plot width="80%" height="80%"}
 
-
 Some interesting observations from @fig-density-plot :
 
--   The distribution of the grades `G3`, `G2`, `G1` are somewhat bell-shaped.
+-   The distribution of the grade `G3` is somewhat bell-shaped.
 -   Most student do not consume alcohol, or very minimally.
 -   Most students studied around 2-5 hours a week, and most of them also did not fail any previous classes.
 
@@ -218,7 +217,7 @@ Some interesting observations from @fig-density-plot :
 
 Some interesting observations from @fig-corr-plot:
 
--   Alcohol consumptions are somewhat negatively correlated with grades
+-   Alcohol consumption is somewhat negatively correlated with grades
 -   Study time are somewhat positively correlated with grades/
 
 ### Analysis
@@ -227,15 +226,15 @@ We begin our analysis by preparing the data, splitting it into features and targ
 
 Next, we incorporate Ridge regression into a pipeline. Ridge regression is particularly well-suited for this task because it balances model simplicity and predictive performance by penalizing large coefficients. This helps to address potential multicollinearity in the features, ensuring that no single variable disproportionately influences the model while retaining interpretability. To further optimize performance, we fine-tune the Ridge model's hyperparameters using grid search with 5-fold cross-validation, a robust approach for mitigating overfitting and ensuring that the model generalizes well to unseen data.
 
-Finally, we evaluate the Ridge model on the test set, analyzing the observed versus predicted values to assess its predictive accuracy. We also review the cross-validation results to gauge consistency and reliability across different subsets of the data. 
+Finally, we evaluate the Ridge model on the test set, analyzing the observed versus predicted values to assess its predictive accuracy. We also review the cross-validation results to gauge consistency and reliability across different subsets of the data.
 
 ### Model Evaluation
 
-The @tbl-metrics below summarizes the performance metrics of the model on the test dataset. The metrics used for evaluation are MSE, RMSE, and MAE. 
+The @tbl-metrics below summarizes the performance metrics of the model on the test dataset. The metrics used for evaluation are MSE, RMSE, and MAE.
 
-- Mean Squared Error (MSE): The average of squared differences between predicted and actual values, giving more weight to larger errors.
-- Root Mean Squared Error (RMSE): The square root of MSE, expressing errors in the same units as the data.
-- Mean Absolute Error (MAE): The average absolute difference between predicted and actual values, showing overall prediction accuracy.
+-   Mean Squared Error (MSE): The average of squared differences between predicted and actual values, giving more weight to larger errors.
+-   Root Mean Squared Error (RMSE): The square root of MSE, expressing errors in the same units as the data.
+-   Mean Absolute Error (MAE): The average absolute difference between predicted and actual values, showing overall prediction accuracy.
 
 We use these metrics to evaluate model performance and understand how well predictions align with actual values, with each providing unique insights into error magnitude and distribution.
 
@@ -245,6 +244,7 @@ We use these metrics to evaluate model performance and understand how well predi
 #| echo: false
 Markdown(metrics_table.to_markdown(index = False))
 ```
+
 Next, we analyze the coefficients of the Ridge regression model. The @tbl-coefficients shows the values of the coefficients, which indicate the importance of each feature in predicting the target variable.
 
 ```{python}
@@ -264,9 +264,33 @@ The following @fig-coefficients visualizes the coefficients of the Ridge regress
 
 The Ridge Regression model, with tuned hyperparameters, demonstrated well predictive capabilities on student’s math performance. The optimal hyperparameter for Ridge was found to be **alpha = `{python} best_alpha`**, and the **best cross-validation MSE** score is approximately **`{python} best_score`**. This indicates a strong predictive accuracy during the model's validation phase.
 
-The Ridge coefficients suggest that student performance is influenced by a mix of academic and behavioral factors. Among the features, study time has the greatest positive impact on the final grade, indicating that students who dedicate more time to studying tend to perform better. Gender (male) also shows a strong positive influence, suggesting a notable difference in performance between genders.
+Ridge Regression was chosen for the following reasons:
 
-In contrast, failures have the most significant negative effect, reflecting that prior academic setbacks strongly detract from final grades. Social behaviors like going out and weekday alcohol consumption (Dalc) also have negative influences, albeit to a lesser extent. Interestingly, weekend alcohol consumption (Walc) shows a small positive effect. Lastly, age exerts a slight negative influence, suggesting that older students in this context may face additional challenges.
+-   The presence of correlated features made Ridge a suitable choice, as its L2 regularization shrinks coefficients to stabilize predictions.
+
+-   Ridge provides interpretable coefficients, making it easier to identify the most influential factors affecting student performance.
+
+-   Ridge Regression serves as a strong baseline for comparison with future models, such as ree-based algorithms or neural networks, which might better capture potential non-linear relationships and complex feature interactions.
+
+**Key Influencial Features**
+
+The Ridge regression coefficients @fig-coefficients provide insights into the relative impact of both academic and behavioral factors on student performance:
+
+-   `studytime`: The coefficient for study time is the most positive, highlighting that students who dedicate more time to studying tend to achieve higher grades. This aligns with expectations, as focused study enhances understanding and retention of material.
+
+-   `failures`: Prior academic failures have the most significant negative impact, indicating that repeated setbacks strongly hinder future performance. This result underscores the need for targeted academic support for struggling students.
+
+-   `age`: Age shows a slight negative influence, suggesting older students may face challenges such as balancing responsibilities or staying engaged with coursework.
+
+-   `Weekday Alcohol Consumption (Dalc)`: The negative coefficient for weekday alcohol consumption aligns with the idea that drinking during weekdays reduces study time and impairs cognitive performance, especially on critical school days.
+
+-   `Weekend Alcohol Consumption (Walc)`: Interestingly, weekend alcohol consumption shows a small positive effect. One hypothesis is that moderate weekend social drinking can act as a stress reliever, improving mental well-being and focus for the upcoming week.
+
+-   `Going Out (goout)`: The negative coefficient for socializing (goout) suggests that spending too much time on social activities takes time away from studying, which can hurt academic performance.
+
+-   `Gender`: The positive coefficient for “male” (sex_M) indicates a performance difference between genders in this dataset. This result should be interpreted carefully, as it may reflect underlying social, cultural, or educational factors not captured in the current model.
+
+**Model Performance**
 
 Based on the evaluation on the test set, the model achieved the following performance metrics:
 
@@ -276,8 +300,24 @@ Based on the evaluation on the test set, the model achieved the following perfor
 
 These evaluation metrics indicate that the model demonstrates reasonable accuracy in predicting students' final grades, with an RMSE of `{python} rmse` suggesting that, on average, the model's predictions deviate from actual grades by about `{python} rmse` points. The MAE of `{python} mae` further highlights that most errors are relatively small. However, there is still room for improvement since the model is not fully capturing the underlying patterns in the data.
 
-To enhance performance, we could consider experimenting with alternative modeling techniques, such as tree-based algorithms or neural networks, which might better capture potential non-linear relationships and complex feature interactions. Additionally, feature engineering, such as incorporating interaction terms or applying transformations to certain variables, could help the model better align with the true data distribution.
+**Model Limitations**
 
-Another avenue for improvement is to provide confidence intervals for predictions. This would not only enhance the interpretability and reliability of the model but also enable stakeholders to better assess the uncertainty associated with individual predictions. Overall, while the model provides a solid baseline, these enhancements could make it more robust and actionable for practical applications.
+While Ridge Regression performed well, it has notable limitations that may affect its ability to capture certain relationships in the data:
+
+-   Linearity Assumption
+
+Ridge Regression assumes a linear relationship between predictors and the target variable. However, some relationships in the dataset may be non-linear. For example, the impact of study time may exhibit diminishing returns; excessive study could lead to stress or fatigue, reducing its effectiveness.
+
+-   Multicollinearity
+
+Ridge Regression helps reduce multicollinearity by shrinking the coefficients of correlated features (e.g., `Dalc` and `Walc`, or `goout` and `studytime`). This improves the model’s stability and predictive accuracy. However, multicollinearity can still make it difficult to determine the exact contribution of each correlated feature, as their effects overlap.
+
+-   Feature Engineering
+
+Ridge Regression does not automatically capture interactions between features. For example, the combined effect of socializing and alcohol consumption might impact performance in a way that the current model overlooks.
+
+**Model Improvement**
+
+To further enhance the model’s robustness and interpretability, incorporating confidence intervals for predictions is a valuable next step. Confidence intervals would quantify the uncertainty around each prediction, helping stakeholders understand the range within which the true outcomes are likely to fall. This would improve trust in the model’s reliability and support better decision-making, especially in real-world applications where uncertainty matters.
 
 ## References
